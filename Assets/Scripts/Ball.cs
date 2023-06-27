@@ -26,32 +26,40 @@ public class Ball : MonoBehaviour
         PlayerInput(); 
     }
 
+    private bool IsReady(){
+        return rb.velocity.magnitude <= 0.2f; 
+    }
+
     private void PlayerInput(){
+        if(!IsReady()) return; 
+
         Vector2 inputPos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
         float distance = Vector2.Distance(transform.position, inputPos);
 
         if(Input.GetMouseButtonDown(0) && distance <= 0.5f) DragStart();
-        if(Input.GetMouseButton(0) && isDragging) DragChange();
+        if(Input.GetMouseButton(0) && isDragging) DragChange(inputPos);
         if(Input.GetMouseButtonUp(0) && isDragging) DragRelease(inputPos);
-
     }
 
     private void DragStart(){
         isDragging = true; 
+        lr.positionCount = 2; 
     }
 
-    private void DragChange(){
-        
+    private void DragChange(Vector2 pos){
+        Vector2 dir = (Vector2)transform.position - pos; 
+
+        lr.SetPosition(0, transform.position); 
+        lr.SetPosition(1, (Vector2)transform.position + Vector2.ClampMagnitude((dir * power)/2, maxPower / 2));
     }
 
     private void DragRelease(Vector2 pos){
         float distance = Vector2.Distance((Vector2)transform.position, pos);
         isDragging = false; 
+        lr.positionCount = 0; 
 
-        if(distance < 1f){
-            return; 
-        }
-        
+        if(distance < 1f) return; 
+
         Vector2 dir = (Vector2)transform.position - pos; 
 
         rb.velocity = Vector2.ClampMagnitude(dir * power, maxPower);
