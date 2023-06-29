@@ -133,6 +133,7 @@ public class Arrow : MonoBehaviour
             return; // If the distance is less than 1f, do not apply any force to the ball.
 
         Vector2 dir = xztransform - pos;
+        Vector2 rotation = (dir.normalized) * 90;
 
         Vector2 velocity_2 = Vector2.ClampMagnitude(dir * power, maxPower);
         Vector3 velocity = new Vector3(0.0f,0.0f,0.0f);
@@ -142,10 +143,11 @@ public class Arrow : MonoBehaviour
         upperHandle.SwitchTo(gameObject);
         await Task.Delay((int)dir.magnitude * 200 +100);
         upperHandle.Free();
+        transform.eulerAngles = new Vector3(90.0f, rotation.x, 0.0f);
         rb.velocity = velocity;
         await Task.Delay((int)velocity.magnitude * 700 + 400);
-        rb.velocity = -velocity;
-        await Task.Delay((int)velocity.magnitude * 680 +400);
+        transform.position = new Vector3(0.0f, 0.8f,-10.76f);
+        transform.eulerAngles = new Vector3(90.0f, 0.0f, 0.0f);
         upperHandle.SwitchTo(gameObject);
         await Task.Delay(300);
         upperHandle.Free();
