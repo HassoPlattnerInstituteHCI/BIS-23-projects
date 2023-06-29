@@ -26,6 +26,7 @@ public class Ball : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {    upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
+        upperHandle.SwitchTo(gameObject);
         //upperHandle.Free();
         // This method is called before the first frame update.
         // You can add any necessary initialization code here.
@@ -59,6 +60,7 @@ public class Ball : MonoBehaviour
         
         //Vector3 inputPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 inputPos = upperHandle.HandlePosition(transform.position);
+        //Vector3 inputPos = MeHandle.transform.position;
 
         Vector2 xzinput = new Vector2(0.0f, 0.0f);
         xzinput.x = inputPos.x;
@@ -70,14 +72,16 @@ public class Ball : MonoBehaviour
         
         float distance = Vector2.Distance(xztransform, xzinput);
 
-        if (Input.GetMouseButton(0) && distance <= 1f)
+        if (distance <= 0.2f && !isDragging)
             DragStart(); // Start dragging the ball if the left mouse button is pressed and the distance is within the threshold.
 
-        if (Input.GetMouseButton(0) && isDragging)
+        else if (IsTurned(shoot_rotation) && isDragging)
+            DragRelease(xzinput); // Release the ball if the left mouse button is released and dragging is in progress.
+
+        else if (isDragging)
             DragChange(xzinput); // Update the dragging position if the left mouse button is held and dragging is in progress.
 
-        if (IsTurned(shoot_rotation) && isDragging)
-            DragRelease(xzinput); // Release the ball if the left mouse button is released and dragging is in progress.
+        
     }
 
     private void DragStart()
@@ -134,7 +138,7 @@ public class Ball : MonoBehaviour
         velocity.x = velocity_2.x;
         
         upperHandle.SwitchTo(gameObject);
-        await Task.Delay(500);
+        await Task.Delay((int)dir.magnitude * 150);
         rb.velocity = velocity;
         
         // Apply a force to the ball's rigidbody in the direction and magnitude determined by the drag.
