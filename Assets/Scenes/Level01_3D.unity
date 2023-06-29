@@ -644,6 +644,7 @@ MonoBehaviour:
   maxPower: 10
   power: 2
   maxGoalSpeed: 4
+  still_Speed: 0.2
 --- !u!1 &437412965
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,7 +765,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3282298869498686265, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6492243083496409339, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
       propertyPath: m_IsActive

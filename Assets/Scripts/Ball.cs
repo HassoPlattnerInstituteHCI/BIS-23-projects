@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DualPantoFramework;
 
 public class Ball : MonoBehaviour
 {
@@ -12,13 +13,18 @@ public class Ball : MonoBehaviour
     [SerializeField] private float maxPower = 10f;
     [SerializeField] private float power = 2f;
     [SerializeField] private float maxGoalSpeed = 4f;
+    [SerializeField] private float still_Speed = 0.2f;
 
     private bool isDragging;
     private bool inHole;
+    private UpperHandle upperHandle;
+
+    float shoot_rotation;
+
 
     // Start is called before the first frame update
     void Start()
-    {
+    {    upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
         // This method is called before the first frame update.
         // You can add any necessary initialization code here.
     }
@@ -35,7 +41,11 @@ public class Ball : MonoBehaviour
     {
         // Checks if the ball is ready to be dragged.
         // It returns true if the ball's velocity magnitude is less than or equal to 0.2f.
-        return rb.velocity.magnitude <= 0.2f;
+        return rb.velocity.magnitude <= still_Speed;
+    }
+
+    private bool IsTurned(float start_rotation){
+        return start_rotation != upperHandle.GetRotation();
     }
 
     private void PlayerInput()
@@ -45,7 +55,8 @@ public class Ball : MonoBehaviour
         if (!IsReady())
             return; // Exit the method if the ball is not ready to be dragged.
         
-        Vector3 inputPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Vector3 inputPos = Camera.main.ScreenToWorldPoint(upperHandle.transform.position);
+        Vector3 inputPos = upperHandle.transform.position;
         Vector2 xzinput = new Vector2(0.0f, 0.0f);
         xzinput.x = inputPos.x;
         xzinput.y = inputPos.z;
@@ -62,14 +73,14 @@ public class Ball : MonoBehaviour
         if (Input.GetMouseButton(0) && isDragging)
             DragChange(xzinput); // Update the dragging position if the left mouse button is held and dragging is in progress.
 
-        if (Input.GetMouseButtonUp(0) && isDragging)
+        if (IsTurned(shoot_rotation) && isDragging)
             DragRelease(xzinput); // Release the ball if the left mouse button is released and dragging is in progress.
     }
 
     private void DragStart()
     {
         // Starts the dragging process.
-
+        shoot_rotation = upperHandle.GetRotation();
         isDragging = true;
         lr.positionCount = 2; // Set the line renderer's position count to 2 (start and end points).
     }
