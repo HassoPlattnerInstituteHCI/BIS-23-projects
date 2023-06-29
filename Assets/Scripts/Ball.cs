@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DualPantoFramework;
+using System.Threading.Tasks;
 
 public class Ball : MonoBehaviour
 {
@@ -25,12 +26,13 @@ public class Ball : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {    upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
+        //upperHandle.Free();
         // This method is called before the first frame update.
         // You can add any necessary initialization code here.
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         // This method is called every frame.
         // It handles player input for dragging the ball.
@@ -55,8 +57,9 @@ public class Ball : MonoBehaviour
         if (!IsReady())
             return; // Exit the method if the ball is not ready to be dragged.
         
-        //Vector3 inputPos = Camera.main.ScreenToWorldPoint(upperHandle.transform.position);
-        Vector3 inputPos = upperHandle.transform.position;
+        //Vector3 inputPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 inputPos = upperHandle.HandlePosition(transform.position);
+
         Vector2 xzinput = new Vector2(0.0f, 0.0f);
         xzinput.x = inputPos.x;
         xzinput.y = inputPos.z;
@@ -67,7 +70,7 @@ public class Ball : MonoBehaviour
         
         float distance = Vector2.Distance(xztransform, xzinput);
 
-        if (Input.GetMouseButtonDown(0) && distance <= 0.5f)
+        if (Input.GetMouseButton(0) && distance <= 1f)
             DragStart(); // Start dragging the ball if the left mouse button is pressed and the distance is within the threshold.
 
         if (Input.GetMouseButton(0) && isDragging)
@@ -80,6 +83,7 @@ public class Ball : MonoBehaviour
     private void DragStart()
     {
         // Starts the dragging process.
+        upperHandle.Free();
         shoot_rotation = upperHandle.GetRotation();
         isDragging = true;
         lr.positionCount = 2; // Set the line renderer's position count to 2 (start and end points).
@@ -106,12 +110,14 @@ public class Ball : MonoBehaviour
         // Set the ending position of the line renderer based on the direction and power of the drag.
     }
 
-    private void DragRelease(Vector2 pos)
+    async void DragRelease(Vector2 pos)
     {
         // Releases the ball from the dragging process.
         Vector2 xztransform = new Vector2(0.0f, 0.0f);
         xztransform.x = transform.position.x;
         xztransform.y = transform.position.z;
+
+        
 
         float distance = Vector2.Distance(xztransform, pos);
         isDragging = false;
@@ -127,8 +133,10 @@ public class Ball : MonoBehaviour
         velocity.z = velocity_2.y;
         velocity.x = velocity_2.x;
         
-
+        upperHandle.SwitchTo(gameObject);
+        await Task.Delay(500);
         rb.velocity = velocity;
+        
         // Apply a force to the ball's rigidbody in the direction and magnitude determined by the drag.
     }
 }
