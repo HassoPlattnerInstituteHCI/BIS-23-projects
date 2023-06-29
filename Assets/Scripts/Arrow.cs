@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ball : MonoBehaviour
+public class Arrow : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Rigidbody rb;
