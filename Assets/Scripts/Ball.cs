@@ -19,6 +19,7 @@ public class Ball : MonoBehaviour
     private bool isDragging;
     private bool inHole;
     private UpperHandle upperHandle;
+    private MeHandle mehandle; 
 
     float shoot_rotation;
 
@@ -27,6 +28,7 @@ public class Ball : MonoBehaviour
     void Start()
     {    upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
         upperHandle.SwitchTo(gameObject);
+        rb.freezeRotation = true;
         //upperHandle.Free();
         // This method is called before the first frame update.
         // You can add any necessary initialization code here.
@@ -48,7 +50,11 @@ public class Ball : MonoBehaviour
     }
 
     private bool IsTurned(float start_rotation){
-        return start_rotation != upperHandle.GetRotation();
+        float rotate_result = upperHandle.GetRotation() -start_rotation;
+        if(rotate_result < 0){
+            rotate_result = 0 - rotate_result;
+        }
+        return rotate_result >= 45 && rotate_result <=315;
     }
 
     private void PlayerInput()
@@ -137,10 +143,17 @@ public class Ball : MonoBehaviour
         velocity.z = velocity_2.y;
         velocity.x = velocity_2.x;
         
-        upperHandle.SwitchTo(gameObject);
-        await Task.Delay((int)dir.magnitude * 150);
+        //upperHandle.transform.position = new Vector3(transform.position.x,transform.position.y,transform.position.z);
+        //await Task.Delay((int)dir.magnitude * 150);
+        await upperHandle.SwitchTo(gameObject);
         rb.velocity = velocity;
+        // await upperHandle.SwitchTo(gameObject);
         
+        while(rb.velocity.magnitude > still_Speed){
+            await upperHandle.SwitchTo(gameObject);
+        }
+        upperHandle.Free();
         // Apply a force to the ball's rigidbody in the direction and magnitude determined by the drag.
     }
+
 }
