@@ -434,13 +434,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135491341}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1, y: 0, z: -9.760002}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1, y: -8, z: 8}
   m_LocalScale: {x: 0.3, y: 0.30000007, z: 0.30000007}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_Father: {fileID: 1422023864}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &135491343
 SphereCollider:
@@ -641,6 +641,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 135491348}
   lr: {fileID: 135491346}
+  Wall_l: {fileID: 1257464710}
+  Wall_r: {fileID: 1876849427}
+  Wall_u: {fileID: 1364574994}
+  Wall_d: {fileID: 1725621535}
   maxPower: 10
   power: 1.5
   maxGoalSpeed: 4
@@ -2615,6 +2619,7 @@ Transform:
   - {fileID: 747613542}
   - {fileID: 1167957727}
   - {fileID: 437412966}
+  - {fileID: 135491342}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}

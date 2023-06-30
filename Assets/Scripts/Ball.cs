@@ -9,6 +9,10 @@ public class Ball : MonoBehaviour
     [Header("References")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private LineRenderer lr;
+    [SerializeField] private GameObject Wall_l;
+    [SerializeField] private GameObject Wall_r;
+    [SerializeField] private GameObject Wall_u;
+    [SerializeField] private GameObject Wall_d;
 
     [Header("Attributes")]
     [SerializeField] private float maxPower = 10f;
@@ -90,7 +94,10 @@ public class Ball : MonoBehaviour
     }
 
     private void DragChange(Vector2 pos)
-    {
+    {   Wall_l.GetComponent<BoxCollider>().enabled = false;
+        Wall_r.GetComponent<BoxCollider>().enabled = false;
+        Wall_u.GetComponent<BoxCollider>().enabled = false;
+        Wall_d.GetComponent<BoxCollider>().enabled = false;
         Vector2 xztransform = new Vector2(transform.position.x, transform.position.z);
         Vector2 dir = xztransform - pos;
         Vector2 help = xztransform + Vector2.ClampMagnitude((dir * power) / 2, maxPower / 2);
@@ -102,7 +109,7 @@ public class Ball : MonoBehaviour
     }
 
     async void DragRelease(Vector2 pos)
-    {
+    {   
         Vector2 xztransform = new Vector2(transform.position.x, transform.position.z);
         float distance = Vector2.Distance(xztransform, pos);
         isDragging = false;
@@ -117,6 +124,10 @@ public class Ball : MonoBehaviour
 
         // Switch the UpperHandle to control the ball and set its velocity based on the shooting direction
         await upperHandle.SwitchTo(gameObject);
+        Wall_l.GetComponent<BoxCollider>().enabled = true;
+        Wall_r.GetComponent<BoxCollider>().enabled = true;
+        Wall_u.GetComponent<BoxCollider>().enabled = true;
+        Wall_d.GetComponent<BoxCollider>().enabled = true;
         rb.velocity = velocity;
 
         // Wait until the ball's velocity magnitude falls below the still_Speed threshold
