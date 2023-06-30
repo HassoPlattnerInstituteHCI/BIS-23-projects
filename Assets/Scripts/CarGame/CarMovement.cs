@@ -29,16 +29,20 @@ public class CarMovement : MonoBehaviour
         //TODO write player as Driver
         //GameObject.FindObjectOfType<Driver>().ActivatePlayer();
 
-
-        // Vector3 position = ResetObject();
-        // lowerHandle.SetPositions(position, 0f, position);
-
         startedGame = true;
     }
 
     private void Update()
     {
         if (!startedGame) return;
+    
+        if(!GameObject.FindObjectOfType<Car>().getCar())
+        {
+            GameObject.Find("Panto").GetComponent<LowerHandle>().Free();
+            carCount++;
+            SpawnCar();
+        }
+        
 
         // Move the object along the Z-axis
         //transform.Translate((-Vector3.forward) * movementSpeed * Time.deltaTime);
@@ -54,11 +58,14 @@ public class CarMovement : MonoBehaviour
         return position;
     }
 
-    public async Task SpawnCar()
+    public 
+    async Task SpawnCar()
     {
         GameObject car = Instantiate(carPrefab, ResetObject(), carPrefab.transform.rotation);
         await GameObject.Find("Panto").GetComponent<LowerHandle>().SwitchTo(car);
-        await speechOut.Speak("Caution! This car is approaching you.");
+        
+        //active car
         GameObject.FindObjectOfType<Car>().ActivateCar();
+        await speechOut.Speak("Caution! This car is approaching you.");
     }
 }

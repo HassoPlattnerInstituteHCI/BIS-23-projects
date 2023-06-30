@@ -28,50 +28,51 @@ public class Car : MonoBehaviour
         carDriving = true;
     }
 
+    public async Task DeactivateCar()
+    {
+        carDriving = false;
+    }
+
+    public bool getCar()
+    {
+        return carDriving;
+    }
 
 
     void FixedUpdate()
     {
         if (carDriving)
         {
-            // Vector3 lookDirection = -transform.forward;
-            // carColor.AddForce(lookDirection.normalized * movementSpeed);
-
-            if (transform.position.z <= targetZ)
+            if(transform.position.z >= targetZ)
             {
-                if(carCount >= 5)
-                {
-                    movementSpeed = 5f;
-                }
-                else if(carCount >= 10)
-                {
-                    movementSpeed = 10f;
-                }
+                Vector3 lookDirection = -Vector3.forward;
+                carColor.AddForce(lookDirection.normalized * movementSpeed); 
+                transform.Translate(lookDirection * movementSpeed * Time.deltaTime);
             }
             else
             {
-                GameObject.FindObjectOfType<CarMovement>().SpawnCar();
+                DeactivateCar();
             }
         }
     }
 
-    public void DriveCar(int carCount)
-    {
-        if (transform.position.z <= targetZ)
-        {
-            if(carCount >= 5)
-            {
-                movementSpeed = 5f;
-            }
-            else if(carCount >= 10)
-            {
-                movementSpeed = 10f;
-            }
-        }
-        else
-        {
-            GameObject.FindObjectOfType<CarMovement>().SpawnCar();
-        }
-    }
+    // public void DriveCar(int carCount)
+    // {
+    //     if (transform.position.z <= targetZ)
+    //     {
+    //         if(carCount >= 5)
+    //         {
+    //             movementSpeed = 5f;
+    //         }
+    //         else if(carCount >= 10)
+    //         {
+    //             movementSpeed = 10f;
+    //         }
+    //     }
+    //     else
+    //     {
+    //         GameObject.FindObjectOfType<CarMovement>().SpawnCar();
+    //     }
+    // }
 
 }

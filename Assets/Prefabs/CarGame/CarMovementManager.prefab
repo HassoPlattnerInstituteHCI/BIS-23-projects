@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d746352cbcf0a46b2b857ef986f899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carPrefab: {fileID: 0}
-  movementSpeed: 0.8
+  carPrefab: {fileID: 8627761957120015486, guid: dac03513079a9dd4e898a2071e4568c5, type: 3}
   startedGame: 0
+  carCount: 0
