@@ -1,45 +1,47 @@
 using UnityEngine;
 using DualPantoFramework;
 using System;
+using System.Threading.Tasks;
+using SpeechIO;
 
 public class CarMovement : MonoBehaviour
 {
-    PantoHandle lowerHandle;
-    public float movementSpeed = 0.8f; // Speed of movement
-    int count = 0; //count to alter speed
-    private float targetZ = -11f; // Target Z-coordinate
+    //PantoHandle lowerHandle;
+    public GameObject carPrefab;
+    public bool startedGame;
+    private SpeechOut speechOut;
+    public int carCount;
 
     private void Start()
     {
-        lowerHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
-        Vector3 position = ResetObject();
-        lowerHandle.SetPositions(position, 0f, position);
+        StartGame();
+    }
+
+    async void StartGame()
+    {
+        GameObject car = Instantiate(carPrefab, ResetObject(), carPrefab.transform.rotation);
+        GameObject.Find("Panto").GetComponent<LowerHandle>().SwitchTo(car);
+
+        SpawnCar();
+        await GameObject.FindObjectOfType<Car>().ActivateCar();
+
+        
+        //TODO write player as Driver
+        //GameObject.FindObjectOfType<Driver>().ActivatePlayer();
+
+
+        // Vector3 position = ResetObject();
+        // lowerHandle.SetPositions(position, 0f, position);
+
+        startedGame = true;
     }
 
     private void Update()
     {
+        if (!startedGame) return;
+
         // Move the object along the Z-axis
-        transform.Translate((-Vector3.forward) * movementSpeed * Time.deltaTime);
-
-        // Check if the object has reached the target
-        if (transform.position.z <= targetZ)
-        {
-            if(count >= 5)
-            {
-                movementSpeed = 5f;
-            }
-            else if(count >= 10)
-            {
-                movementSpeed = 10f;
-            }
-
-            ResetObject();
-            count++;
-        }
-        else
-        {
-            return;
-        }
+        //transform.Translate((-Vector3.forward) * movementSpeed * Time.deltaTime);
     }
 
     private Vector3 ResetObject()
@@ -48,7 +50,15 @@ public class CarMovement : MonoBehaviour
         float randomX = new System.Random().Next(-3, 7);
         float y = 0f;
         float z = -5f;
-        transform.position = new Vector3(randomX, y, z);
-        return transform.position;
+        Vector3 position = new Vector3(randomX, y, z);
+        return position;
+    }
+
+    public async Task SpawnCar()
+    {
+        GameObject car = Instantiate(carPrefab, ResetObject(), carPrefab.transform.rotation);
+        await GameObject.Find("Panto").GetComponent<LowerHandle>().SwitchTo(car);
+        await speechOut.Speak("Caution! This car is approaching you.");
+        GameObject.FindObjectOfType<Car>().ActivateCar();
     }
 }
