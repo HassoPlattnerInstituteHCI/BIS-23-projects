@@ -47,10 +47,12 @@ public class Car : MonoBehaviour
             {
                 //Vector3 lookDirection = -Vector3.forward;
                 carColor.AddForce(-Vector3.forward * movementSpeed); 
+
                 //transform.Translate(lookDirection * movementSpeed * Time.deltaTime);
             }
-            else
+            else if(transform.position.z <= targetZ)
             {
+                carColor.Sleep();
                 DeactivateCar();
             }
         }

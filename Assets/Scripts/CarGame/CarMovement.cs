@@ -35,18 +35,38 @@ public class CarMovement : MonoBehaviour
     private void Update()
     {
         if (!startedGame) return;
-    
-        if(!GameObject.FindObjectOfType<Car>().getCar())
+
+        Car thisCar = FindObjectOfType<Car>();
+        if (!thisCar.getCar())
         {
-            GameObject.Find("Panto").GetComponent<LowerHandle>().Free();
+            Destroy(thisCar.gameObject);
+            carCount++;
+            SpawnCar().ConfigureAwait(false);
+        }
+    }
+    /*private void Update()
+    {
+        if (!startedGame) return;
+    
+        GameObject thisCar = GameObject.FindObjectOfType<Car>();
+        if(!thisCar.getCar())
+        {
+            GameObject.Destroy(thisCar);
             carCount++;
             SpawnCar();
         }
+
+        // if(!GameObject.Find("Car").GetComponent<Car>().getCar())
+        // {
+        //     GameObject.Find("Panto").GetComponent<LowerHandle>().Free();
+        //     carCount++;
+        //     SpawnCar();
+        // }
         
 
         // Move the object along the Z-axis
         //transform.Translate((-Vector3.forward) * movementSpeed * Time.deltaTime);
-    }
+    }*/
 
     private Vector3 ResetObject()
     {
