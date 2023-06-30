@@ -110,7 +110,7 @@ public class Arrow : MonoBehaviour
 
         Vector2 dir = xztransform - pos;
 
-        Vector2 help = xztransform + Vector2.ClampMagnitude((dir * power) / 2, maxPower / 2);
+        Vector2 help = xztransform + Vector2.ClampMagnitude((dir * power) / 7, maxPower / 7);
 
         Vector3 line = new Vector3(0.0f, 0.0f, 0.0f);
         line.x = help.x;
@@ -153,12 +153,12 @@ public class Arrow : MonoBehaviour
         velocity.z = velocity_2.y;
         velocity.x = velocity_2.x;
 
-        upperHandle.SwitchTo(gameObject);
-        await Task.Delay((int)dir.magnitude * 200 + 100);
-        upperHandle.SwitchTo(go);
+        //upperHandle.SwitchTo(gameObject);
+        //await Task.Delay((int)dir.magnitude * 200 + 100);
+        await upperHandle.SwitchTo(go);
         transform.eulerAngles = new Vector3(90.0f, Arrow_rotation, 0.0f);
         rb.velocity = velocity;
-        await Task.Delay((int)velocity.magnitude * 700 + 400);
+        await Task.Delay((int)velocity.magnitude * 70 + 450);
         rb.velocity = Vector3.zero;
         transform.position = new Vector3(0.0f, 0.8f, -10.76f);
         transform.eulerAngles = new Vector3(90.0f, 0.0f, 0.0f);
