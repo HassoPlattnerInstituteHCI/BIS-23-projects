@@ -33,7 +33,7 @@ public class CarMovement : MonoBehaviour
 
         
         //TODO write player as Driver
-        //GameObject.FindObjectOfType<Driver>().ActivatePlayer();
+        GameObject.FindObjectOfType<Driver>().ActivatePlayer();
 
         startedGame = true;
     }
