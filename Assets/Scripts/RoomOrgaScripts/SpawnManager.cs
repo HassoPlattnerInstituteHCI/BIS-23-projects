@@ -8,18 +8,18 @@ public class SpawnManager : MonoBehaviour
     // public GameObject enemyPrefab;
     // public GameObject powerupPrefab;
     // public int waveNumber = 0;  
-    // public bool gameStarted = false;
-    // public bool playIntro = false;
+    public bool gameStarted = false;
+    public bool playIntro = false;
     // private int enemyCount;
     // private SpeechOut speechOut;
     // private float spawnRange = 9f;
 
-    // void Start()
-    // {
-    //      StartGame();
-    //     //StartGameWithOutIntro();
+    void Start()
+    {
+         StartGame();
+        //StartGameWithOutIntro();
     //     speechOut = new SpeechOut();
-    // }
+    }
 
     // async void StartGameWithOutIntro()
     // {
@@ -32,19 +32,19 @@ public class SpawnManager : MonoBehaviour
     //     gameStarted = true;
     // }
 
-    // async void StartGame() {
-    //     if (playIntro) 
-    //     {
-    //         Level room = GameObject.Find("Panto").GetComponent<Level>();
-    //         await room.PlayIntroduction();
-    //     }
-    //     await SpawnPowerup();
-    //     await SpawnEnemy();
+    async void StartGame() {
+        if (playIntro) 
+        {
+            Level room = GameObject.Find("Panto").GetComponent<Level>();
+            await room.PlayIntroduction();
+        }
+        // await SpawnPowerup();
+        // await SpawnEnemy();
 
-    //     await GameObject.FindObjectOfType<PlayerController>().ActivatePlayer();
-    //     await GameObject.FindObjectOfType<Enemy>().ActivateEnemy();
-    //     gameStarted = true;
-    // }
+        await GameObject.FindObjectOfType<PlayerController>().ActivatePlayer();
+        // await GameObject.FindObjectOfType<Enemy>().ActivateEnemy();
+        gameStarted = true;
+    }
     
 
     // void OnApplicationQuit()

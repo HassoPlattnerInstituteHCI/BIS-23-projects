@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 public class PlayerController : MonoBehaviour
 {
-    // private Rigidbody playerRb;
-    // public float speed = 5f;
+    private Rigidbody playerRb;
+    public float speed = 5f;
     // public GameObject focalPoint;
     // public bool hasPowerup;
     // private float powerupStrength = 30f;
@@ -19,30 +19,30 @@ public class PlayerController : MonoBehaviour
     // private SpeechIn speech;
     // private SpeechOut speechOut;
     // private bool movementFrozen;
-    // private UpperHandle upperHandle;
+    private UpperHandle upperHandle;
 
-    // async void Start()
-    // {
-    //     playerRb = GetComponent<Rigidbody>();
-    //     //await ActivatePlayer();
-    //     speech = new SpeechIn(onSpeechRecognized);
-    //     speech.StartListening(new string[]{"help", "resume"});
-    //     speechOut = new SpeechOut();
-    // }
-    // void FixedUpdate()
-    // {
-    //     if (!GameObject.FindObjectOfType<SpawnManager>().gameStarted) return;
-    //     //float forwardInput = Input.GetAxis("Vertical");
-    //     //playerRb.AddForce(focalPoint.transform.forward * forwardInput * speed);
-    //     PantoMovement();
-    // }
+    async void Start()
+    {
+        playerRb = GetComponent<Rigidbody>();
+        //await ActivatePlayer();
+        // speech = new SpeechIn(onSpeechRecognized);
+        // speech.StartListening(new string[]{"help", "resume"});
+        // speechOut = new SpeechOut();
+    }
+    void FixedUpdate()
+    {
+        if (!GameObject.FindObjectOfType<SpawnManager>().gameStarted) return;
+        //float forwardInput = Input.GetAxis("Vertical");
+        //playerRb.AddForce(focalPoint.transform.forward * forwardInput * speed);
+        PantoMovement();
+    }
 
-    // void PantoMovement()
-    // {
-    //     float rotation = upperHandle.GetRotation();
-    //     transform.eulerAngles = new Vector3(0, rotation, 0);
-    //     playerRb.velocity = speed * transform.forward;
-    // }
+    void PantoMovement()
+    {
+        float rotation = upperHandle.GetRotation();
+        transform.eulerAngles = new Vector3(0, rotation, 0);
+        playerRb.velocity = speed * transform.forward;
+    }
 
     // async void onSpeechRecognized(string command) {
     //     if (command == "resume" && movementFrozen) {
@@ -76,18 +76,18 @@ public class PlayerController : MonoBehaviour
     //     ToggleMovementFrozen();
     // }
 
-    // public async Task ActivatePlayer()
-    // {
-    //     upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
-    //     await upperHandle.SwitchTo(gameObject);
-    //     upperHandle.FreeRotation();
-    // }
+    public async Task ActivatePlayer()
+    {
+        upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
+        await upperHandle.SwitchTo(gameObject);
+        upperHandle.FreeRotation();
+    }
 
-    // void Update()
-    // {
-    //     if(!GameObject.FindObjectOfType<SpawnManager>().gameStarted) return;
-    //     powerupIndicator.transform.position = transform.position + new Vector3(0f, -0.5f, 0f);
-    // }
+    void Update()
+    {
+        // if(!GameObject.FindObjectOfType<SpawnManager>().gameStarted) return;
+        // powerupIndicator.transform.position = transform.position + new Vector3(0f, -0.5f, 0f);
+    }
 
     // async void OnTriggerEnter(Collider other)
     // {
