@@ -767,6 +767,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3801158577767249954, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
+      propertyPath: blindView.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3801158577767249954, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
+      propertyPath: enhancedBlindView.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6492243083496409339, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
       propertyPath: m_IsActive
       value: 1
