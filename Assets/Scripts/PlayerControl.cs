@@ -16,12 +16,19 @@ public class PlayerControl : MonoBehaviour
     Vector3 goalPoint;
 
     public float forceValue = 1;
+    public GameObject itGodObject;
+    public GameObject meGodObject;
     bool shotBall = false;
 
     void Start()
     {
         itHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
         meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
+        //set layers here, because cant stage files from dualpantoframework
+        meGodObject.layer = LayerMask.NameToLayer("GodObject");
+        itGodObject.layer = LayerMask.NameToLayer("GodObject");
+
+
         spawnPoint = new Vector3(0, 0, -5);
 
         //für lvl 1 irrelevant

@@ -655,6 +655,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forceValue: 1.9
+  itGodObject: {fileID: 2952303749340514639, guid: 171735e8d3ab7ec4a9039793c247fe18, type: 3}
+  meGodObject: {fileID: 6619103305200310057, guid: 8a8613eabfc10244a9bddab7b1e9ef3e, type: 3}
 --- !u!1 &1349204438
 GameObject:
   m_ObjectHideFlags: 0
