@@ -12,6 +12,7 @@ public class CarMovement : MonoBehaviour
     private SpeechOut speechOut;
     public int carCount;
     public bool carSpawning = false;
+    Vector3 defaultPosition = new Vector3(0f, 0f, -5f);
 
     private async void Start()
     {
@@ -22,9 +23,13 @@ public class CarMovement : MonoBehaviour
     {
         // GameObject car = Instantiate(carPrefab, ResetObject(), carPrefab.transform.rotation);
         // GameObject.Find("Panto").GetComponent<LowerHandle>().SwitchTo(car);
+        Debug.Log("First Car is spawning: " + carSpawning);
 
-        SpawnCar();
-        await GameObject.FindObjectOfType<Car>().ActivateCar();
+        await SpawnCar();
+
+        Debug.Log("After first Car has spawned: " + carSpawning);
+
+        //await GameObject.FindObjectOfType<Car>().ActivateCar();
 
         
         //TODO write player as Driver
@@ -36,17 +41,22 @@ public class CarMovement : MonoBehaviour
     private async void Update()
     {
         if (!startedGame) return;
+        Debug.Log("Car is spawning: " + carSpawning);
 
         Car thisCar = FindObjectOfType<Car>();
         if(!thisCar == null)
         {
             return;
         }
-        
+
         if (!thisCar.getCar())
         {
             Destroy(thisCar.gameObject);
+            GameObject.Find("Panto").GetComponent<LowerHandle>().MoveToPosition(defaultPosition);
             carCount++;
+
+            await Task.Delay(2000); // Wait for 2 seconds
+
             await SpawnCar();
         }
     }
@@ -86,20 +96,22 @@ public class CarMovement : MonoBehaviour
 
     public async Task SpawnCar()
     {
+        Debug.Log("--------------------Entered SpawnCar() method. carSpawning is: " + carSpawning);
         if(carSpawning)
         {
             return;
         }
 
         carSpawning = true;
+        Vector3 spawnpoint = ResetObject();
+        Debug.Log("++++++++++++++++++++ ResetObject() gave position: " + spawnpoint);
 
-        GameObject car = Instantiate(carPrefab, ResetObject(), carPrefab.transform.rotation);
-        await GameObject.Find("Panto").GetComponent<LowerHandle>().SwitchTo(car);
-        
-        //active car
-        GameObject.FindObjectOfType<Car>().ActivateCar();
-        await speechOut.Speak("Caution! This car is approaching you.");
-
+        await GameObject.Find("Panto").GetComponent<LowerHandle>().MoveToPosition(spawnpoint, 20f, false);
+        GameObject car = Instantiate(carPrefab, spawnpoint, carPrefab.transform.rotation);
+        Debug.Log("++++++++++++++++++++ It handle is at position: " + GameObject.Find("Panto").GetComponent<Transform>().position);
         carSpawning = false;
+        GameObject.FindObjectOfType<Car>().ActivateCar();
+
+        await GameObject.Find("Panto").GetComponent<LowerHandle>().SwitchTo(car);
     }
 }
