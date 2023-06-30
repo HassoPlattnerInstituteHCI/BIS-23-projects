@@ -19,8 +19,8 @@ public class CarMovement : MonoBehaviour
 
     async void StartGame()
     {
-        GameObject car = Instantiate(carPrefab, ResetObject(), carPrefab.transform.rotation);
-        GameObject.Find("Panto").GetComponent<LowerHandle>().SwitchTo(car);
+        // GameObject car = Instantiate(carPrefab, ResetObject(), carPrefab.transform.rotation);
+        // GameObject.Find("Panto").GetComponent<LowerHandle>().SwitchTo(car);
 
         SpawnCar();
         await GameObject.FindObjectOfType<Car>().ActivateCar();

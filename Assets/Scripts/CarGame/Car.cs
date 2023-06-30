@@ -45,9 +45,9 @@ public class Car : MonoBehaviour
         {
             if(transform.position.z >= targetZ)
             {
-                Vector3 lookDirection = -Vector3.forward;
-                carColor.AddForce(lookDirection.normalized * movementSpeed); 
-                transform.Translate(lookDirection * movementSpeed * Time.deltaTime);
+                //Vector3 lookDirection = -Vector3.forward;
+                carColor.AddForce(-Vector3.forward * movementSpeed); 
+                //transform.Translate(lookDirection * movementSpeed * Time.deltaTime);
             }
             else
             {
