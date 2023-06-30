@@ -84,7 +84,59 @@
 //}
 
 
-//new
+////new
+//using UnityEngine;
+//using DualPantoFramework;
+//using System.Collections.Generic;
+
+//public class Me_Handle : MonoBehaviour
+//{
+//    bool free = true;
+//    PantoHandle upperHandle;
+//    public GameObject linePrefab; // Öffentliches Feld für das Line-Prefab
+//    public Transform spawnedObjectsParent; // Elternobjekt für die gespawnten Objekte
+//    private List<GameObject> spawnedObjects = new List<GameObject>(); // Liste zum Speichern der gespawnten Objekte
+
+//    void Start()
+//    {
+//        upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
+//    }
+
+//    void FixedUpdate()
+//    {
+//        transform.position = upperHandle.HandlePosition(transform.position);
+//        transform.eulerAngles = new Vector3(0, upperHandle.GetRotation(), 0);
+
+//        if (linePrefab != null)
+//        {
+//            CreateLine();
+//        }
+//    }
+
+//    void Update()
+//    {
+//        if (Input.GetKeyDown(KeyCode.F))
+//        {
+//            if (free)
+//            {
+//                upperHandle.Freeze();
+//            }
+//            else
+//            {
+//                upperHandle.Free();
+//            }
+//            free = !free;
+//        }
+//    }
+
+//    void CreateLine()
+//    {
+//        GameObject line = Instantiate(linePrefab, transform.position, Quaternion.identity);
+//        line.transform.SetParent(spawnedObjectsParent); // Setze das Elternobjekt für die gespawnten Objekte
+//        spawnedObjects.Add(line);
+//    }
+//}
+
 using UnityEngine;
 using DualPantoFramework;
 using System.Collections.Generic;
@@ -92,6 +144,7 @@ using System.Collections.Generic;
 public class Me_Handle : MonoBehaviour
 {
     bool free = true;
+    bool isDrawingEnabled = false; // Variable zum Verfolgen des Zeichenzustands
     PantoHandle upperHandle;
     public GameObject linePrefab; // Öffentliches Feld für das Line-Prefab
     public Transform spawnedObjectsParent; // Elternobjekt für die gespawnten Objekte
@@ -107,7 +160,7 @@ public class Me_Handle : MonoBehaviour
         transform.position = upperHandle.HandlePosition(transform.position);
         transform.eulerAngles = new Vector3(0, upperHandle.GetRotation(), 0);
 
-        if (linePrefab != null)
+        if (isDrawingEnabled && linePrefab != null)
         {
             CreateLine();
         }
@@ -127,8 +180,18 @@ public class Me_Handle : MonoBehaviour
             }
             free = !free;
         }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            isDrawingEnabled = !isDrawingEnabled; // Schalte das Zeichnen ein oder aus
+        }
     }
 
+    void enableDrawing(bool a)
+    {
+        isDrawingEnabled = a;
+        return;
+    }
     void CreateLine()
     {
         GameObject line = Instantiate(linePrefab, transform.position, Quaternion.identity);
