@@ -9,14 +9,14 @@ public class Player : MonoBehaviour
 {
     private Rigidbody playerRb;
     public float speed = 5f;
-    public GameObject focalPoint;
+    // public GameObject focalPoint;
     public bool hasItem;
     //private float powerupStrength = 30f;
     //public int powerupTime = 7;
     //public GameObject powerupIndicator;
     private SpeechIn speech;
     private SpeechOut speechOut;
-    private bool movementFrozen;
+    // private bool movementFrozen;
     //private UpperHandle upperHandle;
 
     // Start is called before the first frame update
@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
         playerRb = GetComponent<Rigidbody>();
         //await ActivatePlayer();
         //speech = new SpeechIn(onSpeechRecognized);
-        speech.StartListening(new string[] { "help", "resume" });
+        // speech.StartListening(new string[] { "help", "resume" });
         speechOut = new SpeechOut();
     }
 
@@ -87,13 +87,12 @@ public class Player : MonoBehaviour
     //    powerupIndicator.transform.position = transform.position + new Vector3(0f, -0.5f, 0f);
     //}
 
-    async void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Item"))
+    private void OnCollisionEnter(Collision other) {
+        if (other.gameObject.CompareTag("Item"))
         {
             hasItem = true;
             Destroy(other.gameObject);
-            await speechOut.Speak("You got the item");
+            speechOut.Speak("You got the item");
         }
     }
 
