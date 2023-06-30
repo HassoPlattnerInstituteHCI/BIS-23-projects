@@ -11,8 +11,9 @@ public class CarMovement : MonoBehaviour
     public bool startedGame;
     private SpeechOut speechOut;
     public int carCount;
+    public bool carSpawning = false;
 
-    private void Start()
+    private async void Start()
     {
         StartGame();
     }
@@ -32,16 +33,21 @@ public class CarMovement : MonoBehaviour
         startedGame = true;
     }
 
-    private void Update()
+    private async void Update()
     {
         if (!startedGame) return;
 
         Car thisCar = FindObjectOfType<Car>();
+        if(!thisCar == null)
+        {
+            return;
+        }
+        
         if (!thisCar.getCar())
         {
             Destroy(thisCar.gameObject);
             carCount++;
-            SpawnCar().ConfigureAwait(false);
+            await SpawnCar();
         }
     }
     /*private void Update()
@@ -78,14 +84,22 @@ public class CarMovement : MonoBehaviour
         return position;
     }
 
-    public 
-    async Task SpawnCar()
+    public async Task SpawnCar()
     {
+        if(carSpawning)
+        {
+            return;
+        }
+
+        carSpawning = true;
+
         GameObject car = Instantiate(carPrefab, ResetObject(), carPrefab.transform.rotation);
         await GameObject.Find("Panto").GetComponent<LowerHandle>().SwitchTo(car);
         
         //active car
         GameObject.FindObjectOfType<Car>().ActivateCar();
         await speechOut.Speak("Caution! This car is approaching you.");
+
+        carSpawning = false;
     }
 }
