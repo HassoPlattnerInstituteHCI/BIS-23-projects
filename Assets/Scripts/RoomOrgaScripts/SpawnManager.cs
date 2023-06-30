@@ -72,7 +72,7 @@ public class SpawnManager : MonoBehaviour
     //         GameObject enemy = Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation);
     //         if (i == 0)
     //         {
-    //             await GameObject.Find("Panto").GetComponent<LowerHandle>().SwitchTo(enemy);
+                //  await GameObject.Find("Panto").GetComponent<LowerHandle>().SwitchTo(enemy);
     //             GameObject.FindObjectOfType<Enemy>().ActivateEnemy();
     //         }
     //     }
