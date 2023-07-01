@@ -29,7 +29,7 @@ public class PlayerControl : MonoBehaviour
         itGodObject.layer = LayerMask.NameToLayer("GodObject");
 
 
-        spawnPoint = new Vector3(0, 0, -5);
+        spawnPoint = new Vector3(0, 0, -10);
 
         //für lvl 1 irrelevant
         goalPoint = Vector3.zero;
