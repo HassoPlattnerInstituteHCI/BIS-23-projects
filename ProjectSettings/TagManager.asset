@@ -5,11 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - Car
+  - ring
+  - MeHandle
+  - ItHandle
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - plane
   - Water
   - UI
   - 

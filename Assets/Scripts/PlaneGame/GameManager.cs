@@ -10,6 +10,8 @@ namespace PlaneGame
 {
     public class GameManager : MonoBehaviour
     {
+        public static bool running = true;
+        
         public GameObject planePrefab;
         public GameObject ringPrefab;
 
@@ -17,17 +19,21 @@ namespace PlaneGame
 
         private void Update()
         {
-            Random rnd = new Random();
-
-            _rings = GameObject.FindGameObjectsWithTag("ring").Length;
-
-            if (_rings == 0)
+            if (running)
             {
-                Instantiate(ringPrefab,
-                    new Vector3(rnd.Next(-10, 11), ringPrefab.transform.position.y, ringPrefab.transform.position.z),
-                    ringPrefab.transform.rotation);
-                _rings++;
+                Random rnd = new Random();
+
+                _rings = GameObject.FindGameObjectsWithTag("ring").Length;
+
+                if (_rings == 0)
+                {
+                    Instantiate(ringPrefab,
+                        new Vector3(rnd.Next(-10, 11), ringPrefab.transform.position.y, ringPrefab.transform.position.z),
+                        ringPrefab.transform.rotation);
+                    _rings++;
+                }
             }
+            
         }
     }
 }

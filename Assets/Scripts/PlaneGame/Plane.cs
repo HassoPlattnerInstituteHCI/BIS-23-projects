@@ -45,6 +45,7 @@ public class Plane : MonoBehaviour
         if (other.gameObject.tag == "ring")
         {
             Destroy(other.gameObject);
+            ScoreManager.score++;
         }
     }
 

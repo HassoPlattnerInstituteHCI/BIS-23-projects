@@ -29,6 +29,8 @@ namespace PlaneGame
             if (transform.position.z <= -18)
             {
                 Destroy(gameObject);
+                ScoreManager.misses++;
+                ScoreManager.lives--;
             }
         }
     }
