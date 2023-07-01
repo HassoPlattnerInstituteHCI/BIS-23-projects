@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4366753, g: 0.48427093, b: 0.5645238, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -150,8 +150,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 21607422}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.8641396, y: 0, z: -14.68}
-  m_LocalScale: {x: 40, y: 1, z: 1}
+  m_LocalPosition: {x: -5.2, y: 0, z: -16}
+  m_LocalScale: {x: 25, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1520192639}
@@ -247,8 +247,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 146715096}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.93, y: 0, z: -7.4282}
-  m_LocalScale: {x: 1, y: 1, z: 25}
+  m_LocalPosition: {x: 6.92, y: 0, z: -9.95}
+  m_LocalScale: {x: 1, y: 1, z: 12.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1520192639}
@@ -413,8 +413,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 813298709}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -19.72, y: 0, z: -7.4282}
-  m_LocalScale: {x: 1, y: 1, z: 25}
+  m_LocalPosition: {x: -17.3, y: 0, z: -10.03}
+  m_LocalScale: {x: 1, y: 1, z: 12.6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1520192639}
@@ -507,7 +507,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1061395207}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.64, y: 0, z: 5.32}
+  m_LocalPosition: {x: 8.95, y: 0, z: 1.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -550,7 +550,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 36
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!114 &1345714627
 MonoBehaviour:
@@ -655,6 +655,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forceValue: 1.9
+  itGodObject: {fileID: 2952303749340514639, guid: 171735e8d3ab7ec4a9039793c247fe18, type: 3}
+  meGodObject: {fileID: 6619103305200310057, guid: 8a8613eabfc10244a9bddab7b1e9ef3e, type: 3}
 --- !u!1 &1349204438
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,7 +681,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1349204438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.03, y: 0, z: -8.89}
+  m_LocalPosition: {x: -14.34, y: 0, z: -9.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -713,8 +715,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1513185624}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.8641396, y: 0, z: -0.6}
-  m_LocalScale: {x: 40, y: 1, z: 1}
+  m_LocalPosition: {x: -5.05, y: 0, z: -4}
+  m_LocalScale: {x: 24.9, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1520192639}
@@ -842,7 +844,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1655694457}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.66, y: 0, z: -8.65}
+  m_LocalPosition: {x: 8.98, y: 0, z: -9.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -873,7 +875,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1794895296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.13, y: 0, z: 5.21}
+  m_LocalPosition: {x: -14.39, y: 0, z: 1.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -912,7 +914,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   traceShape: 1
   isOnUpper: 0
-  description: This is the PIT! You are the ball. Draw and shoot.
+  description: This is the PIT! You are the ball. Draw and shoot to get a feeling
+    of the physics!
   priority: 0
 --- !u!4 &1835408123
 Transform:
