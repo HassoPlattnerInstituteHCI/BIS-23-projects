@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DualPantoFramework;
 
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 
 namespace PlaneGame
@@ -35,7 +36,7 @@ namespace PlaneGame
                     ScoreManager.Lives--;
                 }
                 
-                if (ScoreManager.Level == 2 && ScoreManager.Score > 0)
+                if (!ScoreManager.LevelHasLives && !ScoreManager.IsLastLevel && ScoreManager.Score > 0)
                 {
                     ScoreManager.Score--;
                 }
