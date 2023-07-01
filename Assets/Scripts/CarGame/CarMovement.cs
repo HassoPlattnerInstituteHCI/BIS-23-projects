@@ -10,7 +10,7 @@ public class CarMovement : MonoBehaviour
     public GameObject carPrefab;
     public bool startedGame;
     private SpeechOut speechOut;
-    public int carCount;
+    public int carCount; //room to use this to speed up car 
     public bool carSpawning = false;
     Vector3 defaultPosition = new Vector3(0f, 0f, -5f);
 
@@ -29,22 +29,33 @@ public class CarMovement : MonoBehaviour
 
         Debug.Log("After first Car has spawned: " + carSpawning);
 
-        //await GameObject.FindObjectOfType<Car>().ActivateCar();
-
-        
-        //TODO write player as Driver
         GameObject.FindObjectOfType<Driver>().ActivatePlayer();
 
         startedGame = true;
     }
 
+    private async void FixedUpdate()
+    {
+        if (!startedGame) 
+        {
+            Debug.Log("Restarting//game is offline.");
+            return;
+        }
+        else
+        {
+            Debug.Log("Game is online.");
+        }
+    }
+
     private async void Update()
     {
-        if (!startedGame) return;
+        if(!startedGame) return;
+
         Debug.Log("Car is spawning: " + carSpawning);
 
-        Car thisCar = FindObjectOfType<Car>();
-        if(!thisCar == null)
+        Car thisCar = null;
+        thisCar = FindObjectOfType<Car>();
+        if(thisCar == null)
         {
             return;
         }
@@ -52,7 +63,8 @@ public class CarMovement : MonoBehaviour
         if (!thisCar.getCar())
         {
             Destroy(thisCar.gameObject);
-            GameObject.Find("Panto").GetComponent<LowerHandle>().MoveToPosition(defaultPosition);
+            await GameObject.Find("Panto").GetComponent<LowerHandle>().MoveToPosition(defaultPosition, 50f, false);
+
             carCount++;
 
             await Task.Delay(2000); // Wait for 2 seconds
@@ -101,14 +113,20 @@ public class CarMovement : MonoBehaviour
         {
             return;
         }
+        if(GameObject.Find("Panto").GetComponent<LowerHandle>().isFrozen)
+        {
+            GameObject.Find("Panto").GetComponent<LowerHandle>().Free();
+            Debug.Log("freeeeed handle after freeze.");
+        }
 
         carSpawning = true;
         Vector3 spawnpoint = ResetObject();
         Debug.Log("++++++++++++++++++++ ResetObject() gave position: " + spawnpoint);
 
-        await GameObject.Find("Panto").GetComponent<LowerHandle>().MoveToPosition(spawnpoint, 20f, false);
-        GameObject car = Instantiate(carPrefab, spawnpoint, carPrefab.transform.rotation);
+        await GameObject.Find("Panto").GetComponent<LowerHandle>().MoveToPosition(spawnpoint, 60f, true);
         Debug.Log("++++++++++++++++++++ It handle is at position: " + GameObject.Find("Panto").GetComponent<Transform>().position);
+
+        GameObject car = Instantiate(carPrefab, spawnpoint, carPrefab.transform.rotation);
         carSpawning = false;
         GameObject.FindObjectOfType<Car>().ActivateCar();
 

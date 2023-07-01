@@ -7,9 +7,11 @@ public class Driver : MonoBehaviour
 {
     private UpperHandle upperHandle;
     private Rigidbody playerRb;
+    bool endGameWithCollision; //variation of ending the game if a car is hit or letting a new car respawn
  
     void Start()
     {
+        endGameWithCollision = false;
         playerRb = GetComponent<Rigidbody>();
         //PantoMovement();
     }
@@ -28,8 +30,30 @@ public class Driver : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         GameObject other = collision.gameObject;
-        Debug.Log("Collision!! TODO: restart here");
-        //TODO end game with collision
+
+        if (other.GetComponent<Car>() != null)
+        {
+            // The GameObject is of type Car
+            Debug.Log("Collision with Car");
+            if(endGameWithCollision)
+            {
+                //It handle freezes, nothing happens anymore. Game over.
+                GameObject.FindObjectOfType<Car>().DestroyCar();
+                GameObject.FindObjectOfType<CarMovement>().startedGame = false;
+            }
+            else
+            {
+                //resume as if nothing has happend => respawn a new car
+                GameObject.FindObjectOfType<Car>().DestroyCar();
+                GameObject.FindObjectOfType<CarMovement>().SpawnCar();
+            }
+        }
+        else
+        {
+            // The GameObject is of an unknown type or doesn't have any specific component
+            Debug.Log("Collision with Unknown GameObject");
+            return;
+        }
     }
 
     public async Task ActivatePlayer()

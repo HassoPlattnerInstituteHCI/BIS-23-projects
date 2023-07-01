@@ -26,6 +26,7 @@ public class Car : MonoBehaviour
     public async Task ActivateCar()
     {
         carDriving = true;
+        Debug.Log("Activated car.");
     }
 
     public async Task DeactivateCar()
@@ -33,15 +34,27 @@ public class Car : MonoBehaviour
         carDriving = false;
     }
 
+    public async Task DestroyCar()
+    {
+        Debug.Log("deactived car. Life about to end.");
+        GameObject.Find("Panto").GetComponent<LowerHandle>().Freeze();
+        Debug.Log("Lower handle frozen.");
+        Car toDestroy = GameObject.FindObjectOfType<Car>();
+        Destroy(toDestroy);
+        Debug.Log("Destroyed car gameObject.");
+    }
+
     public bool getCar()
     {
         return carDriving;
     }
-
+    
+    
 
     void FixedUpdate()
     {
-        if (carDriving)
+        if(!carDriving) return;
+        else
         {
             if(transform.position.z >= targetZ)
             {
