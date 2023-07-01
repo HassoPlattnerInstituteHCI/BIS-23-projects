@@ -18,7 +18,7 @@ public class ScoreManager : MonoBehaviour
     public static int Lives;
     public static bool LevelHasLives;
     public static int AimScoreStatic;
-    public static bool IsLastLevel;
+    public static bool IsFreePlay;
     public static int Level { get; private set; }
     
     public int aimScore;
@@ -85,7 +85,7 @@ public class ScoreManager : MonoBehaviour
                     break;
                 default:
                     LevelHasLives = false;
-                    IsLastLevel = true;
+                    IsFreePlay = true;
                     break;
             }
 
@@ -102,7 +102,7 @@ public class ScoreManager : MonoBehaviour
         {
             textField.text = "Game Over!";
         }
-        else if (IsLastLevel)
+        else if (IsFreePlay)
         {
             textField.text = $"Score: {Score}/{aimScore}\nMisses: {Misses}\n[Free Play]";
         }

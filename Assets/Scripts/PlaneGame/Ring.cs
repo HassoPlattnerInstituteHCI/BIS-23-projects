@@ -36,7 +36,7 @@ namespace PlaneGame
                     ScoreManager.Lives--;
                 }
                 
-                if (!ScoreManager.LevelHasLives && !ScoreManager.IsLastLevel && ScoreManager.Score > 0)
+                if (!ScoreManager.LevelHasLives && !ScoreManager.IsFreePlay && ScoreManager.Score > 0)
                 {
                     ScoreManager.Score--;
                 }
