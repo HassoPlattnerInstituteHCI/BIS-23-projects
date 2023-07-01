@@ -12,7 +12,6 @@ namespace PlaneGame
     public class Ring : MonoBehaviour
     {
         private PantoHandle itHandle;
-        private bool moving = false;
 
         private async void Start()
         {
