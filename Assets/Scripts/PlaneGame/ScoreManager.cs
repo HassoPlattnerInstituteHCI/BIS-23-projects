@@ -83,7 +83,7 @@ public class ScoreManager : MonoBehaviour
                 case 2:
                     LevelHasLives = false;
                     break;
-                case 3:
+                default:
                     LevelHasLives = false;
                     IsLastLevel = true;
                     break;
