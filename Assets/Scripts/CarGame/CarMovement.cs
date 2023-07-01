@@ -13,9 +13,12 @@ public class CarMovement : MonoBehaviour
     public int carCount; //room to use this to speed up car 
     public bool carSpawning = false;
     Vector3 defaultPosition = new Vector3(0f, 0f, -5f);
+    public GameManager gameManager;
+
 
     private async void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
         StartGame();
     }
 

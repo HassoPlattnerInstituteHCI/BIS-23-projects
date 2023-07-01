@@ -7,12 +7,14 @@ public class Driver : MonoBehaviour
 {
     private UpperHandle upperHandle;
     private Rigidbody playerRb;
+    public GameManager gameManager;
     bool endGameWithCollision; //variation of ending the game if a car is hit or letting a new car respawn
  
     void Start()
     {
         endGameWithCollision = false;
         playerRb = GetComponent<Rigidbody>();
+        gameManager = FindObjectOfType<GameManager>();
         //PantoMovement();
     }
 
@@ -38,14 +40,12 @@ public class Driver : MonoBehaviour
             if(endGameWithCollision)
             {
                 //It handle freezes, nothing happens anymore. Game over.
-                GameObject.FindObjectOfType<Car>().DestroyCar();
-                GameObject.FindObjectOfType<CarMovement>().startedGame = false;
+                gameManager.EndGameWithCollision();
             }
             else
             {
                 //resume as if nothing has happend => respawn a new car
-                GameObject.FindObjectOfType<Car>().DestroyCar();
-                GameObject.FindObjectOfType<CarMovement>().SpawnCar();
+                gameManager.ResumeGameAfterCollision();
             }
         }
         else
