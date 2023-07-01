@@ -18,6 +18,7 @@ public class ScoreManager : MonoBehaviour
     public static int Lives;
     public static bool LevelHasLives;
     public static int AimScoreStatic;
+    public static bool IsLastLevel;
     public static int Level { get; private set; }
     
     public int aimScore;
@@ -25,8 +26,8 @@ public class ScoreManager : MonoBehaviour
     
 
     private float _gameOverTime = 0F;
-    private GameObject manager;
     
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,11 +51,12 @@ public class ScoreManager : MonoBehaviour
         }
         
         SetText();
-        if (Lives == 0 && Level == 0 && _gameOverTime == 0F)
+        if (LevelHasLives && Lives == 0 && _gameOverTime == 0F)
         {
             _gameOverTime = Time.time;
+            Debug.Log($"Completed level {Level}");
         }
-        else if (Level > 0 && Score == aimScore && _gameOverTime == 0F)
+        else if (!LevelHasLives && Score == aimScore && _gameOverTime == 0F)
         {
             _gameOverTime = Time.time;
             Debug.Log($"Completed level {Level}");
@@ -81,6 +83,10 @@ public class ScoreManager : MonoBehaviour
                 case 2:
                     LevelHasLives = false;
                     break;
+                case 3:
+                    LevelHasLives = false;
+                    IsLastLevel = true;
+                    break;
             }
 
             if (!LevelHasLives)
@@ -95,6 +101,10 @@ public class ScoreManager : MonoBehaviour
         if (_gameOverTime != 0F)
         {
             textField.text = "Game Over!";
+        }
+        else if (IsLastLevel)
+        {
+            textField.text = $"Score: {Score}/{aimScore}\nMisses: {Misses}\n[Free Play]";
         }
         else
         {

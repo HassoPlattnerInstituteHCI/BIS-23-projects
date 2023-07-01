@@ -155,4 +155,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textField: {fileID: 2101113271756966047}
-  AimScore: 3
+  aimScore: 3
