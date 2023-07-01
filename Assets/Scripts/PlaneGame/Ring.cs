@@ -25,7 +25,7 @@ namespace PlaneGame
         {
             transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.025F);
             
-            if (transform.position.z <= -17)
+            if (transform.position.z <= -16.5)
             {
                 Destroy(gameObject);
                 ScoreManager.Misses++;

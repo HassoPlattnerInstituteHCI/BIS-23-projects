@@ -28,7 +28,7 @@ namespace PlaneGame
 
             _rings = GameObject.FindGameObjectsWithTag("ring").Length;
 
-            if (_rings == 0 && ((ScoreManager.Level == 0 && !(ScoreManager.Lives <= 0)) || (ScoreManager.Level > 0 && ScoreManager.AimScoreStatic != ScoreManager.Score)))
+            if (_rings == 0 && ((ScoreManager.LevelHasLives && !(ScoreManager.Lives <= 0)) || (!ScoreManager.LevelHasLives && ScoreManager.AimScoreStatic != ScoreManager.Score)))
             {
                 Instantiate(ringPrefab,
                     new Vector3(rnd.Next(-10, 11), ringPrefab.transform.position.y, ringPrefab.transform.position.z),
