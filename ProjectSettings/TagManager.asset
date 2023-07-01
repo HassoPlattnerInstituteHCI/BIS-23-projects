@@ -6,6 +6,11 @@ TagManager:
   tags:
   - MeHandle
   - ItHandle
+  - ItTrail
+  - MeTrail
+  - PerceptionCone
+  - Fruit
+  - Katana
   layers:
   - Default
   - TransparentFX
