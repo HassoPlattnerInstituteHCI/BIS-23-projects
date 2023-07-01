@@ -36,16 +36,16 @@ public class Driver : MonoBehaviour
         if (other.GetComponent<Car>() != null)
         {
             // The GameObject is of type Car
-            Debug.Log("Collision with Car");
+            Debug.Log("Collision with Car. End Game with collision is: " + endGameWithCollision);
             if(endGameWithCollision)
             {
                 //It handle freezes, nothing happens anymore. Game over.
-                gameManager.EndGameWithCollision();
+                gameManager.EndGameWithCollision(other);
             }
             else
             {
                 //resume as if nothing has happend => respawn a new car
-                gameManager.ResumeGameAfterCollision();
+                gameManager.ResumeGameAfterCollision(other);
             }
         }
         else

@@ -36,11 +36,17 @@ public class Car : MonoBehaviour
 
     public async Task DestroyCar()
     {
-        Debug.Log("deactived car. Life about to end.");
+        Debug.Log("Deactivating car. Life about to end.");
+
+        // Freeze the lower handle
         GameObject.Find("Panto").GetComponent<LowerHandle>().Freeze();
         Debug.Log("Lower handle frozen.");
-        Car toDestroy = GameObject.FindObjectOfType<Car>();
-        Destroy(toDestroy);
+
+        // Sleep the car rigidbody
+        carColor.Sleep();
+
+        // Destroy the car object
+        Destroy(gameObject);
         Debug.Log("Destroyed car gameObject.");
     }
 
