@@ -1,11 +1,8 @@
 fileFormatVersion: 2
-guid: 42bbcb6dfdf9dda4396e5bfbce160abe
+guid: bb50bbbb73ba8c54e9499e5498a03a52
 ModelImporter:
   serializedVersion: 21202
-  internalIDToNameTable:
-  - first:
-      74: 2272175167273381323
-    second: rotor|Cube.004Action
+  internalIDToNameTable: []
   externalObjects: {}
   materials:
     materialImportMode: 2

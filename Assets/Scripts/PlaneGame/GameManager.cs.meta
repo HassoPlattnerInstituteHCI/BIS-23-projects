@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 90d40bf0d4e741f3b139a2343fc9035f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - planePrefab: {fileID: 9202283106976116656, guid: 8f598ce299c1f3549b76a49461ad70b3, type: 3}
+  - ringPrefab: {fileID: 2598073035478609336, guid: 7ac3c03d394bc2a46bc57e3b160587d7, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
