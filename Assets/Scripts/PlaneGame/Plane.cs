@@ -32,12 +32,17 @@ public class Plane : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ring = GameObject.FindGameObjectsWithTag("ring")[0];
-        rotation = meHandle.GetRotation();
+        try
+        {
+            ring = GameObject.FindGameObjectsWithTag("ring")[0];
+            rotation = meHandle.GetRotation();
 
-        ring.transform.position = new Vector3(ring.transform.position.x + MapAngleToForce(rotation), 0, ring.transform.position.z);
-
-        
+            ring.transform.position = new Vector3(ring.transform.position.x + MapAngleToForce(rotation), 0, ring.transform.position.z);
+        }
+        catch (Exception)
+        {
+            Debug.Log("Plane standing by, no rings present.");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -45,7 +50,7 @@ public class Plane : MonoBehaviour
         if (other.gameObject.tag == "ring")
         {
             Destroy(other.gameObject);
-            ScoreManager.score++;
+            ScoreManager.Score++;
         }
     }
 

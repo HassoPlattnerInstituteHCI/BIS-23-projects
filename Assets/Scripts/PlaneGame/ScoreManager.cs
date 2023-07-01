@@ -1,76 +1,116 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 using UnityEngine;
 using TMPro;
 
+using UnityEngine.Serialization;
+
+
 public class ScoreManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI textField;
 
-    public static int score;
+    public static int Score;
+    public static int Misses;
+    public static int Lives;
+    public static bool LevelHasLives;
+    public static int AimScoreStatic;
+    public static int Level { get; private set; }
+    
+    public int aimScore;
 
-    public static int misses;
+    
 
-    public static int lives;
-
-    public int level;
-    //public int lives; //possible switch to a life-loss based system
+    private float _gameOverTime = 0F;
+    private GameObject manager;
     
     // Start is called before the first frame update
     void Start()
     {
-        score = 0;
-        misses = 0;
-
-        switch (level)
-        {
-            case  0:
-                lives = 3;
-                break;
-            case 1:
-                lives = 0;
-                break;
-            case 2:
-                lives = 0;
-                break;
-        }
+        Score = 0;
+        Misses = 0;
+        AimScoreStatic = aimScore;
+        Lives = 3;
+        LevelHasLives = true;
         
-        setText();
+        
+        
+        SetText();
     }
 
     // Update is called once per frame
     void Update()
     {
-        setText();
-        if (lives == 0)
+        if (!LevelHasLives)
         {
-            textField.text = "Game Over!";
-            PlaneGame.GameManager.running = false;
+            Lives = 0;
+        }
+        
+        SetText();
+        if (Lives == 0 && Level == 0 && _gameOverTime == 0F)
+        {
+            _gameOverTime = Time.time;
+        }
+        else if (Level > 0 && Score == aimScore && _gameOverTime == 0F)
+        {
+            _gameOverTime = Time.time;
+            Debug.Log($"Completed level {Level}");
+        }
+        else if (_gameOverTime != 0 && Time.time >= _gameOverTime + 5F)
+        {
+            _gameOverTime = 0F;
+            
+            Level++;
+            
+            Score = 0;
+            Misses = 0;
+            AimScoreStatic = aimScore;
+            
+            switch (Level)
+            {
+                case  0:
+                    Lives = 3;
+                    LevelHasLives = true;
+                    break;
+                case 1:
+                    LevelHasLives = false;
+                    break;
+                case 2:
+                    LevelHasLives = false;
+                    break;
+            }
 
-            Task.Delay(5000);
-
-            level++;
-            PlaneGame.GameManager.running = true;
-
+            if (!LevelHasLives)
+            {
+                Lives = 0;
+            }
         }
     }
 
-    void setText()
+    void SetText()
     {
-        switch (level)
+        if (_gameOverTime != 0F)
         {
-            case 0:
-                textField.text = $"Tutorial mode\n{lives} lives left\nScore: {score}";
-                break;
-            case 1:
-                textField.text = $"Score: {score}";
-                break;
-            case 2:
-                textField.text = $"Score: {score}\nMisses: {misses}";
-                break;
+            textField.text = "Game Over!";
         }
-        
+        else
+        {
+            switch (Level)
+            {
+                case 0:
+                    string life_string = Lives == 1 ? "life" : "lives";
+                    textField.text = $"{Lives} {life_string} left\nScore: {Score}\n[Tutorial mode]";
+                    break;
+                case 1:
+                    textField.text = $"Score: {Score}/{aimScore}\nLevel {Level}";
+                    break;
+                case 2:
+                    textField.text = $"Score: {Score}/{aimScore}\nMisses: {Misses}\nLevel {Level}";
+                    break;
+            } 
+        }
     }
 }

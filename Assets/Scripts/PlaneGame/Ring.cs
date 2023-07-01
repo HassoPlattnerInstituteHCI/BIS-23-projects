@@ -18,18 +18,27 @@ namespace PlaneGame
             itHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
             Debug.LogError("RING CREATED");
             await itHandle.SwitchTo(gameObject);
-            await Task.Delay(2000);
+            await Task.Delay(5000);
         }
 
         private void Update()
         {
             transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.025F);
             
-            if (transform.position.z <= -18)
+            if (transform.position.z <= -17)
             {
                 Destroy(gameObject);
-                ScoreManager.misses++;
-                ScoreManager.lives--;
+                ScoreManager.Misses++;
+
+                if (ScoreManager.LevelHasLives)
+                {
+                    ScoreManager.Lives--;
+                }
+                
+                if (ScoreManager.Level == 2 && ScoreManager.Score > 0)
+                {
+                    ScoreManager.Score--;
+                }
             }
         }
     }
