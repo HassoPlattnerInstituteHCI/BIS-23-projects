@@ -12,7 +12,8 @@ namespace PlaneGame
     {
         public static bool running = true;
         
-        public GameObject planePrefab;
+        //plane prefab might be unneccessary?
+        //public GameObject planePrefab;
         public GameObject ringPrefab;
 
         private int _rings = 1;
