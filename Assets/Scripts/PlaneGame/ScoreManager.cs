@@ -47,12 +47,12 @@ namespace PlaneGame
             }
 
             SetText();
-            if (LevelHasLives && Lives == 0 && _gameOverTime == 0F)
+            if (LevelHasLives && Lives == 0 && !IsFreePlay && _gameOverTime == 0F)
             {
                 _gameOverTime = Time.time;
                 Debug.Log($"Completed level {Level}");
             }
-            else if (!LevelHasLives && Score == aimScore && _gameOverTime == 0F)
+            else if (!LevelHasLives && Score == aimScore && !IsFreePlay && _gameOverTime == 0F)
             {
                 _gameOverTime = Time.time;
                 Debug.Log($"Completed level {Level}");
