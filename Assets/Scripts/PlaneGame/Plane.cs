@@ -1,86 +1,84 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-
 using DualPantoFramework;
-
-using PlaneGame;
-
 using UnityEngine;
 
-public class Plane : MonoBehaviour
+namespace PlaneGame
 {
-    private PantoHandle meHandle;
-    private GameObject ring;
-    private float rotation;
-    private Plane plane;
-    
-    // Start is called before the first frame update
-    async void Start()
+    public class Plane : MonoBehaviour
     {
-        meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
-        plane = FindObjectOfType<Plane>();
-        /*await meHandle.SwitchTo(plane.gameObject);
-        Debug.LogWarning("Moved.");
-        meHandle.Freeze();
-        Debug.LogWarning("Froze.");
-        meHandle.FreeRotation();
-        Debug.LogWarning("Freed rotation.");*/
-    }
+        private PantoHandle _meHandle;
+        private GameObject _ring;
+        private float _rotation;
+        private Plane _plane; // ? what exactly did I want to do with that?
+        private AudioSource _audioSource;
 
-    // Update is called once per frame
-    void Update()
-    {
-        try
+        // Start is called before the first frame update
+        async void Start()
         {
-            ring = GameObject.FindGameObjectsWithTag("ring")[0];
-            rotation = meHandle.GetRotation();
-
-            ring.transform.position = new Vector3(ring.transform.position.x + MapAngleToForce(rotation), 0, ring.transform.position.z);
+            _meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
+            _plane = FindObjectOfType<Plane>();
+            /*await _meHandle.SwitchTo(_plane.gameObject);
+            Debug.LogWarning("Moved.");
+            _meHandle.Freeze();
+            Debug.LogWarning("Froze.");
+            _meHandle.FreeRotation();
+            Debug.LogWarning("Freed _rotation.");*/
         }
-        catch (Exception)
-        {
-            Debug.Log("Plane standing by, no rings present.");
-        }
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "ring")
+        // Update is called once per frame
+        void Update()
         {
-            Destroy(other.gameObject);
-            ScoreManager.Score++;
-        }
-    }
-
-    static float MapAngleToForce(float angle)
-    {
-        float force = 0;
-        bool neg = false;
-        
-        if (angle is < 90 or > 270)
-        {
-            if (angle >= 270)
+            try
             {
-                angle = 360 - angle;
-                neg = true;
+                _ring = GameObject.FindGameObjectsWithTag("_ring")[0];
+                _rotation = _meHandle.GetRotation();
+
+                _ring.transform.position = new Vector3(_ring.transform.position.x + MapAngleToForce(_rotation), 0,
+                    _ring.transform.position.z);
+            }
+            catch (Exception)
+            {
+                Debug.Log("Plane standing by, no rings present.");
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.tag == "_ring")
+            {
+                Destroy(other.gameObject);
+                ScoreManager.Score++;
+            }
+        }
+
+        static float MapAngleToForce(float angle)
+        {
+            float force = 0;
+            bool neg = false;
+
+            if (angle is < 90 or > 270)
+            {
+                if (angle >= 270)
+                {
+                    angle = 360 - angle;
+                    neg = true;
+                }
+
+                force = 1F / 90F * angle;
+
+            }
+            else
+            {
+                if (angle is < 270 and > 180)
+                {
+                    angle = 360 - angle;
+                    neg = true;
+                }
+
+                force = 1F / 180F * angle;
             }
 
-            force = 1F / 90F * angle;
-
+            return neg ? 0.04F * force : 0.04F * -force;
         }
-        else
-        {
-            if (angle is < 270 and > 180)
-            {
-                angle = 360 - angle;
-                neg = true;
-            }
-
-            force = 1F / 180F * angle;
-        }
-
-        return neg ? 0.04F * force : 0.04F * -force;
     }
 }

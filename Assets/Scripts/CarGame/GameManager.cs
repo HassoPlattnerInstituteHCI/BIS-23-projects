@@ -1,62 +1,61 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using DualPantoFramework;
-using System;
-using System.Threading.Tasks;
-using SpeechIO;
 
-public class GameManager : MonoBehaviour
+namespace CarGame
 {
-    private CarMovement carMovement;
-    private Driver driver;
-    private Car car;
-    private bool gameEnded = false;
-    private Car carComponent;
-    private CarMovement carMovementComponent;
-
-    private void Start()
+    public class GameManager : MonoBehaviour
     {
-        carMovement = FindObjectOfType<CarMovement>();
-        driver = FindObjectOfType<Driver>();
-        car = FindObjectOfType<Car>();
-        carComponent = GetComponent<Car>();
-        carMovementComponent = GetComponent<CarMovement>();
-    }
+        private CarMovement carMovement;
+        private Driver driver;
+        private Car car;
+        private bool gameEnded = false;
+        private Car carComponent;
+        private CarMovement carMovementComponent;
 
-    public void RestartGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
+        private void Start()
+        {
+            carMovement = FindObjectOfType<CarMovement>();
+            driver = FindObjectOfType<Driver>();
+            car = FindObjectOfType<Car>();
+            carComponent = GetComponent<Car>();
+            carMovementComponent = GetComponent<CarMovement>();
+        }
 
-    public void EndGameWithCollision(GameObject collisionCar)
-    {
-        if (gameEnded)
-            return;
+        public void RestartGame()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
 
-        Debug.Log("GameManager ends game.");
-        gameEnded = true;
+        public void EndGameWithCollision(GameObject collisionCar)
+        {
+            if (gameEnded)
+                return;
 
-        // Handle game over logic here
-        // Example: Destroy the car and stop the game
-        car.DestroyCar();
-        carMovement.startedGame = false;
-    }
+            Debug.Log("GameManager ends game.");
+            gameEnded = true;
 
-    public void ResumeGameAfterCollision(GameObject collisionCar)
-    {
-        if (gameEnded)
-            return;
+            // Handle game over logic here
+            // Example: Destroy the car and stop the game
+            car.DestroyCar();
+            carMovement.startedGame = false;
+        }
 
-        Debug.Log("GameManager resumes game.");
-        // Handle resuming the game after collision here
-        // Example: Destroy the car and spawn a new one
-        collisionCar.GetComponent<Car>().DestroyCar();
-        carMovementComponent.SpawnCar();
-        Debug.Log("in Resume game after collsion we respawned a new car.");
-    }
+        public void ResumeGameAfterCollision(GameObject collisionCar)
+        {
+            if (gameEnded)
+                return;
 
-    public void ActivatePlayer()
-    {
-        driver.ActivatePlayer();
+            Debug.Log("GameManager resumes game.");
+            // Handle resuming the game after collision here
+            // Example: Destroy the car and spawn a new one
+            collisionCar.GetComponent<Car>().DestroyCar();
+            carMovementComponent.SpawnCar();
+            Debug.Log("in Resume game after collsion we respawned a new car.");
+        }
+
+        public void ActivatePlayer()
+        {
+            driver.ActivatePlayer();
+        }
     }
 }

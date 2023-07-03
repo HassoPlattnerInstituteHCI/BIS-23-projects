@@ -1,37 +1,42 @@
 using UnityEngine;
 using DualPantoFramework;
 
-public class CarItHandle : MonoBehaviour
+namespace CarGame
 {
-    PantoHandle lowerHandle;
-    bool free = true;
-    void Start()
+    public class CarItHandle : MonoBehaviour
     {
-        lowerHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
-    }
+        PantoHandle lowerHandle;
+        bool free = true;
 
-    void FixedUpdate()
-    {
-        // Vector3 newposition = new Vector3(transform.position.x, 0f, transform.position.z);
-        // transform.position = lowerHandle.HandlePosition(newposition);
-
-        // transform.position = newposition;
-        transform.position = lowerHandle.HandlePosition(transform.position);
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F))
+        void Start()
         {
-            if (free)
+            lowerHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
+        }
+
+        void FixedUpdate()
+        {
+            // Vector3 newposition = new Vector3(transform.position.x, 0f, transform.position.z);
+            // transform.position = lowerHandle.HandlePosition(newposition);
+
+            // transform.position = newposition;
+            transform.position = lowerHandle.HandlePosition(transform.position);
+        }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.F))
             {
-                lowerHandle.Freeze();
+                if (free)
+                {
+                    lowerHandle.Freeze();
+                }
+                else
+                {
+                    lowerHandle.Free();
+                }
+
+                free = !free;
             }
-            else
-            {
-                lowerHandle.Free();
-            }
-            free = !free;
         }
     }
 }
