@@ -17,12 +17,10 @@ namespace PlaneGame
         {
             _meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
             _plane = FindObjectOfType<Plane>();
-            /*await _meHandle.SwitchTo(_plane.gameObject);
+            await _meHandle.SwitchTo(_plane.gameObject);
             Debug.LogWarning("Moved.");
-            _meHandle.Freeze();
-            Debug.LogWarning("Froze.");
             _meHandle.FreeRotation();
-            Debug.LogWarning("Freed _rotation.");*/
+            Debug.LogWarning("Freed _rotation.");
         }
 
         // Update is called once per frame
