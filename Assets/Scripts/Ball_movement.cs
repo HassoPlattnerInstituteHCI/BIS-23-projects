@@ -26,9 +26,13 @@ public class Ball_movement : MonoBehaviour
 
     //helper variables:
     private bool isDragging;
-    private bool inHole;
+    private bool inHole =  false;
     private UpperHandle upperHandle;
     private MeHandle mehandle;
+
+    //Hole Helper:
+
+    
 
     float shoot_rotation;
     // Start is called before the first frame update
@@ -155,4 +159,20 @@ public class Ball_movement : MonoBehaviour
         // Release the UpperHandle from controlling the ball
         upperHandle.Free();
     }
+
+    private void CheckWinState(){
+        if(inHole) return;
+        if(rb.velocity.magnitude <= maxGoalSpeed) {
+            inHole = true;
+            
+            rb.velocity = Vector3.zero;
+            gameObject.SetActive(false);}
+            //LevelComplete
+    }
+
+
+    private void OnTriggerEnter(Collider other){
+        if(other.tag == "Goal") CheckWinState();
+    }
+
 }
