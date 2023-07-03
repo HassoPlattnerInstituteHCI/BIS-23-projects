@@ -26,4 +26,6 @@ public class GunTrigger : MonoBehaviour
             Destroy(col.gameObject);
         }
     }
+
+    
 }
