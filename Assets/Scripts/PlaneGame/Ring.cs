@@ -33,6 +33,7 @@ namespace PlaneGame
                 if (!ScoreManager.LevelHasLives && ScoreManager.Score > 0 && ScoreManager.IsReduceScore)
                 {
                     ScoreManager.Score--;
+                    ScoreManager.PointsLost++;
                 }
             }
         }

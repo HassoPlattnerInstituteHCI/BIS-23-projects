@@ -1,4 +1,7 @@
 using System;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+
 using DualPantoFramework;
 using UnityEngine;
 
@@ -6,37 +9,51 @@ namespace PlaneGame
 {
     public class Plane : MonoBehaviour
     {
-        private PantoHandle _meHandle;
+        private static PantoHandle _meHandle;
         private GameObject _ring;
         private float _rotation;
-        private Plane _plane;
+        private static Plane _plane;
         private AudioSource _audioSource;
+        private Task _moveHandle;
 
         // Start is called before the first frame update
         async void Start()
         {
             _meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
             _plane = FindObjectOfType<Plane>();
-            await _meHandle.SwitchTo(_plane.gameObject);
+            _moveHandle  = _meHandle.SwitchTo(_plane.gameObject);
+            await _moveHandle;
             Debug.LogWarning("Moved.");
             _meHandle.FreeRotation();
             Debug.LogWarning("Freed rotation.");
+            /*var delay = Task.Run(async () => { await Task.Delay(800); });
+            delay.Wait();*/ // might be necessary later
+
         }
 
         // Update is called once per frame
         void Update()
         {
-            try
+            if (_meHandle.inTransition)
             {
-                _ring = GameObject.FindGameObjectsWithTag("ring")[0];
-                _rotation = _meHandle.GetRotation();
-
-                _ring.transform.position = new Vector3(_ring.transform.position.x + MapAngleToForce(_rotation), 0,
-                    _ring.transform.position.z);
+                Debug.LogWarning("Handle not ready, standing by...");
+                var delay = Task.Run(async () => { await Task.Delay(10); });
+                delay.Wait();
             }
-            catch (Exception)
+            else
             {
-                Debug.Log("Plane standing by, no rings present.");
+                try
+                {
+                    _ring = GameObject.FindGameObjectsWithTag("ring")[0];
+                    _rotation = _meHandle.GetRotation();
+
+                    _ring.transform.position = new Vector3(_ring.transform.position.x + MapAngleToForce(_rotation), 0,
+                        _ring.transform.position.z);
+                }
+                catch (Exception)
+                {
+                    Debug.Log("Plane standing by, no rings present.");
+                }
             }
         }
 
