@@ -419,7 +419,6 @@ GameObject:
   - component: {fileID: 135491343}
   - component: {fileID: 135491348}
   - component: {fileID: 135491346}
-  - component: {fileID: 135491349}
   - component: {fileID: 135491350}
   m_Layer: 0
   m_Name: Ball
@@ -628,28 +627,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &135491349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 135491341}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2e32d3f629c7cf4081247796d6f588c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 135491348}
-  lr: {fileID: 135491346}
-  Wall_l: {fileID: 1257464710}
-  Wall_r: {fileID: 1876849427}
-  Wall_u: {fileID: 1364574994}
-  Wall_d: {fileID: 1725621535}
-  maxPower: 10
-  power: 1.5
-  maxGoalSpeed: 4
-  still_Speed: 0.1
 --- !u!114 &135491350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -721,7 +698,7 @@ GameObject:
   - component: {fileID: 568571776}
   - component: {fileID: 568571775}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: Target
   m_TagString: Goal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -813,6 +790,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 826605487606422808, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
+      propertyPath: debug
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 826605487606422809, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
       propertyPath: m_Name
       value: Panto
@@ -864,6 +845,14 @@ PrefabInstance:
     - target: {fileID: 826605487606422813, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 826605487606422814, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
+      propertyPath: inTransition
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 826605487606422815, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
+      propertyPath: inTransition
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1623740320907925851, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3058,3 +3047,53 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1 &1888722626
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1888722628}
+  - component: {fileID: 1888722627}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1888722627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888722626}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7a31ca8d10ba3469bf99e44988fb43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Ball: {fileID: 135491341}
+  Hole: {fileID: 568571773}
+  Wall_l: {fileID: 1257464710}
+  Wall_r: {fileID: 1876849427}
+  Wall_u: {fileID: 1364574994}
+  Wall_d: {fileID: 1725621535}
+--- !u!4 &1888722628
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888722626}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.41, y: 0.3499999, z: -9.930002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

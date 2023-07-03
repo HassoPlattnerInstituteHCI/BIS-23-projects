@@ -29,6 +29,7 @@ public class Ball_movement : MonoBehaviour
     private bool inHole =  false;
     private UpperHandle upperHandle;
     private MeHandle mehandle;
+    private bool is_shot = false;
 
     //Hole Helper:
 
@@ -51,6 +52,10 @@ public class Ball_movement : MonoBehaviour
     {   
         //Check for Player Input
         PlayerInput();
+
+        if((rb.velocity.magnitude < still_Speed) && is_shot){
+            upperHandle.Free();
+            is_shot = false;}
     }
 
     private bool IsReady()
@@ -155,18 +160,20 @@ public class Ball_movement : MonoBehaviour
         await upperHandle.SwitchTo(gameObject);
         rb.velocity = result_velocity;
         // Wait until the ball's velocity magnitude falls below the still_Speed threshold
-        await upperHandle.SwitchTo(gameObject);
+        upperHandle.SwitchTo(gameObject);
+        is_shot = true;
         // Release the UpperHandle from controlling the ball
-        upperHandle.Free();
+        
     }
 
-    private void CheckWinState(){
+    async private void CheckWinState(){
         if(inHole) return;
         if(rb.velocity.magnitude <= maxGoalSpeed) {
             inHole = true;
             
             rb.velocity = Vector3.zero;
-            gameObject.SetActive(false);}
+            gameObject.SetActive(false);
+            }
             //LevelComplete
     }
 
