@@ -20,7 +20,7 @@ namespace PlaneGame
             await _meHandle.SwitchTo(_plane.gameObject);
             Debug.LogWarning("Moved.");
             _meHandle.FreeRotation();
-            Debug.LogWarning("Freed _rotation.");
+            Debug.LogWarning("Freed rotation.");
         }
 
         // Update is called once per frame
@@ -54,7 +54,7 @@ namespace PlaneGame
             float force = 0;
             bool neg = false;
 
-            if (angle is < 90 or > 270)
+            if (angle is <= 90 or >= 270)
             {
                 if (angle >= 270)
                 {
@@ -67,16 +67,11 @@ namespace PlaneGame
             }
             else
             {
-                if (angle is < 270 and > 180)
-                {
-                    angle = 360 - angle;
-                    neg = true;
-                }
-
-                force = 1F / 180F * angle;
+                neg = angle is >= 180 and < 270;
+                force = 1;
             }
 
-            return neg ? 0.04F * force : 0.04F * -force;
+            return neg ? 0.035F * force : 0.035F * -force;
         }
     }
 }
