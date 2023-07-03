@@ -12,3 +12,9 @@ git submodule update --init --recursive
 
 Each group has a dedicated branch for their DualPanto application.
 
+## Voice Commands
+start game: start, begin, play, go
+quit game: quit, cancel, leave, end, close, escape
+pause game: pause, halt, wait, stop
+resume game: continue, resume, play, go, start
+next piece: next, done, finished, lock, new piece
