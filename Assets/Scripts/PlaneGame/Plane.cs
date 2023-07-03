@@ -9,7 +9,7 @@ namespace PlaneGame
         private PantoHandle _meHandle;
         private GameObject _ring;
         private float _rotation;
-        private Plane _plane; // ? what exactly did I want to do with that?
+        private Plane _plane;
         private AudioSource _audioSource;
 
         // Start is called before the first frame update
