@@ -30,7 +30,7 @@ namespace PlaneGame
         {
             try
             {
-                _ring = GameObject.FindGameObjectsWithTag("_ring")[0];
+                _ring = GameObject.FindGameObjectsWithTag("ring")[0];
                 _rotation = _meHandle.GetRotation();
 
                 _ring.transform.position = new Vector3(_ring.transform.position.x + MapAngleToForce(_rotation), 0,
@@ -44,7 +44,7 @@ namespace PlaneGame
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.tag == "_ring")
+            if (other.gameObject.CompareTag("ring"))
             {
                 Destroy(other.gameObject);
                 ScoreManager.Score++;
