@@ -10,6 +10,10 @@ public class DrawLine : MonoBehaviour
     void Start()
     {
         lineRenderer = GameObject.Find("Line").GetComponent<LineRenderer>();
+        // Register callback in Speech
+        SpeechManager speech = GameObject.Find("SpeechManager").GetComponent<SpeechManager>();
+        speech.RegisterOnStart(StartDrawing);
+        speech.RegisterOnStop(StopDrawing);
     }
 
     // Update is called once per frame
