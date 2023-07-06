@@ -40,25 +40,18 @@ public class Equalizer : MonoBehaviour {
 			bar.barYScale = barYScale;
 			bar.barXScale = barXScale;
 			bar.baseColor = barColorsGradient.Evaluate(Mathf.InverseLerp(0,num,i));
-			float hertz = analyzer.GetBandMidFreq(i);
-			if (hertz >= 10000) {
-				hertz = hertz / 1000;
-				bar.text.text = hertz.ToString("F0") + "k";
-			} else if (hertz >= 1000) {
-				hertz = hertz / 1000;
-				bar.text.text = hertz.ToString("F1") + "k";
-			} else {
-				bar.text.text = hertz.ToString("F0");
-			}
-
-			Vector3 knobPosition = new Vector3((i-num/2) * columnScale, 
-				barYScale*7.5f, -7f);
-			lr.SetPosition(i, knobPosition);
+            // knob position
+            Vector3 knobPosition = new Vector3((i-num/2) * columnScale, //x
+												0,						//y orifginal: barYScale*7.5f,	
+												barYScale * -2f);						//z original: -7f
+			//lr.SetPosition(i, knobPosition);
 
 			GameObject knob = GameObject.Instantiate(knobPrefab) as GameObject;
 			knob.transform.SetParent(this.transform);
-			knobPosition.z = -0.8f;
+			//knobPosition.z = -0.8f;
 			knob.transform.localPosition = knobPosition;
+			lr.SetPosition(i, knob.transform.position);
+
 			knob.GetComponent<EqKnob>().id = i;
 		}
 		AudioAnalyzer.spectrumBarsUpdated += UpdateVisuals;

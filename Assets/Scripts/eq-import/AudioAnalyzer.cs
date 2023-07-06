@@ -11,7 +11,7 @@ public class AudioAnalyzer : MonoBehaviour {
 	[Header("db and pitch properties")]
 	public float dbReference = 1f;
 	public float thresholdAmplitude = 0.02f;
-	public Text displayText;
+	//public Text displayText;
 	[Header("Frequency Band")]
 	public float startingFrequency;
 	public float midFrequency;
@@ -115,12 +115,6 @@ public class AudioAnalyzer : MonoBehaviour {
 	void Update () {
 		AnalyzeSound();
 		if (createVisuals) UpdateVisuals();
-		if (displayText){ 
-			string pitchStr = "Pitch: "+pitchValue.ToString("F0")+" Hz";
-			displayText.text = "RMS: "+rmsValue.ToString("F2")+
-				" ("+dbValue.ToString("F1")+" dB)\n"+ (analyzePitch==true ? 
-				pitchStr : "");
-		}
 	}
 
 	List<float> GetHertzBandsLogBased(float startingPointHertz, float endPointHertz, int numberOfBands) {

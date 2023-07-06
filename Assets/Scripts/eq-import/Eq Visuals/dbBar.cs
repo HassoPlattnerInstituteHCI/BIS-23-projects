@@ -23,7 +23,6 @@ public class dbBar : MonoBehaviour {
 		bar.barYScale = barYScale;
 		bar.barXScale = barXScale;
 		bar.baseColor = Color.green * 0.5f;
-		bar.text.text = "-24db";	
 	}
 
 	void Update()
