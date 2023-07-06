@@ -20,7 +20,8 @@ public class Gamecontroller_Golf : MonoBehaviour
     {
         itHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
         meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
-        itHandle.SwitchTo(Hole);
+        transform.position = Hole.transform.position;
+        itHandle.SwitchTo(gameObject);
     }
 
     // Update is called once per frame
