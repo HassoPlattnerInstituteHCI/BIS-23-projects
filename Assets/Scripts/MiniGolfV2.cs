@@ -1,8 +1,15 @@
+using System;
+using System.Collections;
 using DualPantoFramework;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class MiniGolfV2 : MonoBehaviour
 {
+    private readonly String _itHandleGodObject = "ItHandleGodObject";
+
     private enum GameModes
     {
         ExploreMode, // Explore Mode: Explore the Map with the lower handle 
@@ -15,13 +22,21 @@ public class MiniGolfV2 : MonoBehaviour
 
     // When shooting the GolfBall, this is the multiplier of the Distance to calculate the force
     [Range(0, 5)] public float forceMultiplier = 1f;
-
+    [Range(1, 50)] public float shootPowerMultiplier = 25f;
+    public AudioClip clipLoad;
+    public AudioClip clipSuccess;
+    public String nextScene;
+    
     // Components of Panto
     private UpperHandle _upperHandle;
     private LowerHandle _lowerHandle;
 
     // Components of GolfBall
     private Rigidbody _rigidbody;
+    private Collider _collider;
+    private AudioSource _audioSource;
+    
+    private bool _soundPlays;
 
     // Shooting Mode Variables
 
@@ -47,30 +62,70 @@ public class MiniGolfV2 : MonoBehaviour
 
         // Initialize GolfBall Components
         _rigidbody = GetComponent<Rigidbody>();
+        _audioSource = GetComponent<AudioSource>();
+        _collider = GetComponent<Collider>();
+
+        SetTriggerEnabled(true);
 
         // Move Handles
         _lowerHandle.StopApplyingForce();
-        await _upperHandle.MoveToPosition(gameObject.transform.position);
+        _upperHandle.SwitchTo(gameObject);
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnApplicationQuit()
+    {
+        _lowerHandle.Free();
+        _upperHandle.Free();
+    }
+
+    private void SetTriggerEnabled(bool isEnabled)
+    {
+        _collider.isTrigger = isEnabled;
+        _rigidbody.useGravity = !isEnabled;
+    }
+
+    IEnumerator NextScene()
+    {
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene(nextScene);
+    }
+    
+    private void OnTriggerEnter(Collider other)
     {
         // If we are in explore mode and ItHandle is on GolfBall:
         // Start waiting on GolfBall to switch game mode to ShootMode
-        if (other.gameObject.name == "ItHandleGodObject" && _currentGameMode == GameModes.ExploreMode)
+        if (other.gameObject.name == _itHandleGodObject)
         {
-            Debug.LogWarning("Start waiting on GolfBall");
             _isOnGolfBall = true;
-            _golfBallWaitTime = waitTime;
+            if (_currentGameMode == GameModes.ExploreMode)
+            {
+                Debug.LogWarning("Start waiting on GolfBall");
+                _golfBallWaitTime = waitTime;
+                _audioSource.clip = clipLoad;
+                _audioSource.Play(0);   
+            }
+        }
+
+        if (_currentGameMode == GameModes.WatchMode)
+        {
+            if (other.gameObject.CompareTag("Goal"))
+            {
+                _audioSource.clip = clipSuccess;
+                _audioSource.Play();
+                Debug.LogWarning("MEINE GÜTE GEHT DER AB");
+                _rigidbody.velocity = Vector3.zero;
+                _lowerHandle.Free();
+                StartCoroutine(NextScene());
+            }
         }
     }
 
-    private void OnCollisionStay(Collision other)
+    private void OnTriggerStay(Collider other)
     {
         // ItHandle still on GolfBall and currently waiting to switch game mode?
         // Reduce left wait time by passed time.
         // If time is over: Stop waiting on GolfBall and switch GameMode to ShootMode
-        if (_isOnGolfBall && _currentGameMode == GameModes.ExploreMode && other.gameObject.name == "ItHandleGodObject")
+        if (_isOnGolfBall && _currentGameMode == GameModes.ExploreMode && other.gameObject.name == _itHandleGodObject)
         {
             _golfBallWaitTime -= Time.deltaTime;
             if (_golfBallWaitTime <= 0)
@@ -82,13 +137,17 @@ public class MiniGolfV2 : MonoBehaviour
         }
     }
     
-    private void OnCollisionExit(Collision other)
+    private void OnTriggerExit(Collider other)
     {
         // Stop waiting to switch game mode, if ItHandle left GolfBall
-        if (_isOnGolfBall && _currentGameMode == GameModes.ExploreMode && other.gameObject.name == "ItHandleGodObject")
+        if (_isOnGolfBall && other.gameObject.name == _itHandleGodObject)
         {
-            Debug.LogWarning("Stopped waiting on Golf Ball");
             _isOnGolfBall = false;
+            if (_currentGameMode == GameModes.ExploreMode)
+            {
+                Debug.LogWarning("Stopped waiting on Golf Ball");
+                _audioSource.Stop();
+            }
         }
     }
 
@@ -106,9 +165,13 @@ public class MiniGolfV2 : MonoBehaviour
                 {
                     // This is the point at which we shoot the ball in Unity
                     Debug.LogWarning("Shooting Ball with force: " + _letGoForce);
-                    _rigidbody.AddForce(_letGoForce); // Move GolfBall in Unity
+                    Vector3 moveForce = _letGoForce * shootPowerMultiplier;
+                    moveForce.y = 0;
+                    _rigidbody.velocity = moveForce; // Move GolfBall in Unity
                     _currentGameMode = GameModes.WatchMode; // Now the player has to watch the Ball move
                     _upperHandle.SwitchTo(gameObject); // UpperHandle should now watch the ball
+                    _lowerHandle.FreeRotation();
+                    _lowerHandle.Freeze();
                     _letGo = false; // Not let go anymore for the next ShootMode
                 }
             }
@@ -121,7 +184,6 @@ public class MiniGolfV2 : MonoBehaviour
                 _letGoForce = direction * -(dLowerHandle * forceMultiplier);
 
                 // Force Feedback on the lower handle towards the ball, if we are on the Ball do not exert any force
-                // TODO IDEE: Nach dem loslassen einfach das lowerhandle weiter zum Ball bringen, egal was die impact-Force ist
                 _lowerHandle.ApplyForce(dLowerHandle > distanceThreshold ? _letGoForce : Vector3.zero);
                 
                 // Distance to last letGoPosition 
@@ -130,7 +192,9 @@ public class MiniGolfV2 : MonoBehaviour
                 {
                     Debug.LogWarning("Start waiting for let go");
                     _letGoPosition = pLowerHandle; // Update Position
-                    _golfBallWaitTime = waitTime; // Restart wait timer
+                    _golfBallWaitTime = waitTime; // Restart wait time
+                    _audioSource.Stop();
+                    _soundPlays = false;
                 }
                 else // If it has not changed much, we are still on the position
                 {
@@ -139,6 +203,14 @@ public class MiniGolfV2 : MonoBehaviour
                     {
                         Debug.LogWarning("Let go of the Handle");
                         _letGo = true;
+                        _lowerHandle.SwitchTo(gameObject);
+                        _audioSource.Stop();
+                    }
+                    else if (!_soundPlays && _golfBallWaitTime <= waitTime * 0.8)
+                    {
+                        _audioSource.clip = clipLoad;
+                        _audioSource.Play();
+                        _soundPlays = true;
                     }
                 }
             }
