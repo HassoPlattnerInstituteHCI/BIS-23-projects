@@ -4,16 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class EqualizerBar : MonoBehaviour {
-	
-	//unnötig
-	//public AudioVisualizer visualizer;
 	public GameObject barPrefab;
-	//public int visualizerBand = 4;
 	public float barYScale = 0.43f;
+	//added
+	public float barZScale = 0.43f;
+
 	public float barXScale = 1f;
 	public Color baseColor = new Color(0.203f, 0.505f, 1f, 1f);
 	Transform[] visualBars;
 	int numOfBars = 15;
+
 	// Use this for initialization
 	void Start () {
 		visualBars = new Transform[numOfBars];
@@ -22,10 +22,13 @@ public class EqualizerBar : MonoBehaviour {
 			visualBars[i] = go.transform;
 			visualBars[i].SetParent(this.transform);
 			visualBars[i].localScale = new Vector3(barXScale, (barYScale-0.03f), 1);
-			visualBars[i].localPosition = Vector3.forward * i * barYScale + Vector3.back * 0.5f + Vector3.back * 7;
+
+			visualBars[i].localPosition = Vector3.forward * i * barZScale; //+ Vector3.forward * 0.5f;
+			//v1:
+			//visualBars[i].localPosition = Vector3.forward * i * barYScale + Vector3.back * 0.5f + Vector3.back * 7;
 			//original
 			//visualBars[i].localPosition = Vector3.up * i * barYScale + Vector3.up * 0.5f;
-			
+
 
 			Color newBaseColor = baseColor * (1.25f * ((Mathf.InverseLerp(0,numOfBars, i) + 0.15f)));
 			newBaseColor.a = 1;
@@ -49,3 +52,5 @@ public class EqualizerBar : MonoBehaviour {
        
 	}
 }
+
+

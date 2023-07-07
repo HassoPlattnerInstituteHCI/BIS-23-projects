@@ -302,6 +302,8 @@ MonoBehaviour:
   barPrefab: {fileID: 1131612756694802, guid: 7eb549f76181146e4907ead2121d7112, type: 3}
   knobPrefab: {fileID: 1555893907916624, guid: 93a8bae2e4fa34cc8b47e860a3c21616, type: 3}
   barYScale: 0.5
+  barZScale: 0.43
+  eqoffsetinZ: 7.5
   maxXCoordinate: 19
   barColorsGradient:
     serializedVersion: 2
@@ -334,7 +336,6 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   bars: []
   filter: {fileID: 1161387751}
-  knobClicked: 0
 --- !u!114 &275440553
 MonoBehaviour:
   m_ObjectHideFlags: 0

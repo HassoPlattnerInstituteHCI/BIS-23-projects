@@ -9,6 +9,12 @@ public class Equalizer : MonoBehaviour {
 	public GameObject barPrefab;
 	public GameObject knobPrefab;
 	public float barYScale = 0.43f;
+
+	//added
+	public float barZScale = 0.43f;
+	public float eqoffsetinZ = 0;
+
+
 	private float barXScale = 1f;
 	private float columnScale = 1.1f;
 	public float maxXCoordinate = 17;
@@ -26,33 +32,44 @@ public class Equalizer : MonoBehaviour {
 		LineRenderer lr = GetComponent<LineRenderer>();
 		lr.positionCount = num;
 		lr.colorGradient = barColorsGradient;
-		//lr.material = new Material (Shader.Find("Particles/Additive"));
 
 		for (int i = 0; i < num; i++) {
 			GameObject go = GameObject.Instantiate(equalizerBarPrefab) as GameObject;
 			go.transform.SetParent(this.transform);
-			go.transform.localPosition = Vector3.right * (i-num/2) * columnScale;	
+			//added
+			//go.transform.localPosition = Vector3.right * (i-num/2) * columnScale;
+			go.transform.localPosition = Vector3.right * (i - num / 2) * columnScale + Vector3.back*eqoffsetinZ;
+
 			EqualizerBar bar = go.GetComponent<EqualizerBar>();
 			bars[i] = bar;
- 			//bar.visualizer = visualizer;
 			bar.barPrefab = barPrefab;
-			//bar.visualizerBand = i;
+			//changed
 			bar.barYScale = barYScale;
+			bar.barZScale = barZScale;
+
 			bar.barXScale = barXScale;
 			bar.baseColor = barColorsGradient.Evaluate(Mathf.InverseLerp(0,num,i));
-            // knob position
-            Vector3 knobPosition = new Vector3((i-num/2) * columnScale, //x
-												0,						//y orifginal: barYScale*7.5f,	
-												barYScale * -2f);						//z original: -7f
-			//lr.SetPosition(i, knobPosition);
+			//// knob position
+			//Vector3 knobPosition = new Vector3((i-num/2) * columnScale, //x
+			//									0,						//y orifginal: barYScale*7.5f,	
+			//									barYScale * -2f);						//z original: -7f
+			////lr.SetPosition(i, knobPosition);
+			//GameObject knob = GameObject.Instantiate(knobPrefab) as GameObject;
+			//knob.transform.SetParent(this.transform);
+			////knobPosition.z = -0.8f;
+			//knob.transform.localPosition = knobPosition;
+			//lr.SetPosition(i, knob.transform.position);
+			//knob.GetComponent<EqKnob>().id = i;
+
+			//new
+			Vector3 knobPosition = new Vector3(go.transform.localPosition.x, go.transform.localPosition.y, go.transform.localPosition.z);
+
+			lr.SetPosition(i, knobPosition);
 
 			GameObject knob = GameObject.Instantiate(knobPrefab) as GameObject;
-			knob.transform.SetParent(this.transform);
-			//knobPosition.z = -0.8f;
 			knob.transform.localPosition = knobPosition;
-			lr.SetPosition(i, knob.transform.position);
-
 			knob.GetComponent<EqKnob>().id = i;
+
 		}
 		AudioAnalyzer.spectrumBarsUpdated += UpdateVisuals;
 	}
@@ -111,3 +128,4 @@ public class Equalizer : MonoBehaviour {
 		}
 	}
 }
+
