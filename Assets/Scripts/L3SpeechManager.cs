@@ -5,7 +5,7 @@ using System;
 using UnityEngine;
 using SpeechIO;
 
-public class SpeechManager : MonoBehaviour
+public class L3SpeechManager : MonoBehaviour
 {
     // Start is called before the first frame update
         SpeechOut speechOut = new SpeechOut();
@@ -21,16 +21,16 @@ public class SpeechManager : MonoBehaviour
         private bool isWaiting = false;
 
     void Start()
-        {
+    {
         commands = startDraw.Concat(stopDraw.Concat(erase.Concat(move.Concat(select)))).ToArray();
         speechIn = new SpeechIn(onRecognized, commands);
         Initial();
     }
 
     async void Initial()
-        {
-            await speechOut.Speak("Finish the octagon!");
-        }
+    {
+        await speechOut.Speak("Draw a line and undo it!");
+    }
 
     // Update is called once per frame
     void Update()

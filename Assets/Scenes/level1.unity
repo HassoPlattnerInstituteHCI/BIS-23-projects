@@ -681,6 +681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a02f590694c4ce699a685e92f36d9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDrawing: 0
 --- !u!1 &795722852 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7338401491540753124, guid: a0ed18a3e374f4c4aa3fb414b895fe42, type: 3}
@@ -1305,29 +1306,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2147363556}
-  - component: {fileID: 2147363555}
+  - component: {fileID: 2147363557}
   m_Layer: 0
-  m_Name: SpeechManager
+  m_Name: L1SpeechManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2147363555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2147363554}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 064c1459333704e44837fa26ecc7e214, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  commands:
-  - line
-  - stop
 --- !u!4 &2147363556
 Transform:
   m_ObjectHideFlags: 0
@@ -1343,3 +1329,46 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2147363557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2147363554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbfd45309cd35b45af47fbb47c7bdd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startDraw:
+  - start
+  - start drawing
+  - draw
+  - draw line
+  - line
+  - point
+  - new line
+  stopDraw:
+  - stop
+  - end line
+  - end point
+  - end
+  - finish
+  erase:
+  - erase
+  - undo
+  - remove
+  - delete
+  - delete line
+  - erase line
+  - remove line
+  move:
+  - move
+  - shift
+  - transition
+  - edit
+  select:
+  - select
+  - this
+  commands: []
