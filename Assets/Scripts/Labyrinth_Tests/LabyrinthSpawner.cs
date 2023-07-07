@@ -27,29 +27,29 @@ public class LabyrinthSpawner : MonoBehaviour
             for(int j = 0; j<hight; j++){
                 if(!ar[j, i].Item1){
                     if(!ar[j, i].Item2){
-                        Instantiate(bottomright, new Vector3(i, 1, j), Quaternion.identity);
+                        Instantiate(bottomright, new Vector3(i, 0.45f, j), Quaternion.identity);
                         continue;       
                     }   
-                    Instantiate(right, new Vector3(i, 1, j), Quaternion.identity);
+                    Instantiate(right, new Vector3(i, 0.45f, j), Quaternion.identity);
                     continue;
                 }
 
                 if(!ar[j, i].Item2){
-                    Instantiate(bottom, new Vector3(i, 1, j), Quaternion.identity);
+                    Instantiate(bottom, new Vector3(i, 0.45f, j), Quaternion.identity);
                     continue;
                 }
 
-                Instantiate(nothing, new Vector3(i, 1, j), Quaternion.identity);
+                Instantiate(nothing, new Vector3(i, 0.45f, j), Quaternion.identity);
             }    
         }
 
         for(int i = -1; i<=hight; i++){
-            Instantiate(Wall, new Vector3(i, 1, -1), Quaternion.identity);
-            Instantiate(Wall, new Vector3(i, 1, width), Quaternion.identity);
+            Instantiate(Wall, new Vector3(i, 0.45f, -1), Quaternion.identity);
+            Instantiate(Wall, new Vector3(i, 0.45f, width), Quaternion.identity);
         }
         for(int j = 0; j<width; j++){
-            Instantiate(Wall, new Vector3(-1, 1, j), Quaternion.identity);
-            Instantiate(Wall, new Vector3(hight, 1, j), Quaternion.identity);
+            Instantiate(Wall, new Vector3(-1, 0.45f, j), Quaternion.identity);
+            Instantiate(Wall, new Vector3(hight, 0.45f, j), Quaternion.identity);
         }
     }
 

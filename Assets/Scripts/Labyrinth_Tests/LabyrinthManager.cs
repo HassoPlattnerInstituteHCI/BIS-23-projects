@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 public class LabyrinthManager : MonoBehaviour
 {
-    public GameObject item;
     public GameObject player;
     public bool gameStarted = false;
     public bool playIntro = false;
@@ -58,7 +57,7 @@ public class LabyrinthManager : MonoBehaviour
     {
         Vector3 selectorPosition = player.transform.position;
 
-        GameObject closestObject = GetClosestGameObject("Object", selectorPosition);
+        GameObject closestObject = GetClosestGameObject("Item", selectorPosition);
         if (closestObject != null)
             await GameObject.Find("Panto").GetComponent<LowerHandle>().SwitchTo(closestObject);
     }
