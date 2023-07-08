@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MazeIntro : MonoBehaviour
+public class shooting : MonoBehaviour
 {
+    public float speed = 8f;
+    
     // Start is called before the first frame update
     void Start()
     {
