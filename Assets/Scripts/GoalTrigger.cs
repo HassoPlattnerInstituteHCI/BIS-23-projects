@@ -1,6 +1,7 @@
 using System;
 using DualPantoFramework;
 using SpeechIO;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GoalTrigger : MonoBehaviour
@@ -23,7 +24,7 @@ public class GoalTrigger : MonoBehaviour
         // If Me Handle is on Object and we're in Explore Mode: Say Goal to Identify Goal 
         if (other.gameObject.name == _meHandleGodObject && MiniGolfV2.currentGameMode == MiniGolfV2.GameModes.ExploreMode)
         { 
-            MiniGolfV2.speechOut.Speak("Goal");
+            SoundsMinigolf.speechOut.Speak("Goal");
         }
     }
 
@@ -34,6 +35,15 @@ public class GoalTrigger : MonoBehaviour
         {
             _lowerHandle.Rotate(_lowerHandle.GetRotation() + vibrationIntensity * _vibrationMultiplicationFactor);
             _vibrationMultiplicationFactor *= -1;
+        }
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        // If Me Handle leave Object and we're in Explore Mode: Stop vibrating the It Handle
+        if (other.gameObject.name == _meHandleGodObject && MiniGolfV2.currentGameMode == MiniGolfV2.GameModes.ExploreMode)
+        {
+            _lowerHandle.FreeRotation();
         }
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using DualPantoFramework;
-using SpeechIO;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,12 +19,12 @@ public class MiniGolfV2 : MonoBehaviour
 
     [Range(0, 2)] public float distanceThreshold = 0.5f; // Threshold for waiting position: Eliminate jitter
     [Range(0, 5)] public float waitTime = 1f; // Wait this time on GolfBall to change mode or to let go
-
+    [Range(0, 1)] public float heartbeatWaitTime = 0.5f; // Regular Update Time for slow changes, normally 0.5 seconds (it effects also other values, example loseSpeed)
+     
     // When shooting the GolfBall, this is the multiplier of the Distance to calculate the force
     [Range(0, 5)] public float forceMultiplier = 1f;
     [Range(1, 50)] public float shootPowerMultiplier = 25f;
-    public AudioClip clipLoad;
-    public AudioClip clipSuccess;
+    [Range(0, 1)] public float loseSpeedMultiplier = 0.99f; // Golfball loses speed after it has been played, can also be effected by hearbeatWaitTime
     public String nextScene;
     
     // Components of Panto
@@ -35,11 +34,9 @@ public class MiniGolfV2 : MonoBehaviour
     // Components of GolfBall
     private Rigidbody _rigidbody;
     private Collider _collider;
-    private AudioSource _audioSource;
-    
-    // Other Components
-    public static SpeechOut speechOut;
-    
+
+    // Sounds
+    private SoundsMinigolf _sounds; // Class with all Sound Parts
     private bool _soundPlays;
 
     // Shooting Mode Variables
@@ -47,78 +44,104 @@ public class MiniGolfV2 : MonoBehaviour
     // Here we store the left-over time of
     // how long we need to stay on the GolfBall
     // to be registered to switch to shooting mode
-    private float _golfBallWaitTime;
+    private float _golfBallWaitTimer;
+    private float _heartbeatTimer = 0f; // left-over time of heartbeat
+    
     private bool _isOnGolfBall; // The lower Handle is currently on the GolfBall
     private bool _letGo; // We are in shooting mode and have let go of the handle
 
     private Vector3 _letGoForce; // the force to be applied to handle and GolfBall upon release of the lower handle
-
     private Vector3 _letGoPosition = Vector3.zero; // The position of where the GolfBall is let got
-    
+    private Vector3 _lastVelocity; // used to bounce off walls
+
     public static GameModes currentGameMode = GameModes.ExploreMode;
 
     // Start is called before the first frame update
     private void Start()
     {
-        speechOut = new SpeechOut();
-        
         // Initialize Panto Variables
         _upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
         _lowerHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
 
         // Initialize GolfBall Components
         _rigidbody = GetComponent<Rigidbody>();
-        _audioSource = GetComponent<AudioSource>();
         _collider = GetComponent<Collider>();
 
-        SetTriggerEnabled(true);
+        SetTriggerEnabled(true); // probably useless
 
         // Move Handles
         _lowerHandle.StopApplyingForce();
         _upperHandle.SwitchTo(gameObject);
+
+        // Sounds
+        _sounds = GetComponent<SoundsMinigolf>();
     }
 
+    // release all Forces of the handles
     private void OnApplicationQuit()
     {
         _lowerHandle.Free();
+        _lowerHandle.FreeRotation();
         _upperHandle.Free();
+        _upperHandle.FreeRotation();
     }
 
-    private void SetTriggerEnabled(bool isEnabled)
+    // probably useless
+    private void SetTriggerEnabled(bool isEnabled) 
     {
         _collider.isTrigger = isEnabled;
         _rigidbody.useGravity = !isEnabled;
     }
 
+    // load next Scene (nextScene has the name of the next Scene)
     IEnumerator NextScene()
     {
         yield return new WaitForSeconds(3);
+        currentGameMode = GameModes.ExploreMode;
         SceneManager.LoadScene(nextScene);
     }
     
+    // when the Golfball triggers another object
     private void OnTriggerEnter(Collider other)
     {
         // If we are in explore mode and ItHandle is on GolfBall:
         // Start waiting on GolfBall to switch game mode to ShootMode
-        if (other.gameObject.name == _itHandleGodObject)
+        if (currentGameMode == GameModes.ExploreMode)
         {
-            _isOnGolfBall = true;
-            if (currentGameMode == GameModes.ExploreMode)
+            if (other.gameObject.name == _itHandleGodObject)
             {
-                Debug.LogWarning("Start waiting on GolfBall");
-                _golfBallWaitTime = waitTime;
-                _audioSource.clip = clipLoad;
-                _audioSource.Play(0);   
+                _isOnGolfBall = true;
+                Debug.LogWarning("Start waiting on GolfBall - to switch to ShootMode");
+                _golfBallWaitTimer = waitTime;
+                _sounds.SePlayLoad();
+            }
+        }
+
+        if (currentGameMode == GameModes.ShootMode)
+        {
+            if (other.gameObject.name == _itHandleGodObject)
+            {
+                _isOnGolfBall = true;
             }
         }
 
         if (currentGameMode == GameModes.WatchMode)
         {
-            if (other.gameObject.CompareTag("Goal"))
+            if (other.gameObject.CompareTag("Wall")) // when golfball collides with a wall
             {
-                _audioSource.clip = clipSuccess;
-                _audioSource.Play();
-                Debug.LogWarning("MEINE GÜTE GEHT DER AB");
+                var wallVector = Vector3.forward; // calculate the normal vector of a wall (only two options horizontal or vertical)
+                if (other.transform.rotation.eulerAngles.y is > 45 and < 135 or > 225 and < 315)
+                {
+                    wallVector = Vector3.left;
+                }
+                Debug.LogWarning("Collision on Wall - ball gets reflected" + wallVector);
+                _rigidbody.velocity = Vector3.Reflect(_lastVelocity, wallVector);
+            }
+
+            if (other.gameObject.CompareTag("Goal")) // when golfball collides with the goal
+            {
+                _sounds.SeHitGoal();
+                Debug.LogWarning("Collision on Goal - Load next Scene");
                 _rigidbody.velocity = Vector3.zero;
                 _lowerHandle.Free();
                 StartCoroutine(NextScene());
@@ -133,11 +156,12 @@ public class MiniGolfV2 : MonoBehaviour
         // If time is over: Stop waiting on GolfBall and switch GameMode to ShootMode
         if (_isOnGolfBall && currentGameMode == GameModes.ExploreMode && other.gameObject.name == _itHandleGodObject)
         {
-            _golfBallWaitTime -= Time.deltaTime;
-            if (_golfBallWaitTime <= 0)
+            _golfBallWaitTimer -= Time.deltaTime;
+            if (_golfBallWaitTimer <= 0) // When time is over - switch to ShootMode
             {
                 Debug.LogWarning("Switched to shoot mode");
                 currentGameMode = GameModes.ShootMode;
+                _sounds.SpeShootMode();
                 _isOnGolfBall = false;
             }
         }
@@ -152,13 +176,26 @@ public class MiniGolfV2 : MonoBehaviour
             if (currentGameMode == GameModes.ExploreMode)
             {
                 Debug.LogWarning("Stopped waiting on Golf Ball");
-                _audioSource.Stop();
+                _sounds.SeStop();
             }
         }
     }
 
     private void FixedUpdate()
     {
+        // Update Heartbeat Timer for small changes
+        _heartbeatTimer -= Time.deltaTime;
+        if (_heartbeatTimer <= 0)
+        {
+            _upperHandle.SwitchTo(gameObject); // send the upper Handle to the ball
+            if (currentGameMode == GameModes.WatchMode)
+            {
+                _rigidbody.velocity *= loseSpeedMultiplier; // reduce velocity to slow down the ball
+            }
+            _heartbeatTimer = heartbeatWaitTime; // reset HeartBeat Timer
+        }
+        _lastVelocity = _rigidbody.velocity; // update lastVelocity
+        
         Vector3 pLowerHandle = _lowerHandle.GetPosition(); // Position of LowerHandle
         Vector3 pGolfBall = gameObject.transform.position; // Position of GolfBall
         float dLowerHandle = Vector3.Distance(pGolfBall, pLowerHandle); // Distance GolfBall <--> LowerHandle
@@ -177,7 +214,7 @@ public class MiniGolfV2 : MonoBehaviour
                     currentGameMode = GameModes.WatchMode; // Now the player has to watch the Ball move
                     _upperHandle.SwitchTo(gameObject); // UpperHandle should now watch the ball
                     _lowerHandle.FreeRotation();
-                    _lowerHandle.Freeze();
+                    _lowerHandle.Free();
                     _letGo = false; // Not let go anymore for the next ShootMode
                 }
             }
@@ -198,24 +235,24 @@ public class MiniGolfV2 : MonoBehaviour
                 {
                     Debug.LogWarning("Start waiting for let go");
                     _letGoPosition = pLowerHandle; // Update Position
-                    _golfBallWaitTime = waitTime; // Restart wait time
-                    _audioSource.Stop();
+                    _golfBallWaitTimer = waitTime; // Restart wait time
+                    _sounds.SeStop();
                     _soundPlays = false;
                 }
                 else // If it has not changed much, we are still on the position
                 {
-                    _golfBallWaitTime -= Time.deltaTime; // Removed passed time from left time on timer
-                    if (_golfBallWaitTime <= 0) // Waited Enough: We have let go now!
+                    _golfBallWaitTimer -= Time.deltaTime; // Removed passed time from left time on timer
+                    if (_golfBallWaitTimer <= 0) // Waited Enough: We have let go now!
                     {
                         Debug.LogWarning("Let go of the Handle");
                         _letGo = true;
                         _lowerHandle.SwitchTo(gameObject);
-                        _audioSource.Stop();
+                        _sounds.SeStop();
+                        _sounds.SpeWatchMode();
                     }
-                    else if (!_soundPlays && _golfBallWaitTime <= waitTime * 0.8)
+                    else if (!_soundPlays && _golfBallWaitTimer <= waitTime * 0.8)
                     {
-                        _audioSource.clip = clipLoad;
-                        _audioSource.Play();
+                        _sounds.SePlayLoad();
                         _soundPlays = true;
                     }
                 }
