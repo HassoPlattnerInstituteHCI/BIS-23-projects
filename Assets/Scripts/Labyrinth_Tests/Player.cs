@@ -7,25 +7,50 @@ using System.Threading.Tasks;
 
 public class Player : MonoBehaviour
 {
-    // private Rigidbody playerRb;
     public float speed = 5f;
-    // public GameObject focalPoint;
     public bool hasItem;
     private SpeechIn speech;
     private SpeechOut speechOut;
-    // private bool movementFrozen;
     private UpperHandle upperHandle;
 
-    // Start is called before the first frame update
     async void Start()
     {
-        // playerRb = GetComponent<Rigidbody>();
         await ActivatePlayer();
         //speech = new SpeechIn(onSpeechRecognized);
         // speech.StartListening(new string[] { "help", "resume" });
         speechOut = new SpeechOut();
     }
 
+    public async Task ActivatePlayer()
+    {
+        gameObject.GetComponent<MeHandle>().enabled = false;
+        upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
+        await upperHandle.MoveToPosition(gameObject.transform.position, speed, true);
+        gameObject.GetComponent<MeHandle>().enabled = true;
+    }
+
+    private async void OnCollisionEnter(Collision other) {
+        if (other.gameObject.CompareTag("Item"))
+        {
+            if(other.gameObject.GetComponent<Item>().currentItem){
+                StartCoroutine(CollisionCorrutine(other.gameObject));
+            }
+        }
+    }
+
+    private IEnumerator CollisionCorrutine(GameObject item){
+        GameObject lm = GameObject.Find("GameManager");
+        lm.GetComponent<LabyrinthManager>().playItemSound(item);
+        Destroy(item);
+        yield return new WaitForSeconds(5f);
+        lm.GetComponent<LabyrinthManager>().getNextItem();
+    }
+
+    void OnApplicationQuit()
+    {
+        speechOut.Stop();
+        // speech.StopListening();
+    }
 
     //async void onSpeechRecognized(string command)
     //{
@@ -55,28 +80,4 @@ public class Player : MonoBehaviour
     //    }
     //    movementFrozen = !movementFrozen;
     //}
-
-
-    public async Task ActivatePlayer()
-    {
-        gameObject.GetComponent<MeHandle>().enabled = false;
-        upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
-        await upperHandle.MoveToPosition(gameObject.transform.position, speed, true);
-        gameObject.GetComponent<MeHandle>().enabled = true;
-    }
-
-    private void OnCollisionEnter(Collision other) {
-        if (other.gameObject.CompareTag("Item"))
-        {
-            hasItem = true;
-            Destroy(other.gameObject);
-            speechOut.Speak("You got the item");
-        }
-    }
-
-    void OnApplicationQuit()
-    {
-        speechOut.Stop();
-        speech.StopListening();
-    }
 }
