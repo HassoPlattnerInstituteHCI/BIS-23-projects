@@ -3,6 +3,7 @@ using DualPantoFramework;
 using SpeechIO;
 using System.Threading.Tasks;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class LabyrinthManager : MonoBehaviour
 {
@@ -11,18 +12,22 @@ public class LabyrinthManager : MonoBehaviour
     public bool playIntro = false;
     private SpeechOut speechOut;
     // private SpeechIn speech;
-    public int numItems;
+    private int numItems;
     private int itemCounter = 0;
 
     private AudioSource audioSource;
     public AudioClip[] audioClips;
 
-    async void Start()
-    {
-        StartGame();
+    private void Start() {
+        if(!gameObject.GetComponent<LabyrinthSpawner>().enabled){
+            numItems = 1;
+            StartGame();
+        }else{
+            numItems = gameObject.GetComponent<LabyrinthSpawner>().numitems;
+        }
     }
 
-    async void StartGame() {
+    public async void StartGame() {
         speechOut = new SpeechOut();
         audioSource = GetComponent<AudioSource>();
         if (playIntro) 
@@ -42,7 +47,7 @@ public class LabyrinthManager : MonoBehaviour
 
     async public void getNextItem(){
         if(itemCounter >= numItems){
-            // Next Level
+            SceneManager.LoadScene("LabyrinthCore");
         }else{
             itemCounter++;
             GameObject[] gos = GameObject.FindGameObjectsWithTag("Item");
