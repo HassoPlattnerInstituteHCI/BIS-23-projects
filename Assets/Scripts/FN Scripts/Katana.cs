@@ -13,9 +13,7 @@ public class Katana : MonoBehaviour
    void Start()
     {
         playerRb = GetComponent<Rigidbody>();
-        test.GetComponent<SpawnManager>().startGame();
 
-        Debug.LogError("Start fertig");
 
     }
 

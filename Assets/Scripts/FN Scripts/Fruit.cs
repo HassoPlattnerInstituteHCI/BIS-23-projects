@@ -10,6 +10,8 @@ public class Fruit : MonoBehaviour
     public int force;
     PantoHandle handle;
     GameObject spawnManager;
+    private int hitPerFruitCount = 0;
+
 
     // Start is called before the first frame update
     void Start()
@@ -27,18 +29,24 @@ public class Fruit : MonoBehaviour
             FindObjectOfType<SpawnManager>().Fail();
         }
 
-        moveToFruit();
+        if (this.gameObject == FindObjectOfType<SpawnManager>().fruits[0]) 
+            moveToFruit();
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name=="Katana")
-        { 
+        if (other.gameObject.name=="Katana" && (this.gameObject == FindObjectOfType<SpawnManager>().fruits[0]))
+        {
+            FindObjectOfType<SpawnManager>().slicedFruitsCount++;
             Debug.LogWarning(other.tag);
             Debug.LogWarning("Hit by Katana");
+            //Hört man das?
             AudioSource.PlayClipAtPoint(destructionSound, transform.position);
+            FindObjectOfType<SpawnManager>().fruits.Remove(this.gameObject);
             Destroy(gameObject);
-            FindObjectOfType<SpawnManager>().Win();
+
+            if (FindObjectOfType<SpawnManager>().slicedFruitsCount >= FindObjectOfType<SpawnManager>().fruitsToWin)
+                FindObjectOfType<SpawnManager>().Win();
         }
         else if (other.gameObject.tag == "Wall")
         {
@@ -48,8 +56,10 @@ public class Fruit : MonoBehaviour
     }
     async void moveToFruit()
     {
+        //GameObject schon destroyed?
         Vector3 addUP = new Vector3(0,0,- 2);
         Vector3 prediction = gameObject.transform.position + addUP;
+        //delay umgehen?
         await handle.MoveToPosition(prediction, 10f, true);
     }
 
