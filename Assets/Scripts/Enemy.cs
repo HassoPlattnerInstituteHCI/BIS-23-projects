@@ -1,11 +1,13 @@
 using UnityEngine;
 using System.Threading.Tasks;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
     public float speed = 6f;
+    public GameObject player;
     private Rigidbody enemyRb;
-    private GameObject player;
+    
     private bool enemyActive = false;
     
     public string displayName;
@@ -15,7 +17,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         enemyRb = GetComponent<Rigidbody>();
-        player = GameObject.Find("PlayerUpper");
+        
     }
 
     void Update()
@@ -40,5 +42,9 @@ public class Enemy : MonoBehaviour
             //transform.position += lookDirection.normalized * speed * Time.fixedDeltaTime;
            enemyRb.AddForce(lookDirection.normalized * speed * Time.fixedDeltaTime, ForceMode.Impulse);
      
+    }
+
+    void MoveToPlayer() {
+        
     }
 }
