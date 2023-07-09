@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class shooting : MonoBehaviour
 {
-    public float speed = 8f;
+    public GameObject bullet;
+    public float bullet_speed = 8f;
     
     // Start is called before the first frame update
     void Start()
@@ -16,5 +17,12 @@ public class shooting : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void FixedUpdate() {
+        if(this.tag == "armed") {
+            var pos = this.transform.position;
+            Instantiate(bullet, pos, Quaternion.identity);        
+            }
     }
 }
