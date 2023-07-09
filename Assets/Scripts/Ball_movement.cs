@@ -24,6 +24,9 @@ public class Ball_movement : MonoBehaviour
     [SerializeField] private float still_Speed = 0.1f;
     [SerializeField] private float min_Speed = 1f;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioSource rail;
+    [SerializeField] public AudioSource win;
     //helper variables:
     private bool isDragging;
     private bool inHole =  false;
@@ -45,6 +48,7 @@ public class Ball_movement : MonoBehaviour
         rb.freezeRotation = true;
         //start Me Handle at Ball position
         upperHandle.SwitchTo(gameObject);
+         
     }
 
     // Update is called once per frame
@@ -56,6 +60,8 @@ public class Ball_movement : MonoBehaviour
         if((rb.velocity.magnitude < still_Speed) && is_shot){
             upperHandle.Free();
             is_shot = false;}
+
+      
     }
 
     private bool IsReady()
@@ -112,8 +118,13 @@ public class Ball_movement : MonoBehaviour
             DragStart();
         else if (!IsTurned(shoot_rotation) &&  isDragging)
             DragChange(handle_xz);
-        else if (isDragging)
+        else if (isDragging){
+            rail.Play(); 
+            
+            
             DragRelease(handle_xz);
+            }
+        
         
     }
 
@@ -146,6 +157,7 @@ public class Ball_movement : MonoBehaviour
         float distance = Vector2.Distance(ball_xz, handle_xz);
         isDragging = false;
         lr.positionCount = 0;
+        
 
         if (distance < min_Speed)
             return;
@@ -166,20 +178,28 @@ public class Ball_movement : MonoBehaviour
         
     }
 
-    async private void CheckWinState(){
-        if(inHole) return;
+    private void CheckWinState(){
+        if(inHole) {
+
+            
+                    win.Play();}
         if(rb.velocity.magnitude <= maxGoalSpeed) {
+            win.Play();
             inHole = true;
             
             rb.velocity = Vector3.zero;
             gameObject.SetActive(false);
+            win.Play();
+          
             }
             //LevelComplete
     }
+    
 
 
     private void OnTriggerEnter(Collider other){
-        if(other.tag == "Goal") CheckWinState();
+        if(other.tag == "Goal") {
+        CheckWinState();}
     }
 
 }

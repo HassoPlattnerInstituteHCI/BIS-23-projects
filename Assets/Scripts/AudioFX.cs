@@ -4,11 +4,13 @@ using System.Threading.Tasks;
 
 public class AudioFX : MonoBehaviour
 {
-    public AudioClip rail;
-    public AudioClip gameOverClip;
-    public AudioClip collisionClip;
-    public float maxPitch = 1.2f;
-    public float minPitch = 0.8f;
+//    public AudioClip rail;
+//     public AudioClip gameOverClip;
+//     public AudioClip collisionClip;
+//     public float maxPitch = 1.2f;
+//     public float minPitch = 0.8f;
+    [Header("Sounds")]
+    [SerializeField] private AudioSource rail;
     private GameObject previousEnemy;
     private AudioSource audioSource;
     public SpeechOut Voice;
@@ -21,20 +23,20 @@ public class AudioFX : MonoBehaviour
         await Task.Delay(1000);
         //railPlay();
 
-        Voice.Speak("Welcome to Level 1, use the me handle to pull back and turn to shoot VAMOSsss!",1.0f, SpeechBase.LANGUAGE.ENGLISH);
+      //  Voice.Speak("Welcome to Level 1, use the me handle to pull back and turn to shoot VAMOSsss!",1.0f, SpeechBase.LANGUAGE.ENGLISH);
 
         
     }
-    public float PlayerFellDown()
-    {
-        audioSource.Stop();
-        audioSource.PlayOneShot(gameOverClip);
-        return gameOverClip.length;
-    }
+    // public float PlayerFellDown()
+    // {
+    //     audioSource.Stop();
+    //     audioSource.PlayOneShot(gameOverClip);
+    //     return gameOverClip.length;
+    // }
     public void railPlay()
-    {
-      audioSource.PlayOneShot(rail);
-    }
+     {
+       rail.Play();
+     }
 
     public void Level1(){
 
