@@ -38,9 +38,7 @@ public class Fruit : MonoBehaviour
         if (other.gameObject.name=="Katana" && (this.gameObject == FindObjectOfType<SpawnManager>().fruits[0]))
         {
             FindObjectOfType<SpawnManager>().slicedFruitsCount++;
-            Debug.LogWarning(other.tag);
             Debug.LogWarning("Hit by Katana");
-            //Hört man das?
             AudioSource.PlayClipAtPoint(destructionSound, transform.position);
             FindObjectOfType<SpawnManager>().fruits.Remove(this.gameObject);
             Destroy(gameObject);

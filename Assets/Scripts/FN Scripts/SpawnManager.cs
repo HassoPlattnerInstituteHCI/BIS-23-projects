@@ -18,15 +18,19 @@ public class SpawnManager : MonoBehaviour
     private Vector3 curveDir = new Vector3(0, 0, 1);
     private float timePassed = 0;
     bool spawning = false;
+
+    public float introTime;
+    private bool inIntro = true;
     static int level = 0;
 
     public List<GameObject> fruits = new List<GameObject>();
     public int slicedFruitsCount = 0;
     private int spawnCounter = 0;
+    Task read;
     void Start()
     {
 
-        startGame();
+        Invoke("startGame", introTime);
 
     }
 
@@ -47,13 +51,13 @@ public class SpawnManager : MonoBehaviour
     public void Fail()
     {
         spawning = false;
-        Task read = speechOut.Speak("Oh you missed the fruit, lets try that again");
+        read = speechOut.Speak("Oh you missed the fruit, lets try that again");
         Invoke("startGame", 3);
     }
 
     public void Win()
     {
-        Task read = speechOut.Speak("You did it! Hooray");
+        read = speechOut.Speak("You did it! Hooray");
         spawning = false;
         level++;
         print("level: " + level);
@@ -97,13 +101,14 @@ public class SpawnManager : MonoBehaviour
         {
             case "Erdbeere":
                 fruit = Instantiate(fruitPrefab, new Vector3(xPosition, 0, -8), fruitPrefab.transform.rotation);
-                fruit.GetComponent<Rigidbody>().AddForce(curveDir * force, ForceMode.Impulse);
                 break;
             case "Kokosnuss":
                 fruit = Instantiate(fruitPrefab, new Vector3(xPosition, 0, -8), fruitPrefab.transform.rotation);
-                fruit.GetComponent<Rigidbody>().AddForce(curveDir * force, ForceMode.Impulse);
                 break;
         }
+        
+        fruit.GetComponent<Rigidbody>().AddForce(curveDir * force, ForceMode.Impulse);
+
         fruits.Add(fruit);
         spawnCounter++;
     }
