@@ -97,7 +97,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3108012386747129719
 MonoBehaviour:
@@ -111,7 +111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c1193a5b9ca14aa2b3928504d60f5c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destructionSound: {fileID: 0}
+  destructionSound: {fileID: 8300000, guid: b12bf3a474478784b81e79d002db9d15, type: 3}
+  force: 10
 --- !u!54 &7530533559459010306
 Rigidbody:
   m_ObjectHideFlags: 0

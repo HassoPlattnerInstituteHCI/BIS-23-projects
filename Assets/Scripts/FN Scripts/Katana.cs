@@ -6,13 +6,15 @@ using DualPantoFramework;
 public class Katana : MonoBehaviour
 {
     public GameObject player;
+    public GameObject test;
     private Rigidbody playerRb;
     private UpperHandle upperHandle;
     // Start is called before the first frame update
    void Start()
     {
         playerRb = GetComponent<Rigidbody>();
-        
+        test.GetComponent<SpawnManager>().startGame();
+
         Debug.LogError("Start fertig");
 
     }
