@@ -15,7 +15,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         speechOut = new SpeechOut();
-        
+        speechOut.Speak("Start");
     }
 
     // Update is called once per frame
@@ -25,7 +25,9 @@ public class PlayerHealth : MonoBehaviour
     }
 
     void FixedUpdate() {
-        if(health <= 0 && exit) {
+
+
+        if(health <= 0 && !exit) {
             //exit
             speechOut.Speak("You Died");
             exit = true;
