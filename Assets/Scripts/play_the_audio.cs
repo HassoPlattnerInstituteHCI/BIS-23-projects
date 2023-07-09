@@ -11,6 +11,7 @@ public class play_the_audio : MonoBehaviour
 {
     AudioSource audioData;
     GameObject meHandle;
+    float maxVolumeScaling = 0.1f;
     float upperOffset = 4f;
     float lowerBounds = -12f;
     float normalizingFactor;
@@ -28,7 +29,7 @@ public class play_the_audio : MonoBehaviour
 
     private void Update()
     {
-        float Volume = 1f - Mathf.Min(Mathf.Max(0, Mathf.Min(meHandle.transform.position.z + upperOffset, 0) / (normalizingFactor)), 1f);
+        float Volume = (1f - Mathf.Min(Mathf.Max(0, Mathf.Min(meHandle.transform.position.z + upperOffset, 0) / (normalizingFactor)), 1f))*maxVolumeScaling;
         //Debug.Log(Volume);
         audioData.volume = Volume;
     }

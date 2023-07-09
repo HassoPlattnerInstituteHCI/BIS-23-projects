@@ -14,6 +14,11 @@ public class Equalizer : MonoBehaviour {
 	public float barZScale = 0.43f;
 	public float eqoffsetinZ = 0;
 
+	//hagens edits
+	private float minZPos = -13f;
+	private float maxZPos = -4f;
+	private VertWallScript vertWallManager;
+
 
 	private float barXScale = 1f;
 	private float columnScale = 1.1f;
@@ -23,7 +28,8 @@ public class Equalizer : MonoBehaviour {
 	public AudioFilterPeakingFilter filter;
 	// Use this for initialization
 	void Start () {
-		int num = analyzer.numOfBands;
+        vertWallManager = GameObject.Find("VertWallManager").GetComponent<VertWallScript>();
+        int num = analyzer.numOfBands;
 		bars = new EqualizerBar[num];
 
 		columnScale = maxXCoordinate / num;
@@ -104,6 +110,18 @@ public class Equalizer : MonoBehaviour {
 			knobClickedTransform = null;
 		}
 		if (Input.GetMouseButton(0)) {
+            
+			Vector3 position = GameObject.FindGameObjectWithTag("MeHandleObject").transform.position;
+            float newZPosition = position.z;
+			int i = vertWallManager.getCurrentBand();
+			Debug.Log("y:" + position.x);
+            if (filter)
+            {
+				Debug.Log(filter.dbGain.Length);
+                filter.dbGain[i] = Mathf.Lerp(-32f, 32f, (newZPosition - minZPos) / (maxZPos - minZPos));
+                filter.Reprogram();
+            }
+            /*
 			if (knobClicked) {
 				float newYPosition = 0;
 				Vector3 v3 = Input.mousePosition;
@@ -125,7 +143,8 @@ public class Equalizer : MonoBehaviour {
 					filter.Reprogram();
 				}
 			}
-		}
+			*/
+        }
 	}
 }
 

@@ -55,7 +55,7 @@ public class AudioAnalyzer : MonoBehaviour {
 	private Transform[] visualCubes;
 	private float[] visualScale;
 	private float[] visualScaleDecayed;
-	private List<float> bands = new List<float>();
+	public List<float> bands = new List<float>();
 	
 	public float GetVisualScale(int i) {
 		return visualScale[i] / visualYModifier;

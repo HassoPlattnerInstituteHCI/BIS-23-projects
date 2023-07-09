@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -364,6 +364,7 @@ MonoBehaviour:
   analyzePitch: 0
   waveFormLengthInSeconds: 1
   waveFormResolution: 500
+  bands: []
 --- !u!4 &275440554
 Transform:
   m_ObjectHideFlags: 0
@@ -372,7 +373,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 275440550}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -6.6}
+  m_LocalPosition: {x: 0.05, y: -0.03, z: -6.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -551,7 +552,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 927670942}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -6.37}
+  m_LocalPosition: {x: 0, y: 0, z: -7.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -652,18 +653,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frequencies:
-  - 58
-  - 73
-  - 97
-  - 144
-  - 238
-  - 425
-  - 807
-  - 1300
-  - 2100
-  - 3600
-  - 6700
-  - 13000
+  - 50
+  - 50.030518
+  - 50.061035
+  - 50.12207
+  - 50.24414
+  - 50.48828
+  - 50.976562
+  - 51.953125
+  - 53.90625
+  - 57.8125
+  - 65.625
+  - 81.25
+  - 112.5
+  - 175
+  - 300
+  - 550
+  - 551.004
+  - 552.00806
+  - 554.0161
+  - 558.0322
+  - 566.06445
+  - 582.1289
+  - 614.2578
+  - 678.5156
+  - 807.03125
+  - 1064.0625
+  - 1578.125
+  - 2606.25
+  - 4662.5
+  - 8775
+  - 17000
   dbGain:
   - 0
   - 0
@@ -677,7 +697,29 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   resonance: 1
+  startingFrequency: 50
+  midFrequency: 550
+  endingFrequency: 17000
+  numOfBands: 30
 --- !u!114 &1161387752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -728,9 +770,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: d4c84c70b1fd849eab2ac326fab5b991, type: 3}
+  m_audioClip: {fileID: 8300000, guid: da47a6f2fd612465288a1f8e3fc31bb3, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.115
   m_Pitch: 1
   Loop: 1
   Mute: 0
