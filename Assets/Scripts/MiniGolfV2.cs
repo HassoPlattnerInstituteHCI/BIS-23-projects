@@ -12,6 +12,7 @@ public class MiniGolfV2 : MonoBehaviour
 
     public enum GameModes
     {
+        WaitMode,
         ExploreMode, // Explore Mode: Explore the Map with the lower handle 
         ShootMode, // Shoot Mode: Shoot the golf ball using the lower handle by releasing it
         WatchMode // Watch Mode: The Ball has been shot. The player is watching the ball move until it stopped.
@@ -26,6 +27,7 @@ public class MiniGolfV2 : MonoBehaviour
     [Range(1, 50)] public float shootPowerMultiplier = 25f;
     [Range(0, 1)] public float loseSpeedMultiplier = 0.99f; // Golfball loses speed after it has been played, can also be effected by hearbeatWaitTime
     public String nextScene;
+    public int lvlNum;
     
     // Components of Panto
     private UpperHandle _upperHandle;
@@ -49,12 +51,14 @@ public class MiniGolfV2 : MonoBehaviour
     
     private bool _isOnGolfBall; // The lower Handle is currently on the GolfBall
     private bool _letGo; // We are in shooting mode and have let go of the handle
-
+    
     private Vector3 _letGoForce; // the force to be applied to handle and GolfBall upon release of the lower handle
     private Vector3 _letGoPosition = Vector3.zero; // The position of where the GolfBall is let got
     private Vector3 _lastVelocity; // used to bounce off walls
 
     public static GameModes currentGameMode = GameModes.ExploreMode;
+
+    private GameObject _startPosition;
 
     // Start is called before the first frame update
     private void Start()
@@ -70,11 +74,77 @@ public class MiniGolfV2 : MonoBehaviour
         SetTriggerEnabled(true); // probably useless
 
         // Move Handles
-        _lowerHandle.StopApplyingForce();
-        _upperHandle.SwitchTo(gameObject);
+        _startPosition = GameObject.Find("StartPosition");
+        _lowerHandle.SwitchTo(_startPosition); // lower handle to start position
+        _upperHandle.SwitchTo(gameObject); // upper handle to golf ball
 
         // Sounds
         _sounds = GetComponent<SoundsMinigolf>();
+
+        setLvls();
+    }
+
+    private void setLvls()
+    {
+        _startPosition = GameObject.Find("StartPosition");
+        currentGameMode = GameModes.WaitMode;
+        _upperHandle.SwitchTo(gameObject);
+        _lowerHandle.SwitchTo(_startPosition);
+        _letGo = false;
+        _golfBallWaitTimer = waitTime;
+        if (lvlNum == 1)
+        {
+            _isOnGolfBall = true;
+            setLvl1();
+        } 
+        else if (lvlNum == 2)
+        {
+            setLvl2();
+        }
+        else if (lvlNum == 3)
+        {
+            setLvl3();
+        }
+        else
+        {
+            setNormalLvl();
+        }
+    }
+
+    private async void setLvl1()
+    {
+        _upperHandle.SwitchTo(gameObject);
+        _lowerHandle.SwitchTo(_startPosition);
+        await _sounds.SpeLvl1();
+        _upperHandle.SwitchTo(gameObject);
+        _lowerHandle.SwitchTo(_startPosition);
+        currentGameMode = GameModes.ShootMode;
+    }
+    
+    private async void setLvl2()
+    {
+        _upperHandle.SwitchTo(gameObject);
+        _lowerHandle.SwitchTo(_startPosition);
+        await _sounds.SpeLvl2();
+        _lowerHandle.Free();
+        currentGameMode = GameModes.ExploreMode;
+    }
+    
+    private async void setLvl3()
+    {
+        _upperHandle.SwitchTo(gameObject);
+        _lowerHandle.SwitchTo(_startPosition);
+        await _sounds.SpeLvl3();
+        _lowerHandle.Free();
+        currentGameMode = GameModes.ExploreMode;
+    }
+    
+    private async void setNormalLvl()
+    {
+        _upperHandle.SwitchTo(gameObject);
+        _lowerHandle.SwitchTo(_startPosition);
+        _lowerHandle.Free();
+        currentGameMode = GameModes.ExploreMode;
     }
 
     // release all Forces of the handles
@@ -97,31 +167,29 @@ public class MiniGolfV2 : MonoBehaviour
     IEnumerator NextScene()
     {
         yield return new WaitForSeconds(3);
-        currentGameMode = GameModes.ExploreMode;
+        currentGameMode = GameModes.WaitMode;
+        lvlNum += 1;
         SceneManager.LoadScene(nextScene);
+        setLvls();
     }
     
     // when the Golfball triggers another object
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.name == _itHandleGodObject)
+        {
+            _isOnGolfBall = true;
+        }
+        
         // If we are in explore mode and ItHandle is on GolfBall:
         // Start waiting on GolfBall to switch game mode to ShootMode
         if (currentGameMode == GameModes.ExploreMode)
         {
             if (other.gameObject.name == _itHandleGodObject)
             {
-                _isOnGolfBall = true;
                 Debug.LogWarning("Start waiting on GolfBall - to switch to ShootMode");
                 _golfBallWaitTimer = waitTime;
                 _sounds.SePlayLoad();
-            }
-        }
-
-        if (currentGameMode == GameModes.ShootMode)
-        {
-            if (other.gameObject.name == _itHandleGodObject)
-            {
-                _isOnGolfBall = true;
             }
         }
 
@@ -187,10 +255,21 @@ public class MiniGolfV2 : MonoBehaviour
         _heartbeatTimer -= Time.deltaTime;
         if (_heartbeatTimer <= 0)
         {
+            if (_letGo && currentGameMode == GameModes.ShootMode)
+            {
+                _lowerHandle.SwitchTo(gameObject);
+            }
+            
             _upperHandle.SwitchTo(gameObject); // send the upper Handle to the ball
             if (currentGameMode == GameModes.WatchMode)
             {
                 _rigidbody.velocity *= loseSpeedMultiplier; // reduce velocity to slow down the ball
+                if (_rigidbody.velocity.magnitude < 0.2)
+                {
+                    _rigidbody.velocity = Vector3.zero;
+                    currentGameMode = GameModes.ExploreMode;
+                    _sounds.SpeExploreMode();
+                }
             }
             _heartbeatTimer = heartbeatWaitTime; // reset HeartBeat Timer
         }
@@ -241,8 +320,10 @@ public class MiniGolfV2 : MonoBehaviour
                 }
                 else // If it has not changed much, we are still on the position
                 {
-                    _golfBallWaitTimer -= Time.deltaTime; // Removed passed time from left time on timer
-                    if (_golfBallWaitTimer <= 0) // Waited Enough: We have let go now!
+                    if (!_isOnGolfBall) {
+                        _golfBallWaitTimer -= Time.deltaTime; // Removed passed time from left time on timer
+                    }
+                    if (_golfBallWaitTimer <= 0 && !_isOnGolfBall) // Waited Enough: We have let go now!
                     {
                         Debug.LogWarning("Let go of the Handle");
                         _letGo = true;
