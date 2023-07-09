@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Goal
+  - ItHandle
+  - Audio_Wall
+  - Ball
   layers:
   - Default
   - TransparentFX

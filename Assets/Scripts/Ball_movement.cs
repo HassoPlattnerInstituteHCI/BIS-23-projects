@@ -12,10 +12,8 @@ public class Ball_movement : MonoBehaviour
     [Header("References")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private LineRenderer lr;
-    [SerializeField] private GameObject Wall_l;
-    [SerializeField] private GameObject Wall_r;
-    [SerializeField] private GameObject Wall_u;
-    [SerializeField] private GameObject Wall_d;
+    [SerializeField] private GameObject Walls;
+    [SerializeField] private GameObject GameManager;
 
     [Header("Attributes")]
     [SerializeField] private float maxPower = 10f;
@@ -26,19 +24,29 @@ public class Ball_movement : MonoBehaviour
 
     [Header("Sounds")]
     [SerializeField] private AudioSource rail;
-    [SerializeField] public AudioSource win;
+    [SerializeField] private AudioSource win;
+    [SerializeField] private AudioSource wall;
+
     //helper variables:
     private bool isDragging;
-    private bool inHole =  false;
+    public bool inHole =  false;
     private UpperHandle upperHandle;
     private MeHandle mehandle;
     private bool is_shot = false;
 
-    //Hole Helper:
+    //Wall Childen
+    private GameObject Wall_l;
+    private GameObject Wall_r;
+    private GameObject Wall_u;
+    private GameObject Wall_d;
 
     
-
+    //Hole Helper:
     float shoot_rotation;
+
+    bool lvl1 = false;
+    bool shot = false;
+
     // Start is called before the first frame update
     void Start()
     {   
@@ -48,7 +56,15 @@ public class Ball_movement : MonoBehaviour
         rb.freezeRotation = true;
         //start Me Handle at Ball position
         upperHandle.SwitchTo(gameObject);
-         
+
+        Wall_l = Walls.transform.GetChild(3).gameObject;
+        Wall_r = Walls.transform.GetChild(0).gameObject;
+        Wall_u = Walls.transform.GetChild(2).gameObject;
+        Wall_d = Walls.transform.GetChild(1).gameObject;
+
+        if(GameManager.GetComponent<Gamecontroller_Golf>().get_level() == 1){
+            lvl1 = true;
+        }
     }
 
     // Update is called once per frame
@@ -57,10 +73,15 @@ public class Ball_movement : MonoBehaviour
         //Check for Player Input
         PlayerInput();
 
-        if((rb.velocity.magnitude < still_Speed) && is_shot){
+        if((rb.velocity.magnitude <= still_Speed) && is_shot){
             upperHandle.Free();
             is_shot = false;}
 
+        if(shot && lvl1 && rb.velocity.magnitude <= 0.05f){
+            //transform.position = new Vector3(3.0f,0.0f,-10.0f);
+            GameManager.GetComponent<Gamecontroller_Golf>().LevelComplete();
+            lvl1 =false;
+        }
       
     }
 
@@ -174,24 +195,25 @@ public class Ball_movement : MonoBehaviour
         // Wait until the ball's velocity magnitude falls below the still_Speed threshold
         upperHandle.SwitchTo(gameObject);
         is_shot = true;
+        shot = true;
         // Release the UpperHandle from controlling the ball
         
     }
 
-    private void CheckWinState(){
+    private void CheckWinState(Collider other){
         if(inHole) {
-
-            
-                    win.Play();}
+            return;
+        }
         if(rb.velocity.magnitude <= maxGoalSpeed) {
             win.Play();
             inHole = true;
             
             rb.velocity = Vector3.zero;
-            gameObject.SetActive(false);
-            win.Play();
-          
+            transform.position = other.transform.position;
+            //gameObject.SetActive(false);
+            GameManager.GetComponent<Gamecontroller_Golf>().LevelComplete();
             }
+        
             //LevelComplete
     }
     
@@ -199,7 +221,10 @@ public class Ball_movement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other){
         if(other.tag == "Goal") {
-        CheckWinState();}
+        CheckWinState(other);}
+
+        if(other.tag == "Audio_Wall" && rb.velocity.magnitude > still_Speed) {
+        wall.Play();}
     }
 
 }
