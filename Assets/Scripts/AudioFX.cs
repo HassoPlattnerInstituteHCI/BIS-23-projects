@@ -4,11 +4,7 @@ using System.Threading.Tasks;
 
 public class AudioFX : MonoBehaviour
 {
-//    public AudioClip rail;
-//     public AudioClip gameOverClip;
-//     public AudioClip collisionClip;
-//     public float maxPitch = 1.2f;
-//     public float minPitch = 0.8f;
+
     [Header("Sounds")]
     [SerializeField] private AudioSource rail;
     private GameObject previousEnemy;
@@ -18,62 +14,36 @@ public class AudioFX : MonoBehaviour
 
     async void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        Voice = new SpeechOut();
-        await Task.Delay(1000);
-        //railPlay();
-
-      //  Voice.Speak("Welcome to Level 1, use the me handle to pull back and turn to shoot VAMOSsss!",1.0f, SpeechBase.LANGUAGE.ENGLISH);
-
-        
+        Voice = new SpeechOut();  
     }
-    // public float PlayerFellDown()
-    // {
-    //     audioSource.Stop();
-    //     audioSource.PlayOneShot(gameOverClip);
-    //     return gameOverClip.length;
-    // }
-    public void railPlay()
-     {
-       rail.Play();
-     }
-
+  
     public void Level1(){
 
-
-
-
+         Voice = new SpeechOut();
+         Voice.Speak("Aim by pulling back the me-handle, turn to shoot!",1.0f, SpeechBase.LANGUAGE.ENGLISH);
     }
 
     public void Level2(){
-
+      Voice = new SpeechOut();
+      Voice.Speak("Now that you have gotten a feel for striking, aim and try to hit the flag!", 1.0F, SpeechBase.LANGUAGE.ENGLISH);
     }
 
     public void Level3(){
-
-
+      Voice = new SpeechOut();
+      Voice.Speak("Traverse the course to find objects in your way, turn the handle when you are done!", 1.0F, SpeechBase.LANGUAGE.ENGLISH);
     }
 
      public void Level4(){
-
+      Voice = new SpeechOut();
+      Voice.Speak("Find objects and aim when ready.", 1.0F, SpeechBase.LANGUAGE.ENGLISH);
         
     }
     public void Level5(){
-
-        
+      Voice = new SpeechOut();
+      Voice.Speak("Play the parkour!", 1.0F, SpeechBase.LANGUAGE.ENGLISH);    
     }
           
        
-        
-     
-    public void PlayClipPitched(AudioClip clip, float minPitch, float maxPitch)
-    {
-        // little trick to make clip sound less redundant
-        audioSource.pitch = Random.Range(minPitch, maxPitch);
-        // plays same clip only once, this way no overlapping
-        audioSource.PlayOneShot(clip);
-        audioSource.pitch = 1f;
-    }
     
     void OnApplicationQuit() {
         Voice.Stop();

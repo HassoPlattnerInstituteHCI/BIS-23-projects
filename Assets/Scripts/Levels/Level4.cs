@@ -24,7 +24,7 @@ public class Level4 : MonoBehaviour
     
     public void intro(){
       
-      Voice.Speak("Find objects and aim when ready.", 1.0F, SpeechBase.LANGUAGE.ENGLISH);
+      
     }
     
      void OnApplicationQuit() {

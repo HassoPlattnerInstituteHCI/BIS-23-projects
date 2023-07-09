@@ -24,7 +24,7 @@ public class Level5 : MonoBehaviour
     
     public void intro(){
       
-      Voice.Speak("Play the parkour!", 1.0F, SpeechBase.LANGUAGE.ENGLISH);
+      
     }
     
      void OnApplicationQuit() {
