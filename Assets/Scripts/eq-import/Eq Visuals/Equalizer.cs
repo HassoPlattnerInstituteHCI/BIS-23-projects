@@ -17,7 +17,9 @@ public class Equalizer : MonoBehaviour {
 	//hagens edits
 	private float minZPos = -13f;
 	private float maxZPos = -4f;
-	private VertWallScript vertWallManager;
+	private WallScript wallManager;
+	public float minGain = -32f;
+	public float maxGain = 32f;
 
 
 	private float barXScale = 1f;
@@ -28,24 +30,25 @@ public class Equalizer : MonoBehaviour {
 	public AudioFilterPeakingFilter filter;
 	// Use this for initialization
 	void Start () {
-        vertWallManager = GameObject.Find("VertWallManager").GetComponent<VertWallScript>();
+        wallManager = GameObject.Find("WallManager").GetComponent<WallScript>();
         int num = analyzer.numOfBands;
 		bars = new EqualizerBar[num];
 
 		columnScale = maxXCoordinate / num;
 		barXScale = columnScale * 0.92f;
-
+		/*
 		LineRenderer lr = GetComponent<LineRenderer>();
 		lr.positionCount = num;
 		lr.colorGradient = barColorsGradient;
-
+		*/
 		for (int i = 0; i < num; i++) {
+			
 			GameObject go = GameObject.Instantiate(equalizerBarPrefab) as GameObject;
 			go.transform.SetParent(this.transform);
 			//added
 			//go.transform.localPosition = Vector3.right * (i-num/2) * columnScale;
 			go.transform.localPosition = Vector3.right * (i - num / 2) * columnScale + Vector3.back*eqoffsetinZ;
-
+			
 			EqualizerBar bar = go.GetComponent<EqualizerBar>();
 			bars[i] = bar;
 			bar.barPrefab = barPrefab;
@@ -55,6 +58,7 @@ public class Equalizer : MonoBehaviour {
 
 			bar.barXScale = barXScale;
 			bar.baseColor = barColorsGradient.Evaluate(Mathf.InverseLerp(0,num,i));
+			/*
 			//// knob position
 			//Vector3 knobPosition = new Vector3((i-num/2) * columnScale, //x
 			//									0,						//y orifginal: barYScale*7.5f,	
@@ -75,8 +79,9 @@ public class Equalizer : MonoBehaviour {
 			GameObject knob = GameObject.Instantiate(knobPrefab) as GameObject;
 			knob.transform.localPosition = knobPosition;
 			knob.GetComponent<EqKnob>().id = i;
-
+			*/
 		}
+		
 		AudioAnalyzer.spectrumBarsUpdated += UpdateVisuals;
 	}
 
@@ -90,7 +95,7 @@ public class Equalizer : MonoBehaviour {
 			bars[i].UpdateBar(value, decayedValue);
 		}
 
-
+		/*
 		if (Input.GetMouseButtonDown(0)) {
         	//Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             //Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
@@ -109,19 +114,11 @@ public class Equalizer : MonoBehaviour {
 			knobClicked = false;
 			knobClickedTransform = null;
 		}
+        
 		if (Input.GetMouseButton(0)) {
             
-			Vector3 position = GameObject.FindGameObjectWithTag("MeHandleObject").transform.position;
-            float newZPosition = position.z;
-			int i = vertWallManager.getCurrentBand();
-			Debug.Log("y:" + position.x);
-            if (filter)
-            {
-				Debug.Log(filter.dbGain.Length);
-                filter.dbGain[i] = Mathf.Lerp(-32f, 32f, (newZPosition - minZPos) / (maxZPos - minZPos));
-                filter.Reprogram();
-            }
-            /*
+			
+            
 			if (knobClicked) {
 				float newYPosition = 0;
 				Vector3 v3 = Input.mousePosition;
@@ -143,8 +140,26 @@ public class Equalizer : MonoBehaviour {
 					filter.Reprogram();
 				}
 			}
-			*/
+			
+		}
+		*/
+    }
+    public void updateGain()
+	{
+        Vector3 position = GameObject.FindGameObjectWithTag("MeHandleObject").transform.position;
+        float newZPosition = position.z;
+        int i = wallManager.getCurrentBand();
+        Debug.Log("y:" + position.x);
+        if (filter)
+        {
+            Debug.Log(filter.dbGain.Length);
+			filter.dbGain[i] = zPosToGain(newZPosition);
+            filter.Reprogram();
         }
-	}
+    }
+	public float zPosToGain(float zPosition)
+	{
+		return Mathf.Lerp(minGain, maxGain, (zPosition - minZPos) / (maxZPos - minZPos));
+    }
 }
 

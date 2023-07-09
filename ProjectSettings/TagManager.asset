@@ -7,6 +7,10 @@ TagManager:
   - MeHandleObject
   - MaxPoint
   - Obstacle
+  - knob
+  - ItHandleObject
+  - VertWall
+  - HoriWall
   layers:
   - Default
   - TransparentFX

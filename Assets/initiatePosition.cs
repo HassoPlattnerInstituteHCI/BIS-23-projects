@@ -7,7 +7,7 @@ public class initiatePosition : MonoBehaviour
 {
     // Start is called before the first frame update
     private GameObject[] obstacles;
-    private VertWallScript vertWallManager;
+    private WallScript WallManager;
     async void Start()
     {
         PantoHandle upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
@@ -26,8 +26,8 @@ public class initiatePosition : MonoBehaviour
             obstacle.GetComponent<PantoBoxCollider>().Enable();
             obstacle.GetComponent<BoxCollider>().enabled = true;
         }
-        vertWallManager = GameObject.Find("VertWallManager").GetComponent<VertWallScript>();
-        vertWallManager.Enable();
+        WallManager = GameObject.Find("WallManager").GetComponent<WallScript>();
+        WallManager.Enable();
     }
 
     // Update is called once per frame
