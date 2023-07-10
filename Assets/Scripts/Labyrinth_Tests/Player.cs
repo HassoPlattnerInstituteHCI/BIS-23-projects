@@ -6,9 +6,8 @@ using SpeechIO;
 using System.Threading.Tasks;
 
 public class Player : MonoBehaviour
-{
-    public float speed = 5f;
-    public bool hasItem;
+{   
+    public float speed = 10f;
     private SpeechIn speech;
     private SpeechOut speechOut;
     private UpperHandle upperHandle;
@@ -16,16 +15,16 @@ public class Player : MonoBehaviour
     async void Start()
     {
         upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
-        await ActivatePlayer();
+        await upperHandle.MoveToPosition(gameObject.transform.position, speed, true);
         //speech = new SpeechIn(onSpeechRecognized);
         // speech.StartListening(new string[] { "help", "resume" }); 
         speechOut = new SpeechOut();
     }
 
-    public async Task ActivatePlayer()
-    {
-        await upperHandle.MoveToPosition(gameObject.transform.position, speed, true);
-    }
+    // public async Task ActivatePlayer()
+    // {
+    //     await upperHandle.MoveToPosition(gameObject.transform.position, speed, true);
+    // }
 
     private void FixedUpdate() {
         transform.position = (upperHandle.HandlePosition(transform.position));
