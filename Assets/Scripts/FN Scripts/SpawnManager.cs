@@ -61,8 +61,8 @@ public class SpawnManager : MonoBehaviour
         spawning = false;
         level++;
         print("level: " + level);
-        if (level <= 2) 
-            SceneManager.LoadScene(level);
+        //if (level <= 2) 
+            //SceneManager.LoadScene(level);
     }
 
     public void startGame()

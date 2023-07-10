@@ -55,7 +55,7 @@ public class Fruit : MonoBehaviour
     async void moveToFruit()
     {
         //GameObject schon destroyed?
-        Vector3 addUP = new Vector3(0,0,- 2);
+        Vector3 addUP = new Vector3(0,0,0);
         Vector3 prediction = gameObject.transform.position + addUP;
         //delay umgehen?
         await handle.MoveToPosition(prediction, 10f, true);

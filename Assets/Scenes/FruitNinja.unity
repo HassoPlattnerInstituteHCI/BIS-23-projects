@@ -636,8 +636,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitPrefab: {fileID: 2406428746732441202, guid: 0874e2b7c1d06467590d85e2491476be, type: 3}
-  Force: 20
+  force: 18
+  forceVarying: 0
   random: 0
+  xPosition: 0
+  spawnIntervall: 0
+  fruitsToWin: 1
+  curved: 0
+  introTime: 0
+  fruits: []
+  slicedFruitsCount: 0
 --- !u!1001 &1694337905
 PrefabInstance:
   m_ObjectHideFlags: 0
