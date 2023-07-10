@@ -15,7 +15,7 @@ public class GameMaster : MonoBehaviour
     private PantoHandle meHandle;
     private GameObject MeHandleGodObject;
     private AudioFX soundFX;
-    private Movement movement;
+    private Ball_movement Movement;
     private int level = 0;
     private Vector3 spawn;
     bool traversing = false;
@@ -28,7 +28,7 @@ public class GameMaster : MonoBehaviour
         meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
         MeHandleGodObject= GameObject.Find("MeHandleGodObject");
         soundFX = gameObject.GetComponent<AudioFX>();
-        movement = Ball.GetComponent<Movement>();
+        Movement = Ball.GetComponent<Ball_movement>();
 
         spawn = new Vector3(3.0f,0.0f,-10.0f);
         Ball.transform.position = spawn;
@@ -55,7 +55,7 @@ public class GameMaster : MonoBehaviour
         soundFX.Level2();
         traverse();
         Ball.transform.position = spawn;
-        //meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
+        meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
         meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
         Hole.SetActive(true);
         itHandle.SwitchTo(Hole,50.0f);
@@ -64,7 +64,7 @@ public class GameMaster : MonoBehaviour
 
     public void LevelComplete(){
         level++;
-        movement.inHole = false;
+        Movement.inHole = false;
         switch (level){
             case 1:
             Level1();
