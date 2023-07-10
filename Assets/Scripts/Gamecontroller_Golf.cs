@@ -9,9 +9,11 @@ public class Gamecontroller_Golf : MonoBehaviour
     [SerializeField] private GameObject Ball;
     [SerializeField] private GameObject Hole;
     [SerializeField] private GameObject Walls;
+    [SerializeField] private GameObject Obstacle1;
 
     private PantoHandle itHandle;
     private PantoHandle meHandle;
+    private GameObject MeHandleGodObject;
     private AudioFX soundFX;
     private Ball_movement Movement;
     private int level = 0;
@@ -21,6 +23,7 @@ public class Gamecontroller_Golf : MonoBehaviour
     {
         itHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
         meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
+        MeHandleGodObject= GameObject.Find("MeHandleGodObject");
         soundFX = gameObject.GetComponent<AudioFX>();
         Movement = Ball.GetComponent<Ball_movement>();
 
@@ -88,15 +91,18 @@ public class Gamecontroller_Golf : MonoBehaviour
         return level;
     }
 
-    void Level3(){
+   async void Level3(){
         soundFX.Level3();
-        Ball.transform.position = spawn;
+        await Task.Delay(1000);
+        Ball.SetActive(false);
         //Ball.SetActive(false);
         meHandle.MoveToPosition(spawn,1.0f,true);
         //Ball.SetActive(true);
         //meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
         Hole.SetActive(true);
         itHandle.SwitchTo(Hole,50.0f);
+        Obstacle1.SetActive(true);
+        MeHandleGodObject.SetActive(true);
         
     }
 
