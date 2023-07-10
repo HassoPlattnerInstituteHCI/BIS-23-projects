@@ -9,13 +9,14 @@ public class GameMaster : MonoBehaviour
     [SerializeField] private GameObject Ball;
     [SerializeField] private GameObject Hole;
     [SerializeField] private GameObject Walls;
+    [SerializeField] private GameObject CollisionHelper;
     [SerializeField] private GameObject Obstacle1;
 
     private PantoHandle itHandle;
     private PantoHandle meHandle;
     private GameObject MeHandleGodObject;
     private AudioFX soundFX;
-    private Ball_movement Movement;
+    private Movement movement;
     private int level = 0;
     private Vector3 spawn;
     bool traversing = false;
@@ -26,11 +27,11 @@ public class GameMaster : MonoBehaviour
     {
         itHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
         meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
-        MeHandleGodObject= GameObject.Find("MeHandleGodObject");
         soundFX = gameObject.GetComponent<AudioFX>();
-        Movement = Ball.GetComponent<Ball_movement>();
-
+        movement = Ball.GetComponent<Movement>();
         spawn = new Vector3(3.0f,0.0f,-10.0f);
+        CollisionHelper.SetActive(false);
+        CollisionHelper.transform.position = spawn;
         Ball.transform.position = spawn;
         
         Level1();
@@ -44,27 +45,33 @@ public class GameMaster : MonoBehaviour
      }   
     }
 
-    void Level1(){
+    async void Level1(){
         level = 1;
         soundFX.Level1();
+        await meHandle.MoveToPosition(spawn,10f,false);
         Ball.SetActive(true);
+        meHandle.Free();
 
     }
 
-    void Level2(){
+    async void Level2(){
+        Ball.SetActive(false);
+        Hole.SetActive(false);
         soundFX.Level2();
-        traverse();
+        await Task.Delay(1000);
         Ball.transform.position = spawn;
-        meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
-        meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
+        await meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
+        await itHandle.MoveToPosition(Hole.transform.position,50.0f,false);
+        traverse();
         Hole.SetActive(true);
-        itHandle.SwitchTo(Hole,50.0f);
+        //itHandle.SwitchTo(Hole,50.0f);
+        
         
     }
 
     public void LevelComplete(){
         level++;
-        Movement.inHole = false;
+        movement.inHole = false;
         switch (level){
             case 1:
             Level1();
@@ -110,10 +117,9 @@ public class GameMaster : MonoBehaviour
         soundFX.Level4();
         await Task.Delay(1000);
         Ball.transform.position = spawn;
-        meHandle.MoveToPosition(Ball.transform.position,1.0f,false);
         meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
         Hole.SetActive(true);
-        itHandle.SwitchTo(Hole,50.0f);
+        itHandle.MoveToPosition(Hole.transform.position,50.0f,false);
         
     }
 
@@ -121,31 +127,32 @@ public class GameMaster : MonoBehaviour
         soundFX.Level5();
         await Task.Delay(1000);
         Ball.transform.position = spawn;
-        meHandle.MoveToPosition(Ball.transform.position,1.0f,false);
         meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
         Hole.SetActive(true);
-        itHandle.SwitchTo(Hole,50.0f);
+        itHandle.MoveToPosition(Hole.transform.position,50.0f,false);
         
     }
 
 
     async void traverse(){
         traversing = true;
+        CollisionHelper.SetActive(true);
         shoot_rotation = meHandle.GetRotation();
         soundFX.traverse();
         Ball.SetActive(false);
         meHandle.MoveToPosition(spawn,1.0f,true);
-         Hole.SetActive(true);
-         itHandle.SwitchTo(Hole,50.0f);
+        Hole.SetActive(true);
+        itHandle.MoveToPosition(Hole.transform.position,50.0f,false);
          
          
     
     }
-    void reverse(){
+    async void reverse(){
         traversing = false;
+        CollisionHelper.SetActive(false);
          Ball.SetActive(true);
          Ball.transform.position = spawn;
-         meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
+         await meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
          soundFX.readytoPlay();
 
          if(level ==  3){
