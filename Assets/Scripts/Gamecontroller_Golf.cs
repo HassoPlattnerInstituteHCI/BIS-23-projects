@@ -21,6 +21,7 @@ public class Gamecontroller_Golf : MonoBehaviour
     {
         itHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
         meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
+        // meHandleGodObject = GameObject.Find("Panto").GetComponent<MeHandleGodObject>();
         soundFX = gameObject.GetComponent<AudioFX>();
         Movement = Ball.GetComponent<Ball_movement>();
 
@@ -90,14 +91,12 @@ public class Gamecontroller_Golf : MonoBehaviour
 
     void Level3(){
         soundFX.Level3();
-        Ball.transform.position = spawn;
-        //Ball.SetActive(false);
-        meHandle.MoveToPosition(spawn,1.0f,true);
-        //Ball.SetActive(true);
-        //meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
+        Ball.SetActive(false);
+        Cube.SetActive(true);
+        meHandle.MoveToPosition(spawn,1.0f,true);        
         Hole.SetActive(true);
         itHandle.SwitchTo(Hole,50.0f);
-        
+
     }
 
     void Level4(){
