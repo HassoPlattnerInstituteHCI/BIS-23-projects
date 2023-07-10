@@ -207,6 +207,7 @@ MonoBehaviour:
   gameOverClip: {fileID: 8300000, guid: 2fa13c4cf4662004081b17bf15d0151c, type: 3}
   maxPitch: 1.2
   minPitch: 0.8
+  soundPlaying: 0
 --- !u!82 &667240002
 AudioSource:
   m_ObjectHideFlags: 0
@@ -406,7 +407,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8319409012390869063, guid: 8f598ce299c1f3549b76a49461ad70b3, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8319409012390869112, guid: 8f598ce299c1f3549b76a49461ad70b3, type: 3}
       propertyPath: m_IsActive

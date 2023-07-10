@@ -95,7 +95,11 @@ public class SoundEffects : MonoBehaviour
         audioSource.PlayOneShot(finishedALevel);
         StartCoroutine(WaitForSoundEnd(finishedALevel.length));
 
-        await SayText("Congratulations! You finished Level " + level.ToString());
+        while(soundPlaying)
+        {
+            await Task.Delay(100);
+        }
+        SayText("Congratulations! You finished Level " + level.ToString());
     }
 
     private IEnumerator WaitForSoundEnd(float seconds)
