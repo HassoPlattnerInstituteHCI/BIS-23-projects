@@ -8,6 +8,7 @@ TagManager:
   - ItHandle
   - Audio_Wall
   - Ball
+  - Hole
   layers:
   - Default
   - TransparentFX

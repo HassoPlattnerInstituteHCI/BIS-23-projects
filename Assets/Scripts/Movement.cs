@@ -4,7 +4,7 @@ using UnityEngine;
 using DualPantoFramework;
 using System.Threading.Tasks;
 
-public class Ball_movement : MonoBehaviour
+public class Movement : MonoBehaviour
 {   
     //Declaring Variables 
 
@@ -30,8 +30,7 @@ public class Ball_movement : MonoBehaviour
     //helper variables:
     private bool isDragging;
     public bool inHole =  false;
-    private UpperHandle upperHandle;
-    private MeHandle mehandle;
+    private PantoHandle meHandle;
     private bool is_shot = false;
 
     //Wall Childen
@@ -51,18 +50,18 @@ public class Ball_movement : MonoBehaviour
     void Start()
     {   
         //get the me Handle
-        upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
+        meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
         //disable Ball from rotating
         rb.freezeRotation = true;
         //start Me Handle at Ball position
-        upperHandle.SwitchTo(gameObject,50.0f);
+        meHandle.SwitchTo(gameObject,50.0f);
 
         Wall_l = Walls.transform.GetChild(3).gameObject;
         Wall_r = Walls.transform.GetChild(0).gameObject;
         Wall_u = Walls.transform.GetChild(2).gameObject;
         Wall_d = Walls.transform.GetChild(1).gameObject;
 
-        if(GameManager.GetComponent<Gamecontroller_Golf>().get_level() == 1){
+        if(GameManager.GetComponent<GameMaster>().get_level() == 1){
             lvl1 = true;
         }
     }
@@ -74,12 +73,12 @@ public class Ball_movement : MonoBehaviour
         PlayerInput();
 
         if((rb.velocity.magnitude <= still_Speed) && is_shot){
-            upperHandle.Free();
+            meHandle.Free();
             is_shot = false;}
 
         if(shot && lvl1 && rb.velocity.magnitude <= 0.05f){
             //transform.position = new Vector3(3.0f,0.0f,-10.0f);
-            GameManager.GetComponent<Gamecontroller_Golf>().LevelComplete();
+            GameManager.GetComponent<GameMaster>().LevelComplete();
             lvl1 =false;
         }
       
@@ -94,7 +93,7 @@ public class Ball_movement : MonoBehaviour
     private bool IsTurned(float start_rotation)
     {
         // Calculate the difference between the current rotation of the UpperHandle and the start_rotation
-        float rotate_result = upperHandle.GetRotation() - start_rotation;
+        float rotate_result = meHandle.GetRotation() - start_rotation;
         if (rotate_result < 0)rotate_result = 0 - rotate_result;
         int rotation_degree = 45;
         // Check if the rotation difference is within the allowed range (45 to 315 degrees)
@@ -129,7 +128,7 @@ public class Ball_movement : MonoBehaviour
         if (!IsReady())
             return;
 
-        Vector2 handle_xz = transform_Vector(upperHandle.HandlePosition(transform.position));
+        Vector2 handle_xz = transform_Vector(meHandle.HandlePosition(transform.position));
         Vector2 ball_xz = transform_Vector(transform.position);
 
         // Get the distance of the UpperHandle from the ball's position
@@ -152,30 +151,34 @@ public class Ball_movement : MonoBehaviour
     private void DragStart()
     {
         //allow the upper handle to move 
-        upperHandle.Free();
-        shoot_rotation = upperHandle.GetRotation();
+        meHandle.Free();
+        shoot_rotation = meHandle.GetRotation();
         isDragging = true;
         lr.positionCount = 2;
     }
 
     private void DragChange(Vector2 handle_xz)
     {   Wall_Boxcollider(false);
-
+        
         Vector2 ball_xz = transform_Vector(transform.position);
-        Vector2 direction = ball_xz - handle_xz;
+        Vector2 direction = (ball_xz - handle_xz);
+        float distance = Vector2.Distance(handle_xz,ball_xz);
 
         Vector2 endline_vector = ball_xz + Vector2.ClampMagnitude((direction * power) / 2, maxPower / 2);
         Vector3 endline_position = new Vector3(endline_vector.x, transform.position.y + 0.9f, endline_vector.y);
 
-
+        //upperHandle.Free();
+        //upperHandle.ApplyForce(direction.normalized, distance*0.05f);
 
         // Update the LineRenderer positions to visualize the shooting direction
         lr.SetPosition(0, transform.position);
         lr.SetPosition(1, endline_position);
+
     }
 
     async void DragRelease(Vector2 handle_xz)
     {   
+        //meHandle.StopApplyingForce();
         Vector2 ball_xz = transform_Vector(transform.position);
         float distance = Vector2.Distance(ball_xz, handle_xz);
         isDragging = false;
@@ -188,10 +191,10 @@ public class Ball_movement : MonoBehaviour
         // Switch the UpperHandle to control the ball and set its velocity based on the shooting direction
         Wall_Boxcollider(true);
 
-        await upperHandle.SwitchTo(gameObject,50.0f);
+        await meHandle.SwitchTo(gameObject,50.0f);
         rb.velocity = result_velocity;
         // Wait until the ball's velocity magnitude falls below the still_Speed threshold
-        upperHandle.SwitchTo(gameObject, 50.0f);
+        meHandle.SwitchTo(gameObject, 50.0f);
         is_shot = true;
         shot = true;
         // Release the UpperHandle from controlling the ball
@@ -209,7 +212,7 @@ public class Ball_movement : MonoBehaviour
             rb.velocity = Vector3.zero;
             transform.position = other.transform.position;
             //gameObject.SetActive(false);
-            GameManager.GetComponent<Gamecontroller_Golf>().LevelComplete();
+            GameManager.GetComponent<GameMaster>().LevelComplete();
             }
         
             //LevelComplete
@@ -218,7 +221,7 @@ public class Ball_movement : MonoBehaviour
 
 
     private void OnTriggerEnter(Collider other){
-        if(other.tag == "Goal") {
+        if(other.tag == "Hole") {
         CheckWinState(other);}
 
         if(other.tag == "Audio_Wall" && rb.velocity.magnitude > still_Speed) {
