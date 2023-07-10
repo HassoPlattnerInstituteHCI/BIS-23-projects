@@ -121,8 +121,10 @@ public class Gamecontroller_Golf : MonoBehaviour
     }
 
     void End(){
-        Ball.SetActive(false);
-        Hole.SetActive(false);
+        Ball.SetActive(true);
+        Hole.SetActive(true);
+        meHandle.Free();
+        itHandle.Free();
         //SoundFx.End();)
         }
 }
