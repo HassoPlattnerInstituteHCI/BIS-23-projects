@@ -186,7 +186,8 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1268059147541628205, guid: 70b3c2d9d5ccbfb4c9999f044d24bea2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 70b3c2d9d5ccbfb4c9999f044d24bea2, type: 3}
 --- !u!1 &87359337 stripped
 GameObject:
@@ -205,6 +206,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2e6795cb04674e4c995afa1f7c4bee0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy_health: 50
+  bullet_damage: 10
 --- !u!1 &170709312
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,6 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6338e8de3c031468c1845f2ae1239d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1335039099}
 --- !u!1 &542645913
 GameObject:
   m_ObjectHideFlags: 0
@@ -930,6 +934,7 @@ GameObject:
   - component: {fileID: 1335039105}
   - component: {fileID: 1335039106}
   - component: {fileID: 1335039107}
+  - component: {fileID: 1335039108}
   m_Layer: 0
   m_Name: PlayerUpper
   m_TagString: Untagged
@@ -1050,7 +1055,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1335039099}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dad44195a69e88645a2b3509ba52181d, type: 3}
   m_Name: 
@@ -1063,6 +1068,21 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1335039099}
   m_Enabled: 1
+--- !u!114 &1335039108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1335039099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f373997657828914d98fc16f80bdb719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 4263055407424395759, guid: 68fc232519b81fe4b8e8a52f636979de, type: 3}
+  bullet_speed: 300
+  shooting_delay: 0.5
 --- !u!1 &1353567771
 GameObject:
   m_ObjectHideFlags: 0
@@ -1170,7 +1190,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 826605487606422808, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
       propertyPath: debug
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 826605487606422809, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
       propertyPath: m_Name

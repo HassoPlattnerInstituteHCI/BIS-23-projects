@@ -28,7 +28,9 @@ public class EnemyHealth : MonoBehaviour
 
     void OnTriggerEnter(Collider col) {
 
-        if(col.gameObject.name == "Bullet") 
+        if(col.gameObject.name == "Bullet(Clone)") {
             enemy_health -= bullet_damage;
+            Destroy(col.gameObject);
+        }
     }
 }

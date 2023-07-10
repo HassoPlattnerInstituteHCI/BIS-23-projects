@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6262975158141133820}
   - component: {fileID: 6262975158141133823}
   - component: {fileID: 6262975158141133808}
+  - component: {fileID: 1268059147541628205}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -112,6 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 8
+  player: {fileID: 0}
   displayName: Enemy
   nameClip: {fileID: 0}
 --- !u!54 &6262975158141133808
@@ -130,3 +132,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1268059147541628205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6262975158141133822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22a461e0270daf544b7729fb3a72aaca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy_health: 20
+  bullet_damage: 10

@@ -6,11 +6,14 @@ using SpeechIO;
 public class Intro2 : MonoBehaviour
 {
     private SpeechOut sp;
+    public GameObject player;
+
     // Start is called before the first frame update
     void Start()
     {
         sp = new SpeechOut();
         sp.Speak("Hit the Zombie");
+        player.tag = "armed";
     }
 
     // Update is called once per frame
