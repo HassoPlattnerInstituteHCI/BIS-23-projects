@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Random = System.Random;
+using SpeechIO;
 
 
 namespace PlaneGame
@@ -9,12 +10,14 @@ namespace PlaneGame
         //plane prefab might be unneccessary?
         //public GameObject planePrefab;
         public GameObject ringPrefab;
+        public SoundEffects soundEffects;
 
         private int _rings;
         
         private void Start()
         {
             _rings = GameObject.FindGameObjectsWithTag("ring").Length;
+            soundEffects = GetComponent<SoundEffects>();
         }
 
         private void Update()

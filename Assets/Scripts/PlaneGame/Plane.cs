@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using SpeechIO;
 
 using DualPantoFramework;
 using UnityEngine;
@@ -16,6 +17,10 @@ namespace PlaneGame
         private AudioSource _audioSource;
         private Task _moveHandle;
 
+        private SpeechIn speechIn;
+        private SpeechOut speechOut;
+        private SoundEffects soundEffects;
+
         // Start is called before the first frame update
         async void Start()
         {
@@ -29,6 +34,8 @@ namespace PlaneGame
             /*var delay = Task.Run(async () => { await Task.Delay(800); });
             delay.Wait();*/ // might be necessary later
 
+            speechOut = new SpeechOut();
+            soundEffects = GameObject.FindObjectOfType<GameManager>().GetComponent<SoundEffects>();
         }
 
         // Update is called once per frame
@@ -61,8 +68,10 @@ namespace PlaneGame
         {
             if (other.gameObject.CompareTag("ring"))
             {
+                soundEffects.HitRing();
                 Destroy(other.gameObject);
                 ScoreManager.Score++;
+                soundEffects.AnnounceScore(ScoreManager.Score);
             }
         }
 

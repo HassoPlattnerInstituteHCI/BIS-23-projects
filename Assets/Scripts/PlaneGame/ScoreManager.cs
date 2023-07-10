@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using SpeechIO;
 
 namespace PlaneGame
 {
@@ -15,6 +16,11 @@ namespace PlaneGame
         public static int AimScoreStatic;
         public static bool IsFreePlay;
         public static bool IsReduceScore;
+
+        private SpeechIn speechIn;
+        private SpeechOut speechOut;
+        private SoundEffects soundEffects;
+
         public static int Level { get; private set; }
 
         public int aimScore;
@@ -38,8 +44,8 @@ namespace PlaneGame
             IsReduceScore = false;
             _levelMessage = "Finished tutorial.";
             
-
-
+            speechOut = new SpeechOut();
+            soundEffects = GameObject.FindObjectOfType<GameManager>().GetComponent<SoundEffects>();
 
             SetText();
         }
@@ -54,12 +60,14 @@ namespace PlaneGame
                 _objectiveCompleted = Level == 0;
                 _gameOverTime = Time.time;
                 Debug.Log($"Completed level {Level}");
+                soundEffects.SayText($"Congratulations! You finished the tutorial.");
             }
             else if (!LevelHasLives && Score == aimScore && !IsFreePlay && _gameOverTime == 0F)
             {
                 _objectiveCompleted = true;
                 _gameOverTime = Time.time;
                 Debug.Log($"Completed level {Level}");
+                soundEffects.CompletedLevel(Level);
             }
             else if (_gameOverTime != 0 && Time.time >= _gameOverTime + 5F)
             {
@@ -103,7 +111,7 @@ namespace PlaneGame
             }
         }
 
-        void SetText()
+        async void SetText()
         {
             if (_gameOverTime != 0F)
             {
@@ -136,6 +144,7 @@ namespace PlaneGame
                 else
                 {
                     textField.text = "Game Over!";
+                    soundEffects.SayText("Game Over!");
                 }
             }
             else if (IsFreePlay)
