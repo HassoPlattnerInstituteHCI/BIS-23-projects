@@ -15,18 +15,21 @@ public class Player : MonoBehaviour
 
     async void Start()
     {
+        upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
         await ActivatePlayer();
         //speech = new SpeechIn(onSpeechRecognized);
-        // speech.StartListening(new string[] { "help", "resume" });
+        // speech.StartListening(new string[] { "help", "resume" }); 
         speechOut = new SpeechOut();
     }
 
     public async Task ActivatePlayer()
     {
-        gameObject.GetComponent<MeHandle>().enabled = false;
-        upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
         await upperHandle.MoveToPosition(gameObject.transform.position, speed, true);
-        gameObject.GetComponent<MeHandle>().enabled = true;
+    }
+
+    private void FixedUpdate() {
+        transform.position = (upperHandle.HandlePosition(transform.position));
+        // transform.eulerAngles = new Vector3(0, upperHandle.GetRotation(), 0);
     }
 
     private async void OnCollisionEnter(Collision other) {
