@@ -167,6 +167,8 @@ public class Ball_movement : MonoBehaviour
         Vector2 endline_vector = ball_xz + Vector2.ClampMagnitude((direction * power) / 2, maxPower / 2);
         Vector3 endline_position = new Vector3(endline_vector.x, transform.position.y + 0.9f, endline_vector.y);
 
+
+
         // Update the LineRenderer positions to visualize the shooting direction
         lr.SetPosition(0, transform.position);
         lr.SetPosition(1, endline_position);
@@ -178,10 +180,6 @@ public class Ball_movement : MonoBehaviour
         float distance = Vector2.Distance(ball_xz, handle_xz);
         isDragging = false;
         lr.positionCount = 0;
-        
-
-        if (distance < min_Speed)
-            return;
 
         Vector2 direction = ball_xz - handle_xz;
         Vector2 velocity_speed = Vector2.ClampMagnitude(direction * power, maxPower);
