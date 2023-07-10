@@ -300,7 +300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 273302736}
-  switch_speed: 2
+  switch_speed: 100
   panto: {fileID: 1810814922}
 --- !u!1 &273302736 stripped
 GameObject:
@@ -972,6 +972,7 @@ GameObject:
   - component: {fileID: 1353567775}
   - component: {fileID: 1353567774}
   - component: {fileID: 1353567773}
+  - component: {fileID: 1353567776}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -1058,6 +1059,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1353567771}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1353567776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353567771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09cec89c855408d47937c25a1befeede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onUpper: 1
+  onLower: 1
+  isPassable: 0
 --- !u!1001 &1668555807
 PrefabInstance:
   m_ObjectHideFlags: 0
