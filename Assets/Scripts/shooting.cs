@@ -32,19 +32,13 @@ public class shooting : MonoBehaviour
     GameObject.Instantiate(instance, this.transform.position, newRotation);
 
 */
-IEnumerator Text()  //  <-  its a standalone method
-{
 
-    yield return new WaitForSeconds(2);
-
-}
     void FixedUpdate() {
         if(this.tag == "armed" && Time.time > canShoot) {
             canShoot = Time.time + shooting_delay;
             var pos = this.transform.position;
             bulletRb = Instantiate(bullet, pos, Quaternion.identity).GetComponent<Rigidbody>();
             bulletRb.AddForce(transform.forward * bullet_speed);
-            StartCoroutine(Text());
 
         }
     }

@@ -299,6 +299,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9969de60374fa4eb7d0864f8d7c804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 273302736}
+  switch_speed: 2
+  panto: {fileID: 1810814922}
 --- !u!1 &273302736 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6262975158141133822, guid: 70b3c2d9d5ccbfb4c9999f044d24bea2, type: 3}
@@ -389,7 +392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6262975158141133811, guid: 70b3c2d9d5ccbfb4c9999f044d24bea2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14.55
+      value: -13.64
       objectReference: {fileID: 0}
     - target: {fileID: 6262975158141133811, guid: 70b3c2d9d5ccbfb4c9999f044d24bea2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1064,7 +1067,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 826605487606422808, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
       propertyPath: debug
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 826605487606422808, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
+      propertyPath: overwriteDefaultPort
+      value: COM4
       objectReference: {fileID: 0}
     - target: {fileID: 826605487606422809, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
       propertyPath: m_Name
@@ -1121,6 +1128,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 7742484942278137610, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
+--- !u!1 &1810814922 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 826605487606422809, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
+  m_PrefabInstance: {fileID: 1668555807}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2135642983
 GameObject:
   m_ObjectHideFlags: 0
@@ -1149,7 +1161,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2135642983}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.85, y: 0, z: -4.908309}
+  m_LocalPosition: {x: -0.85, y: 0, z: -3.7}
   m_LocalScale: {x: 0.1, y: 10, z: 8}
   m_ConstrainProportionsScale: 0
   m_Children: []
