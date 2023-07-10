@@ -4,7 +4,7 @@ using UnityEngine;
 using DualPantoFramework;
 using System.Threading.Tasks;
 
-public class Gamecontroller_Golf : MonoBehaviour
+public class GameMaster : MonoBehaviour
 {   
     [SerializeField] private GameObject Ball;
     [SerializeField] private GameObject Hole;
@@ -15,7 +15,7 @@ public class Gamecontroller_Golf : MonoBehaviour
     private PantoHandle meHandle;
     private GameObject MeHandleGodObject;
     private AudioFX soundFX;
-    private Ball_movement Movement;
+    private Movement movement;
     private int level = 0;
     private Vector3 spawn;
     bool traversing = false;
@@ -28,7 +28,7 @@ public class Gamecontroller_Golf : MonoBehaviour
         meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
         MeHandleGodObject= GameObject.Find("MeHandleGodObject");
         soundFX = gameObject.GetComponent<AudioFX>();
-        Movement = Ball.GetComponent<Ball_movement>();
+        movement = Ball.GetComponent<Movement>();
 
         spawn = new Vector3(3.0f,0.0f,-10.0f);
         Ball.transform.position = spawn;
@@ -55,7 +55,7 @@ public class Gamecontroller_Golf : MonoBehaviour
         soundFX.Level2();
         traverse();
         Ball.transform.position = spawn;
-        meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
+        //meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
         meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
         Hole.SetActive(true);
         itHandle.SwitchTo(Hole,50.0f);
@@ -64,7 +64,7 @@ public class Gamecontroller_Golf : MonoBehaviour
 
     public void LevelComplete(){
         level++;
-        Movement.inHole = false;
+        movement.inHole = false;
         switch (level){
             case 1:
             Level1();
