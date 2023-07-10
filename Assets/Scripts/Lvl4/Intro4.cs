@@ -5,7 +5,7 @@ using SpeechIO;
 using DualPantoFramework;
 using UnityEngine.SceneManagement;
 
-public class Intro3 : MonoBehaviour
+public class Intro4 : MonoBehaviour
 {
     private SpeechOut sp;
     public GameObject enemy;
@@ -29,8 +29,8 @@ public class Intro3 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if(!GameObject.Find("Enemy")){
-        SceneManager.LoadScene("ShooterLvl4");
-       }
+      //  if(!GameObject.Find("Enemy")){
+      //   SceneManager.LoadScene("ShooterLvl4");
+      //  }
     }
 }

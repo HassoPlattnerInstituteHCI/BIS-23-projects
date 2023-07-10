@@ -13,6 +13,8 @@ public class GunTrigger : MonoBehaviour
     void Start()
     {
         speechOut = new SpeechOut();
+        speechOut.Speak("Pick up the gun");
+        speechOut.Speak("The closer you are the louder the sound");
     }
 
     // Update is called once per frame
