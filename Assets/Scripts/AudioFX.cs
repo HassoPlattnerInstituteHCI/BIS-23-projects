@@ -42,6 +42,19 @@ public class AudioFX : MonoBehaviour
       Voice = new SpeechOut();
       Voice.Speak("Level 5. Play the parkour!", 1.0F, SpeechBase.LANGUAGE.ENGLISH);    
     }
+
+    public void traverse(){
+
+      Voice = new SpeechOut();
+      Voice.Speak("Ready to traverse", 1.0F, SpeechBase.LANGUAGE.ENGLISH);
+    }
+
+    public void readytoPlay(){
+
+      Voice = new SpeechOut();
+      Voice.Speak("Ready to Play", 1.0F, SpeechBase.LANGUAGE.ENGLISH);
+    }
+    
           
        
     

@@ -18,6 +18,9 @@ public class Gamecontroller_Golf : MonoBehaviour
     private Ball_movement Movement;
     private int level = 0;
     private Vector3 spawn;
+    bool traversing = false;
+    float shoot_rotation;
+     
     // Start is called before the first frame update
     void Start()
     {
@@ -36,7 +39,9 @@ public class Gamecontroller_Golf : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+     if(IsTurned(shoot_rotation)&&traversing){
+        reverse();
+     }   
     }
 
     void Level1(){
@@ -48,6 +53,7 @@ public class Gamecontroller_Golf : MonoBehaviour
 
     void Level2(){
         soundFX.Level2();
+        traverse();
         Ball.transform.position = spawn;
         meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
         meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
@@ -94,20 +100,15 @@ public class Gamecontroller_Golf : MonoBehaviour
    async void Level3(){
         soundFX.Level3();
         await Task.Delay(1000);
-        Ball.SetActive(false);
-        //Ball.SetActive(false);
-        meHandle.MoveToPosition(spawn,1.0f,true);
-        //Ball.SetActive(true);
-        //meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
-        Hole.SetActive(true);
-        itHandle.SwitchTo(Hole,50.0f);
+        traverse();
         Obstacle1.SetActive(true);
-        MeHandleGodObject.SetActive(true);
+      
         
     }
 
-    void Level4(){
+    async void Level4(){
         soundFX.Level4();
+        await Task.Delay(1000);
         Ball.transform.position = spawn;
         meHandle.MoveToPosition(Ball.transform.position,1.0f,false);
         meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
@@ -116,14 +117,52 @@ public class Gamecontroller_Golf : MonoBehaviour
         
     }
 
-    void Level5(){
+    async void Level5(){
         soundFX.Level5();
+        await Task.Delay(1000);
         Ball.transform.position = spawn;
         meHandle.MoveToPosition(Ball.transform.position,1.0f,false);
         meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
         Hole.SetActive(true);
         itHandle.SwitchTo(Hole,50.0f);
         
+    }
+
+
+    async void traverse(){
+        traversing = true;
+        shoot_rotation = meHandle.GetRotation();
+        soundFX.traverse();
+        Ball.SetActive(false);
+        meHandle.MoveToPosition(spawn,1.0f,true);
+         Hole.SetActive(true);
+         itHandle.SwitchTo(Hole,50.0f);
+         
+         
+    
+    }
+    void reverse(){
+        traversing = false;
+         Ball.SetActive(true);
+         Ball.transform.position = spawn;
+         meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
+         soundFX.readytoPlay();
+
+         if(level ==  3){
+            LevelComplete();
+         }
+
+
+
+    }
+      private bool IsTurned(float start_rotation)
+    {
+        // Calculate the difference between the current rotation of the UpperHandle and the start_rotation
+        float rotate_result = meHandle.GetRotation() - start_rotation;
+        if (rotate_result < 0)rotate_result = 0 - rotate_result;
+        int rotation_degree = 90;
+        // Check if the rotation difference is within the allowed range (45 to 315 degrees)
+        return rotate_result >= rotation_degree && rotate_result <= (360 - rotation_degree);
     }
 
     void End(){
