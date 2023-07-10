@@ -49,7 +49,7 @@ public class Gamecontroller_Golf : MonoBehaviour
         meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
         meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
         Hole.SetActive(true);
-        itHandle.SwitchTo(Hole);
+        itHandle.SwitchTo(Hole,50.0f);
         
     }
 
@@ -96,7 +96,7 @@ public class Gamecontroller_Golf : MonoBehaviour
         //Ball.SetActive(true);
         //meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
         Hole.SetActive(true);
-        itHandle.SwitchTo(Hole);
+        itHandle.SwitchTo(Hole,50.0f);
         
     }
 
@@ -106,7 +106,7 @@ public class Gamecontroller_Golf : MonoBehaviour
         meHandle.MoveToPosition(Ball.transform.position,1.0f,false);
         meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
         Hole.SetActive(true);
-        itHandle.SwitchTo(Hole);
+        itHandle.SwitchTo(Hole,50.0f);
         
     }
 
@@ -116,7 +116,7 @@ public class Gamecontroller_Golf : MonoBehaviour
         meHandle.MoveToPosition(Ball.transform.position,1.0f,false);
         meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
         Hole.SetActive(true);
-        itHandle.SwitchTo(Hole);
+        itHandle.SwitchTo(Hole,50.0f);
         
     }
 

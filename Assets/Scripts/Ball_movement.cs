@@ -55,7 +55,7 @@ public class Ball_movement : MonoBehaviour
         //disable Ball from rotating
         rb.freezeRotation = true;
         //start Me Handle at Ball position
-        upperHandle.SwitchTo(gameObject);
+        upperHandle.SwitchTo(gameObject,50.0f);
 
         Wall_l = Walls.transform.GetChild(3).gameObject;
         Wall_r = Walls.transform.GetChild(0).gameObject;
@@ -190,10 +190,10 @@ public class Ball_movement : MonoBehaviour
         // Switch the UpperHandle to control the ball and set its velocity based on the shooting direction
         Wall_Boxcollider(true);
 
-        await upperHandle.SwitchTo(gameObject);
+        await upperHandle.SwitchTo(gameObject,50.0f);
         rb.velocity = result_velocity;
         // Wait until the ball's velocity magnitude falls below the still_Speed threshold
-        upperHandle.SwitchTo(gameObject);
+        upperHandle.SwitchTo(gameObject, 50.0f);
         is_shot = true;
         shot = true;
         // Release the UpperHandle from controlling the ball
