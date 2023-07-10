@@ -50,6 +50,8 @@ public class SoundEffects : MonoBehaviour
 
     public async void AnnounceLives(int lives)
     {
+        if(lives == 0) return;
+
         while(soundPlaying)
         {
             await Task.Delay(100);
@@ -68,9 +70,20 @@ public class SoundEffects : MonoBehaviour
         await speechOut.Speak("Score:" + score.ToString() + ". Misses: " + pointsLost.ToString());
     }
 
+    //TODO Freeplay sonification
+    public async void AnnounceFreePlay()
+    {
+
+    }
+
     public async void AnnounceLevel(int levelNumber)
     {
         //TODO: say level and goal of level for all existing levels
+        switch(levelNumber)
+        {
+            case 1:
+                
+        }
     }
 
     public void MissedRing()

@@ -25,8 +25,9 @@ namespace PlaneGame
             await Task.Delay(5000);
         }
 
-        private void Update()
+        private void Update() //TODO: Fixed update
         {
+            //if (...) return
             transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.025F);
 
             if (transform.position.z <= -16.5)
@@ -45,7 +46,7 @@ namespace PlaneGame
                 {
                     ScoreManager.Score--;
                     ScoreManager.PointsLost++;
-                    soundEffects.AnnouncePoints(ScoreManager.Score, ScoreManager.PointsLost);
+                    soundEffects.AnnouncePoints(ScoreManager.Score, ScoreManager.Misses);
                 }
             }
         }

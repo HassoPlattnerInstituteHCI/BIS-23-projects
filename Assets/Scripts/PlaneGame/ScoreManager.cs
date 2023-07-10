@@ -86,23 +86,21 @@ namespace PlaneGame
                 
                 switch (Level)
                 {
-                    case 0:
-                        Lives = 3;
-                        LevelHasLives = true;
-                        IsReduceScore = false;
-                        _levelMessage = "Finished tutorial.";
-                        break;
                     case 1:
+                        soundEffects.SayText("We are in Level 1!");
+                        //TODO intorduction
                         LevelHasLives = false;
                         IsReduceScore = false;
                         _levelMessage = $"Reached target score: {aimScore}/{aimScore}";
                         break;
                     case 2:
+                        //TODO intorduction
                         LevelHasLives = false;
                         IsReduceScore = true;
                         _levelMessage = $"Reached target score: {aimScore}/{aimScore}";
                         break;
                     default:
+                        //TODO free ´play introduction
                         LevelHasLives = false;
                         IsFreePlay = true;
                         IsReduceScore = false;
