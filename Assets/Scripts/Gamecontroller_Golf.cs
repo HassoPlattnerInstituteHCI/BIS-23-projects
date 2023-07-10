@@ -92,7 +92,7 @@ public class Gamecontroller_Golf : MonoBehaviour
     void Level3(){
         soundFX.Level3();
         Ball.SetActive(false);
-        Cube.SetActive(true);
+        // Obstacle.SetActive(true);
         meHandle.MoveToPosition(spawn,1.0f,true);        
         Hole.SetActive(true);
         itHandle.SwitchTo(Hole,50.0f);
