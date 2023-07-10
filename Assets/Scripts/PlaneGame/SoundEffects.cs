@@ -71,19 +71,19 @@ public class SoundEffects : MonoBehaviour
     }
 
     //TODO Freeplay sonification
-    public async void AnnounceFreePlay()
-    {
+    // public async void AnnounceFreePlay()
+    // {
 
-    }
+    // }
 
     public async void AnnounceLevel(int levelNumber)
     {
         //TODO: say level and goal of level for all existing levels
-        switch(levelNumber)
-        {
-            case 1:
-                
-        }
+        // switch(levelNumber)
+        // {
+        //     case 1:
+
+        // }
     }
 
     public void MissedRing()
