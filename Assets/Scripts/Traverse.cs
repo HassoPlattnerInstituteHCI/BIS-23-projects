@@ -21,16 +21,17 @@ public class Traverse : MonoBehaviour
     private Vector3 ballposition;
     bool done = false;
     bool ready = false;
+    private GameMaster gameMaster;
 
     void Start(){
       meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>(); 
       itHandle = GameObject.Find("Panto").GetComponent<LowerHandle>(); 
+      gameMaster = gameObject.GetComponent<GameMaster>(); 
       pc1 = Wall1.GetComponent<PantoCollider>();
       pc2 = Wall2.GetComponent<PantoCollider>();
       pc3 = Wall3.GetComponent<PantoCollider>();
       pc4 = Wall4.GetComponent<PantoCollider>(); 
 
-      TraverseSetup();      
     }
 
     void FixedUpdate(){
@@ -49,7 +50,8 @@ public class Traverse : MonoBehaviour
         return rotate_result >= rotation_degree && rotate_result <= (360 - rotation_degree);
     }
     
-    async void TraverseSetup(){
+    public async void TraverseSetup(int level){
+        done = false;
         await itHandle.SwitchTo(Target,30f);
         await meHandle.SwitchTo(Ball,50f);
         await Task.Delay(1000);
@@ -67,7 +69,7 @@ public class Traverse : MonoBehaviour
         ready = true;
     }
 
-    void TraverseFinish(){
+    async void TraverseFinish(){
         done = true;
         pc1.Remove();
         pc2.Remove();
@@ -75,7 +77,9 @@ public class Traverse : MonoBehaviour
         pc4.Remove();
         Ball.SetActive(true);
         //Ball.transform.eulerAngles.y  = meHandle.GetRotation();
-        meHandle.SwitchTo(Ball);
+        await meHandle.SwitchTo(Ball);
+        await Task.Delay(1000);
+        gameMaster.TraverseComplete();
     }
 
     

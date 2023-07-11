@@ -78,8 +78,8 @@ public class Movement : MonoBehaviour
 
         if(shot && lvl1 && rb.velocity.magnitude <= 0.05f){
             //transform.position = new Vector3(3.0f,0.0f,-10.0f);
+            lvl1 = false;
             GameManager.GetComponent<GameMaster>().LevelComplete();
-            lvl1 =false;
         }
       
     }
@@ -205,14 +205,13 @@ public class Movement : MonoBehaviour
         if(inHole) {
             return;
         }
-        if(rb.velocity.magnitude <= maxGoalSpeed) {
+        else if(rb.velocity.magnitude <= maxGoalSpeed) {
             win.Play();
             inHole = true;
-            
             rb.velocity = Vector3.zero;
             transform.position = other.transform.position;
-            //gameObject.SetActive(false);
             GameManager.GetComponent<GameMaster>().LevelComplete();
+            gameObject.SetActive(false);
             }
         
             //LevelComplete
