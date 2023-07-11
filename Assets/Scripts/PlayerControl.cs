@@ -103,12 +103,4 @@ public class PlayerControl : MonoBehaviour
         //...
     }
 
-    void OnDrawGizmos()
-    {
-        
-            // Draws a blue line from this transform to the target
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(spawnPoint, transform.position);
-        
-    }
 }

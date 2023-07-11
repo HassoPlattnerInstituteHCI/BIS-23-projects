@@ -10,47 +10,41 @@ public class SpawnManager : MonoBehaviour
     public int force;
     public bool forceVarying = false;
     public bool random;
-    public float xPosition = 0;
-    public float spawnIntervall = 0;
-    public int fruitsToWin = 1;
+    public Vector3 spawnPosition = Vector3.zero;
     public bool curved;
     SpeechOut speechOut = new SpeechOut();
     private Vector3 curveDir = new Vector3(0, 0, 1);
-    private float timePassed = 0;
-    bool spawning = false;
+    PantoHandle handle;
 
     public float introTime;
     private bool inIntro = true;
     static int level = 0;
 
-    public List<GameObject> fruits = new List<GameObject>();
+    
+    public int fruitsToWin = 1;
     public int slicedFruitsCount = 0;
     private int spawnCounter = 0;
     Task read;
+    bool spawnFruitBool = false;
+    float spawnDistTreshhold = 0.5f;
     void Start()
     {
-
+        handle = (PantoHandle)GameObject.Find("Panto").GetComponent<LowerHandle>();
         Invoke("startGame", introTime);
+        
+
 
     }
+
 
     private void Update()
     {
 
-        if (spawnIntervall != 0)
-        {
-            timePassed += Time.deltaTime;
-            if (timePassed > spawnIntervall && spawning && spawnCounter < fruitsToWin)
-            {
-                SpawnFruit("Erdbeere");
-                timePassed = 0;
-            }
-        }
+
     }
 
     public void Fail()
     {
-        spawning = false;
         read = speechOut.Speak("Oh you missed the fruit, lets try that again");
         Invoke("startGame", 3);
     }
@@ -58,35 +52,45 @@ public class SpawnManager : MonoBehaviour
     public void Win()
     {
         read = speechOut.Speak("You did it! Hooray");
-        spawning = false;
         level++;
         print("level: " + level);
-        //if (level <= 2) 
-            //SceneManager.LoadScene(level);
+        if (level <= 3) 
+            SceneManager.LoadScene(level);
     }
 
     public void startGame()
     {
-        fruits.Clear();
+        spawnCounter = 0;
         slicedFruitsCount = 0;
-        timePassed = 0;
-        spawning = true;
-        SpawnFruit("Erdbeere");
+        CalculateNewSpawnPosition();
         //await GameObject.Find("Panto").GetComponent<LowerHandle>().SwitchTo(fruit);
     }
 
-    private void SpawnFruit (string type)
+    private void FixedUpdate()
+    {
+       
+    }
+
+    async public void CalculateNewSpawnPosition ()
+    {
+        if (random) { spawnPosition = new Vector3(Random.Range(5, -5),0,-8); };
+        spawnFruitBool = true;
+        await handle.MoveToPosition(spawnPosition, 100);
+        SpawnFruit("Erdbeere");
+
+    }
+
+    public void SpawnFruit (string type)
     {
         //Frucht mit Kurve und Force muss iwie immer in Panto Reichweite bleiben
 
-        if (random) { xPosition = Random.Range(5, -5); };
         if (curved)
         {
             float randomFactor = Random.Range(10, 45);
-            if (xPosition > 0)
+            if (spawnPosition.x > 0)
                 randomFactor *= -1;
 
-            randomFactor = randomFactor * (Mathf.Abs(xPosition) / Mathf.Abs(5));
+            randomFactor = randomFactor * (Mathf.Abs(spawnPosition.x) / Mathf.Abs(5));
 
             curveDir = Quaternion.AngleAxis(/*randomFactor*/ 45, new Vector3(0, 1, 0)) * new Vector3(0, 0, 1);
 
@@ -100,16 +104,14 @@ public class SpawnManager : MonoBehaviour
         switch (type)
         {
             case "Erdbeere":
-                fruit = Instantiate(fruitPrefab, new Vector3(xPosition, 0, -8), fruitPrefab.transform.rotation);
+                fruit = Instantiate(fruitPrefab, spawnPosition, fruitPrefab.transform.rotation);
                 break;
             case "Kokosnuss":
-                fruit = Instantiate(fruitPrefab, new Vector3(xPosition, 0, -8), fruitPrefab.transform.rotation);
+                fruit = Instantiate(fruitPrefab, spawnPosition, fruitPrefab.transform.rotation);
                 break;
         }
         
         fruit.GetComponent<Rigidbody>().AddForce(curveDir * force, ForceMode.Impulse);
-
-        fruits.Add(fruit);
         spawnCounter++;
     }
 }
