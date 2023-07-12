@@ -9,11 +9,18 @@ public class SoundEffects : MonoBehaviour
     public AudioClip hitARing;
     public AudioClip finishedALevel;
     public AudioClip gameOverClip;
+    public AudioClip planeStarting;
+    public AudioClip constantlyPlane;
+
+    public bool planeStarted = false;
+    public bool planeNoiseOn = false;
+
     public float maxPitch = 1.2f;
     public float minPitch = 0.8f;
     private AudioSource audioSource;
     public SpeechOut speechOut;
     public bool soundPlaying = false;
+    public bool planeSoundPlaying = false;  
 
     void Start()
     {
@@ -23,14 +30,32 @@ public class SoundEffects : MonoBehaviour
         introduction();
     }
 
-    void Update()
+    async void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             speechOut.Stop();
         }
+
+        if(planeStarted)
+        {
+            if(!planeNoiseOn)
+            {
+                PlaneNoise();    
+            }
+        }
     }
 
+    public async void PlaneNoise()
+    {
+        planeNoiseOn = true;
+        //planeSoundPlaying = true;
+        audioSource.PlayOneShot(constantlyPlane, 0.001F);
+        Debug.Log("Turned on plane noise");
+        //StartCoroutine(WaitForPlaneEnd(constantlyPlane.length));
+        planeNoiseOn = false;
+        Debug.Log("Turned off plane noise");
+    }
     public async void SayHello()
     {
         await speechOut.Speak("Hello");
@@ -75,6 +100,14 @@ public class SoundEffects : MonoBehaviour
     public async void introduction()
     {
         // add plane starting sounds  audioSource.PlayOneShot();
+        StartCoroutine(PlayAudioWithDuration(planeStarting, 2f));
+        planeStarted = true;
+
+        while(soundPlaying)
+        {
+            await Task.Delay(100);
+        }
+
         SayText("Welcome to Fabulous Flight. A ring is approaching you. Try to to reach it by twisting your steering wheel. In this tutorial, you have 3 lives.");
     }
 
@@ -114,6 +147,27 @@ public class SoundEffects : MonoBehaviour
         Debug.Log("Finished Coroutine.");
         soundPlaying = false;
         Debug.Log("soundPlaying set to " + soundPlaying);
+    }
+
+    private IEnumerator WaitForPlaneEnd(float seconds)
+    {
+        Debug.Log("Coroutine plane for waiting started. Waiting for " + seconds + "seconds.");
+        yield return new WaitForSeconds(seconds);
+        Debug.Log("Finished Coroutine.");
+        planeSoundPlaying = false;
+        Debug.Log("soundPlaying set to " + soundPlaying);
+    }
+
+    private System.Collections.IEnumerator PlayAudioWithDuration(AudioClip audioClip, float duration)
+    {
+        soundPlaying = true; 
+        audioSource.clip = audioClip;
+        audioSource.Play();
+
+        yield return new WaitForSeconds(duration);
+        soundPlaying = false;
+
+        audioSource.Stop();
     }
 
     void OnApplicationQuit()

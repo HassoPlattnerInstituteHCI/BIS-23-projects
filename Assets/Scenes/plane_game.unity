@@ -205,9 +205,14 @@ MonoBehaviour:
   hitARing: {fileID: 8300000, guid: a3c5a156d32510c4a8191ac0a2fa826c, type: 3}
   finishedALevel: {fileID: 8300000, guid: 37eaa6d42987dea449ebbc72bed38a31, type: 3}
   gameOverClip: {fileID: 8300000, guid: 2fa13c4cf4662004081b17bf15d0151c, type: 3}
+  planeStarting: {fileID: 8300000, guid: 12177698c87d5124da4d2b3e955cb44d, type: 3}
+  constantlyPlane: {fileID: 8300000, guid: 7de33bba8f08ba245b67eb959e7cf2f2, type: 3}
+  planeStarted: 0
+  planeNoiseOn: 0
   maxPitch: 1.2
   minPitch: 0.8
   soundPlaying: 0
+  planeSoundPlaying: 0
 --- !u!82 &667240002
 AudioSource:
   m_ObjectHideFlags: 0
@@ -318,7 +323,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 826605487606422808, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
       propertyPath: debug
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 826605487606422808, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
       propertyPath: overwriteDefaultPort
