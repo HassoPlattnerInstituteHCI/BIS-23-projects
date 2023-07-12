@@ -14,6 +14,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private LineRenderer lr;
     [SerializeField] private GameObject Walls;
     [SerializeField] private GameObject GameManager;
+    [SerializeField] private GameObject hole;
 
     [Header("Attributes")]
     [SerializeField] private float maxPower = 10f;
@@ -24,7 +25,6 @@ public class Movement : MonoBehaviour
 
     [Header("Sounds")]
     [SerializeField] private AudioSource rail;
-    [SerializeField] private AudioSource win;
     [SerializeField] private AudioSource wall;
 
     //helper variables:
@@ -95,7 +95,7 @@ public class Movement : MonoBehaviour
         // Calculate the difference between the current rotation of the UpperHandle and the start_rotation
         float rotate_result = meHandle.GetRotation() - start_rotation;
         if (rotate_result < 0)rotate_result = 0 - rotate_result;
-        int rotation_degree = 45;
+        int rotation_degree = 90;
         // Check if the rotation difference is within the allowed range (45 to 315 degrees)
         return rotate_result >= rotation_degree && rotate_result <= (360 - rotation_degree);
     }
@@ -134,7 +134,7 @@ public class Movement : MonoBehaviour
         // Get the distance of the UpperHandle from the ball's position
         float distance = Vector2.Distance(ball_xz, handle_xz);
 
-        if (distance <= 0.2f && !isDragging)
+        if (distance <= 0.5f && !isDragging)
             DragStart();
         else if (!IsTurned(shoot_rotation) &&  isDragging)
             DragChange(handle_xz);
@@ -206,12 +206,11 @@ public class Movement : MonoBehaviour
             return;
         }
         else if(rb.velocity.magnitude <= maxGoalSpeed) {
-            win.Play();
+            hole.GetComponent<Hole>().Win();
             inHole = true;
             rb.velocity = Vector3.zero;
             transform.position = other.transform.position;
             GameManager.GetComponent<GameMaster>().LevelComplete();
-            gameObject.SetActive(false);
             }
         
             //LevelComplete

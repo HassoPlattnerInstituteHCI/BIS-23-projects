@@ -20,7 +20,7 @@ public class AudioFX : MonoBehaviour
     public void Level1(){
 
          Voice = new SpeechOut();
-         Voice.Speak("Level1. Aim by pulling back the me-handle, rotate the handle to swing the club!",1.0f, SpeechBase.LANGUAGE.ENGLISH);
+         Voice.Speak("Level 1. Aim by pulling back the me-handle, rotate the handle to swing the club!",1.0f, SpeechBase.LANGUAGE.ENGLISH);
     }
 
     public void Level2(){

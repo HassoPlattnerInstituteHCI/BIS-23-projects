@@ -9,7 +9,7 @@ public class GameMaster : MonoBehaviour
     [SerializeField] private GameObject Ball;
     [SerializeField] private GameObject Hole;
     [SerializeField] private GameObject Walls;
-    [SerializeField] private GameObject CollisionHelper;
+    [SerializeField] private GameObject SpawnGuy;
     [SerializeField] private GameObject Obstacle1;
 
     private PantoHandle itHandle;
@@ -32,6 +32,7 @@ public class GameMaster : MonoBehaviour
         soundFX = gameObject.GetComponent<AudioFX>();
         traverser = gameObject.GetComponent<Traverse>();
         movement = Ball.GetComponent<Movement>();
+        SpawnGuy.transform.position = spawn;
         
         LevelComplete();
     }
@@ -41,9 +42,7 @@ public class GameMaster : MonoBehaviour
     }
 
     async void Level1(){
-        Ball.transform.position = spawn;
         soundFX.Level1();
-        await meHandle.MoveToPosition(spawn,10f,false);
         Ball.SetActive(true);
         meHandle.Free();
 
@@ -51,52 +50,53 @@ public class GameMaster : MonoBehaviour
 
     async void Level2(){
         soundFX.Level2();
+        Hole.SetActive(true);
+        itHandle.SwitchTo(Hole);
         await Task.Delay(1000);
-        Ball.transform.position = spawn;
         Ball.SetActive(true);
         meHandle.Free();
-        Obstacle1.SetActive(true);
         
     }
 
-    async void Level3(){
-        soundFX.Level3();
-        await Task.Delay(1000);
-        meHandle.Free();
-        Obstacle1.SetActive(true);
+    // async void Level3(){
+    //     soundFX.Level3();
+    //     await Task.Delay(1000);
+    //     meHandle.Free();
+    //     Obstacle1.SetActive(true);
       
         
-    }
+    // }
 
     async void Level4(){
         soundFX.Level4();
+        meHandle.SwitchTo(SpawnGuy);
+        itHandle.SwitchTo(Hole);
         await Task.Delay(1000);
-        Ball.transform.position = spawn;
-        meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
-        Hole.SetActive(true);
-        itHandle.MoveToPosition(Hole.transform.position,50.0f,false);
+        Ball.SetActive(true);
         
     }
 
     async void Level5(){
         soundFX.Level5();
+        meHandle.SwitchTo(SpawnGuy);
+        itHandle.SwitchTo(Hole);
         await Task.Delay(1000);
-        Ball.transform.position = spawn;
-        meHandle.MoveToPosition(Ball.transform.position,1.0f,true);
-        Hole.SetActive(true);
-        itHandle.MoveToPosition(Hole.transform.position,50.0f,false);
+        Ball.SetActive(true);
         
     }
 
     void End(){
-        Ball.SetActive(true);
-        Hole.SetActive(true);
+        Ball.SetActive(false);
+        Hole.SetActive(false);
         meHandle.Free();
         itHandle.Free();
         //SoundFx.End();
         }
 
     public void LevelComplete(){
+        Ball.SetActive(false);
+        Ball.transform.position = spawn;
+        meHandle.SwitchTo(SpawnGuy);
         level++;
         switch (level){
             case 1:
@@ -134,11 +134,11 @@ public class GameMaster : MonoBehaviour
             break;  
 
             case 3:
-            Level3();
+            LevelComplete();
             break;
 
             case 4:
-            LevelComplete();
+            Level4();
             break;
 
             case 5:

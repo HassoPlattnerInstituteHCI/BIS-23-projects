@@ -5,23 +5,30 @@ using DualPantoFramework;
 using System.Threading.Tasks;
 
 public class Traverse : MonoBehaviour
-{   private UpperHandle meHandle;
-    private LowerHandle itHandle;
-    float shot_rotation;
-    [SerializeField] private GameObject Wall1;
+{   [SerializeField] private GameObject Wall1;
     [SerializeField] private GameObject Wall2;
     [SerializeField] private GameObject Wall3;
     [SerializeField] private GameObject Wall4;
-    [SerializeField] private GameObject Target;
+    [SerializeField] private GameObject Hole;
     [SerializeField] private GameObject Ball;
+    [SerializeField] private GameObject SpawnGuy;
+
+
+    private UpperHandle meHandle;
+    private LowerHandle itHandle;
+    private GameMaster gameMaster;
+    
+    float shot_rotation;
+    
     PantoCollider pc1;
     PantoCollider pc2;
     PantoCollider pc3;
     PantoCollider pc4;
-    private Vector3 ballposition;
+
+    private Vector3 spawn = new Vector3(3.0f,0.0f,-10.0f);
+
     bool done = false;
     bool ready = false;
-    private GameMaster gameMaster;
 
     void Start(){
       meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>(); 
@@ -45,17 +52,18 @@ public class Traverse : MonoBehaviour
         // Calculate the difference between the current rotation of the UpperHandle and the start_rotation
         float rotate_result = meHandle.GetRotation() - start_rotation;
         if (rotate_result < 0)rotate_result = 0 - rotate_result;
-        int rotation_degree = 45;
+        int rotation_degree = 90;
         // Check if the rotation difference is within the allowed range (45 to 315 degrees)
         return rotate_result >= rotation_degree && rotate_result <= (360 - rotation_degree);
     }
     
     public async void TraverseSetup(int level){
         done = false;
-        await itHandle.SwitchTo(Target,30f);
-        await meHandle.SwitchTo(Ball,50f);
-        await Task.Delay(1000);
-        Ball.SetActive(false);
+        //AudioFx.PlayIntro(level);
+        //Ball.SetActive(false);
+        shot_rotation = meHandle.GetRotation();
+        //await meHandle.MoveToPosition(spawn,50f);
+        //await Task.Delay(1000);
         pc1.CreateObstacle();
         pc2.CreateObstacle();
         pc3.CreateObstacle();
@@ -64,7 +72,7 @@ public class Traverse : MonoBehaviour
         pc2.Enable();
         pc3.Enable();
         pc4.Enable();
-        shot_rotation = meHandle.GetRotation();
+        
         meHandle.Free();
         ready = true;
     }
@@ -75,9 +83,6 @@ public class Traverse : MonoBehaviour
         pc2.Remove();
         pc3.Remove();
         pc4.Remove();
-        Ball.SetActive(true);
-        //Ball.transform.eulerAngles.y  = meHandle.GetRotation();
-        await meHandle.SwitchTo(Ball);
         await Task.Delay(1000);
         gameMaster.TraverseComplete();
     }
