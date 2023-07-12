@@ -43,9 +43,9 @@ public class Movement : MonoBehaviour
     //Hole Helper:
     float shoot_rotation;
 
-    bool lvl1 = false;
+    public bool lvl1 = false;
     bool shot = false;
-
+    public bool ready = false;  
     // Start is called before the first frame update
     void Start()
     {   
@@ -61,9 +61,6 @@ public class Movement : MonoBehaviour
         Wall_u = Walls.transform.GetChild(2).gameObject;
         Wall_d = Walls.transform.GetChild(1).gameObject;
 
-        if(GameManager.GetComponent<GameMaster>().get_level() == 1){
-            lvl1 = true;
-        }
     }
 
     // Update is called once per frame
@@ -134,7 +131,7 @@ public class Movement : MonoBehaviour
         // Get the distance of the UpperHandle from the ball's position
         float distance = Vector2.Distance(ball_xz, handle_xz);
 
-        if (distance <= 0.5f && !isDragging)
+        if (distance <= 0.2f && !isDragging && ready)
             DragStart();
         else if (!IsTurned(shoot_rotation) &&  isDragging)
             DragChange(handle_xz);
@@ -179,9 +176,11 @@ public class Movement : MonoBehaviour
     async void DragRelease(Vector2 handle_xz)
     {   
         //meHandle.StopApplyingForce();
+        
         Vector2 ball_xz = transform_Vector(transform.position);
         float distance = Vector2.Distance(ball_xz, handle_xz);
         isDragging = false;
+
         lr.positionCount = 0;
 
         Vector2 direction = ball_xz - handle_xz;
@@ -206,6 +205,7 @@ public class Movement : MonoBehaviour
             return;
         }
         else if(rb.velocity.magnitude <= maxGoalSpeed) {
+            ready = false;
             hole.GetComponent<Hole>().Win();
             inHole = true;
             rb.velocity = Vector3.zero;

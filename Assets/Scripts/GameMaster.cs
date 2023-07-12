@@ -26,13 +26,14 @@ public class GameMaster : MonoBehaviour
      
     // Start is called before the first frame update
     void Start()
-    {
+    {   
+        SpawnGuy.transform.position = spawn;
         itHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
         meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
         soundFX = gameObject.GetComponent<AudioFX>();
         traverser = gameObject.GetComponent<Traverse>();
         movement = Ball.GetComponent<Movement>();
-        SpawnGuy.transform.position = spawn;
+        
         
         LevelComplete();
     }
@@ -42,18 +43,22 @@ public class GameMaster : MonoBehaviour
     }
 
     async void Level1(){
-        soundFX.Level1();
+        await Task.Delay(5000);
+        meHandle.Free();
+        meHandle.SwitchTo(SpawnGuy,30f);
+        movement.lvl1 = true;
         Ball.SetActive(true);
+        movement.ready = true;
         meHandle.Free();
 
     }
 
     async void Level2(){
-        soundFX.Level2();
         Hole.SetActive(true);
-        itHandle.SwitchTo(Hole);
-        await Task.Delay(1000);
+        itHandle.SwitchTo(Hole,30f);
+        await Task.Delay(2000);
         Ball.SetActive(true);
+        movement.ready = true;
         meHandle.Free();
         
     }
@@ -68,20 +73,20 @@ public class GameMaster : MonoBehaviour
     // }
 
     async void Level4(){
-        soundFX.Level4();
-        meHandle.SwitchTo(SpawnGuy);
-        itHandle.SwitchTo(Hole);
-        await Task.Delay(1000);
+        meHandle.SwitchTo(SpawnGuy,30f);
+        itHandle.SwitchTo(Hole,30f);
+        await Task.Delay(2000);
         Ball.SetActive(true);
+        movement.ready = true;
         
     }
 
     async void Level5(){
-        soundFX.Level5();
-        meHandle.SwitchTo(SpawnGuy);
-        itHandle.SwitchTo(Hole);
-        await Task.Delay(1000);
+        meHandle.SwitchTo(SpawnGuy,30f);
+        itHandle.SwitchTo(Hole,30f);
+        await Task.Delay(2000);
         Ball.SetActive(true);
+        movement.ready = true;
         
     }
 
@@ -96,8 +101,9 @@ public class GameMaster : MonoBehaviour
     public void LevelComplete(){
         Ball.SetActive(false);
         Ball.transform.position = spawn;
-        meHandle.SwitchTo(SpawnGuy);
+        meHandle.SwitchTo(SpawnGuy,50f);
         level++;
+        soundFX.Level_select(level);
         switch (level){
             case 1:
             Level1();

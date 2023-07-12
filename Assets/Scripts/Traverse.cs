@@ -61,9 +61,9 @@ public class Traverse : MonoBehaviour
         done = false;
         //AudioFx.PlayIntro(level);
         //Ball.SetActive(false);
-        shot_rotation = meHandle.GetRotation();
+        
         //await meHandle.MoveToPosition(spawn,50f);
-        //await Task.Delay(1000);
+        
         pc1.CreateObstacle();
         pc2.CreateObstacle();
         pc3.CreateObstacle();
@@ -72,13 +72,16 @@ public class Traverse : MonoBehaviour
         pc2.Enable();
         pc3.Enable();
         pc4.Enable();
-        
+        await Task.Delay(2000);
         meHandle.Free();
+        shot_rotation = meHandle.GetRotation();
+        
         ready = true;
     }
 
     async void TraverseFinish(){
         done = true;
+        ready = false;
         pc1.Remove();
         pc2.Remove();
         pc3.Remove();

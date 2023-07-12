@@ -16,6 +16,30 @@ public class AudioFX : MonoBehaviour
     {
         Voice = new SpeechOut();  
     }
+
+    public void Level_select(int level){
+      switch(level){
+        case 1:
+        Level1();
+        break;
+
+        case 2:
+        Level2();
+        break;
+        
+        case 3:
+        Level3();
+        break;
+
+        case 4:
+        Level4();
+        break;
+
+        case 5:
+        Level5();
+        break;
+      }
+    }
   
     public void Level1(){
 
