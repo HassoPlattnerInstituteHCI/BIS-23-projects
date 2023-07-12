@@ -9,6 +9,7 @@ namespace PlaneGame
     {
         private PantoHandle itHandle;
 
+
         private SpeechIn speechIn;
         private SpeechOut speechOut;
         private SoundEffects soundEffects;
@@ -27,7 +28,7 @@ namespace PlaneGame
 
         private void Update() //TODO: Fixed update
         {
-            //if (...) return
+            //if (!ready) return;
             transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.025F);
 
             if (transform.position.z <= -16.5)
