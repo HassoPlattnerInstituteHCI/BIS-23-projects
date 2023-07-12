@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427135, b: 0.56452316, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -885,6 +885,8 @@ MonoBehaviour:
   introTime: 0
   fruitsToWin: 1
   slicedFruitsCount: 0
+  success: {fileID: 8300000, guid: 6e4c38475873f4e3d8f5ffcbc109c44d, type: 3}
+  fail: {fileID: 8300000, guid: cdfa2dd40d1dc4f3ea0eba3077f81870, type: 3}
 --- !u!1001 &1694337905
 PrefabInstance:
   m_ObjectHideFlags: 0

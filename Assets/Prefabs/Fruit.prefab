@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c1193a5b9ca14aa2b3928504d60f5c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destructionSound: {fileID: 8300000, guid: b12bf3a474478784b81e79d002db9d15, type: 3}
+  destructionSound: {fileID: 8300000, guid: 017f1fe953cfb411e9330ddcbc9a7f7d, type: 3}
   force: 10
 --- !u!54 &7530533559459010306
 Rigidbody:

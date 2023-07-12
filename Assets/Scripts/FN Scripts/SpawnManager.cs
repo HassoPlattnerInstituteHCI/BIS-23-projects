@@ -23,6 +23,10 @@ public class SpawnManager : MonoBehaviour
     
     public int fruitsToWin = 1;
     public int slicedFruitsCount = 0;
+
+    public AudioClip success;
+    public AudioClip fail;
+
     private int spawnCounter = 0;
     Task read;
     bool spawnFruitBool = false;
@@ -45,12 +49,14 @@ public class SpawnManager : MonoBehaviour
 
     public void Fail()
     {
+        AudioSource.PlayClipAtPoint(fail, transform.position);
         read = speechOut.Speak("Oh you missed the fruit, lets try that again");
         Invoke("startGame", 3);
     }
 
     public void Win()
     {
+        AudioSource.PlayClipAtPoint(success, transform.position);
         read = speechOut.Speak("You did it! Hooray");
         level++;
         print("level: " + level);
