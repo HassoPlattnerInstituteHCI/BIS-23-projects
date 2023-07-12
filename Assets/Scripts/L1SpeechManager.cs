@@ -8,17 +8,17 @@ using SpeechIO;
 public class L1SpeechManager : MonoBehaviour
 {
     // Start is called before the first frame update
-        SpeechOut speechOut = new SpeechOut();
-        SpeechIn speechIn;
-        public string[] startDraw = new string[] { "start", "start drawing", "draw", "draw line", "line", "point", "new line" };
-        public string[] stopDraw = new string[] { "stop", "end line", "end point", "end", "finish" };
-        public string[] erase = new string[] { "erase", "undo", "remove", "delete", "delete line", "erase line", "remove line" };
-        public string[] move = new string[] { "move", "shift", "transition", "edit" };
-        public string[] select = new string[] { "select", "this" };
-        public string[] commands;
+    SpeechOut speechOut = new SpeechOut();
+    SpeechIn speechIn;
+    public string[] startDraw = new string[] { "Start", "start drawing", "draw", "draw line", "line", "point", "new line" };
+    public string[] stopDraw = new string[] { "stop", "end line", "end point", "end", "finish" };
+    public string[] erase = new string[] { "erase", "undo", "remove", "delete", "delete line", "erase line", "remove line" };
+    public string[] move = new string[] { "move", "shift", "transition", "edit" };
+    public string[] select = new string[] { "select", "this" };
+    public string[] commands;
 
-        private Dictionary<string, List<Action>> methodTable = new Dictionary<string, List<Action>> ();
-        private bool isWaiting = false;
+    private Dictionary<string, List<Action>> methodTable = new Dictionary<string, List<Action>>();
+    private bool isWaiting = false;
 
     void Start()
     {
@@ -164,7 +164,7 @@ public class L1SpeechManager : MonoBehaviour
             await speechIn.Listen(commands);
             isWaiting = false;
         }
-        
+
     }
 
     public void OnApplicationQuit()
@@ -174,7 +174,7 @@ public class L1SpeechManager : MonoBehaviour
 
     IEnumerator Callback(List<Action> actions)
     {
-        foreach(var callable in actions)
+        foreach (var callable in actions)
         {
             callable();
             yield return null;
