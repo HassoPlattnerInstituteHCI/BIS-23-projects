@@ -718,14 +718,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitPrefab: {fileID: 2406428746732441202, guid: 0874e2b7c1d06467590d85e2491476be, type: 3}
-  force: 18
+  force: 22
   forceVarying: 0
   random: 0
-  spawnPosition: {x: 0, y: 0, z: -8}
+  spawnPosition: {x: 0, y: 0, z: -10}
   curved: 0
   introTime: 22
   fruitsToWin: 1
   slicedFruitsCount: 0
+  success: {fileID: 8300000, guid: 6e4c38475873f4e3d8f5ffcbc109c44d, type: 3}
+  fail: {fileID: 8300000, guid: cdfa2dd40d1dc4f3ea0eba3077f81870, type: 3}
 --- !u!1 &1554288204
 GameObject:
   m_ObjectHideFlags: 0

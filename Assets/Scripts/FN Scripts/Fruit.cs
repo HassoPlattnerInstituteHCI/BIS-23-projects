@@ -7,7 +7,8 @@ public class Fruit : MonoBehaviour
 {
 
     public AudioClip destructionSound;
-    public int force;
+    public AudioClip spawnSound;
+
     PantoHandle handle;
     GameObject spawnManager;
     private int hitPerFruitCount = 0;
@@ -17,15 +18,18 @@ public class Fruit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        AudioSource.PlayClipAtPoint(spawnSound, transform.position);
+
         handle = (PantoHandle)GameObject.Find("Panto").GetComponent<LowerHandle>();
+
         moveToFruit();
     }
+
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (transform.position.z < -10)
+        if (transform.position.z < -11.5)
         {
             destroyed = true;
             Destroy(gameObject);

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject fruitPrefab;
-    public int force;
+    public float force;
     public bool forceVarying = false;
     public bool random;
     public Vector3 spawnPosition = Vector3.zero;
@@ -60,8 +60,12 @@ public class SpawnManager : MonoBehaviour
         read = speechOut.Speak("You did it! Hooray");
         level++;
         print("level: " + level);
-        if (level <= 3) 
-            SceneManager.LoadScene(level);
+        if (level <= 3)
+        {
+            int newSceneindex = int.Parse(SceneManager.GetActiveScene().name[SceneManager.GetActiveScene().name.Length - 1].ToString());
+            SceneManager.LoadScene(newSceneindex);
+
+        }
     }
 
     public void startGame()
@@ -79,7 +83,7 @@ public class SpawnManager : MonoBehaviour
 
     async public void CalculateNewSpawnPosition ()
     {
-        if (random) { spawnPosition = new Vector3(Random.Range(5, -5),0,-8); };
+        if (random) { spawnPosition = new Vector3(Random.Range(4.5f, -4.5f), spawnPosition.y, spawnPosition.z); };
         spawnFruitBool = true;
         await handle.MoveToPosition(spawnPosition, 100);
         SpawnFruit("Erdbeere");
@@ -89,16 +93,44 @@ public class SpawnManager : MonoBehaviour
     public void SpawnFruit (string type)
     {
         //Frucht mit Kurve und Force muss iwie immer in Panto Reichweite bleiben
+        float arenaLength = 9f;
+        float curveFactor = 0f;
 
+        float minAngle = 0f;
+        float maxAngle = 30f;
         if (curved)
         {
-            float randomFactor = Random.Range(10, 45);
-            if (spawnPosition.x > 0)
-                randomFactor *= -1;
+            // 50/50, ob links- oder rechts-Kurve
+            bool left = (Random.Range(1, 3) == 1) ? false : true;
+            
+            if (left)
+            {
+                float interpolation = (Mathf.Abs(spawnPosition.x) + (arenaLength / 2)) / arenaLength;
+                if (spawnPosition.x < 0)
+                {
+                    interpolation = 1 - interpolation;
+                }
 
-            randomFactor = randomFactor * (Mathf.Abs(spawnPosition.x) / Mathf.Abs(5));
+                // interpolates between 0∞ and 40∞, depending on the spawnposition in the arena
+                curveFactor = -Mathf.Lerp(minAngle, maxAngle, interpolation);
+            }
+            else
+            {
+                float interpolation = (Mathf.Abs(spawnPosition.x) + (arenaLength / 2)) / arenaLength;
+                if (spawnPosition.x > 0)
+                {
+                    interpolation = 1 - interpolation;
+                }
+                curveFactor = Mathf.Lerp(minAngle, maxAngle, interpolation);
 
-            curveDir = Quaternion.AngleAxis(/*randomFactor*/ 45, new Vector3(0, 1, 0)) * new Vector3(0, 0, 1);
+            }
+            print("CURVEFACTOR: " + curveFactor);
+
+
+
+
+
+            curveDir = Quaternion.AngleAxis(curveFactor, new Vector3(0, 1, 0)) * new Vector3(0, 0, 1);
 
         }
         if (forceVarying)
@@ -116,8 +148,12 @@ public class SpawnManager : MonoBehaviour
                 fruit = Instantiate(fruitPrefab, spawnPosition, fruitPrefab.transform.rotation);
                 break;
         }
+
+        //Wenn Force straight nach oben geht, weniger applyen, da sonst auﬂerhalb des Pantobereichs fliegt
+        float forceDamp = Mathf.Lerp(0.6f, 1.0f, (maxAngle - minAngle) / (Mathf.Abs(curveFactor) - minAngle));
+        force *= forceDamp;
         
-        fruit.GetComponent<Rigidbody>().AddForce(curveDir * force, ForceMode.Impulse);
+        fruit.GetComponent<Rigidbody>().AddForce(curveDir.normalized * force, ForceMode.Impulse);
         spawnCounter++;
     }
 }

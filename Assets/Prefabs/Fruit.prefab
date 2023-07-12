@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 6438330909879051560}
   - component: {fileID: 3108012386747129719}
   - component: {fileID: 7530533559459010306}
-  - component: {fileID: 1192395207801137956}
   m_Layer: 0
   m_Name: Fruit
   m_TagString: Untagged
@@ -113,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destructionSound: {fileID: 8300000, guid: 017f1fe953cfb411e9330ddcbc9a7f7d, type: 3}
-  force: 10
+  spawnSound: {fileID: 8300000, guid: a1d5138df0fdd4361947189e85453b2c, type: 3}
 --- !u!54 &7530533559459010306
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -130,19 +129,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1192395207801137956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2406428746732441202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7948ea43f9f03c647aa1ec214c4fbde9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  traceShape: 0
-  isOnUpper: 0
-  description: 
-  priority: 0
