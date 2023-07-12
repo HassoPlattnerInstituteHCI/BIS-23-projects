@@ -87,20 +87,19 @@ namespace PlaneGame
                 switch (Level)
                 {
                     case 1:
-                        soundEffects.SayText("We are in Level 1!");
-                        //TODO intorduction
+                        soundEffects.SayText("Welcome to Level 1! Reach Score 3.");
                         LevelHasLives = false;
                         IsReduceScore = false;
                         _levelMessage = $"Reached target score: {aimScore}/{aimScore}";
                         break;
                     case 2:
-                        //TODO intorduction
+                        soundEffects.SayText("Welcome to Level 2. Reach Score 3. Careful, there are negative points now, too.");
                         LevelHasLives = false;
                         IsReduceScore = true;
                         _levelMessage = $"Reached target score: {aimScore}/{aimScore}";
                         break;
                     default:
-                        //TODO free ´play introduction
+                        soundEffects.SayText("Welcome to the freeplay mode! Here you can collect points as long as you want. Have fun!");
                         LevelHasLives = false;
                         IsFreePlay = true;
                         IsReduceScore = false;
@@ -149,6 +148,7 @@ namespace PlaneGame
             {
                 _missBuf = _missBuf != 0 ? 0 : _missBuf;
                 textField.text = $"Score: {Score}\nMisses: {Misses}\n[Free Play]";
+
             }
             else
             {

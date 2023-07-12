@@ -49,6 +49,15 @@ namespace PlaneGame
                     ScoreManager.PointsLost++;
                     soundEffects.AnnouncePoints(ScoreManager.Score, ScoreManager.Misses);
                 }
+                else if(!ScoreManager.LevelHasLives && ScoreManager.Score > 0 && ScoreManager.IsReduceScore)
+                {
+                    soundEffects.AnnouncePoints(0, ScoreManager.Misses);
+                }
+
+                if(ScoreManager.IsFreePlay)
+                {
+                    soundEffects.AnnouncePoints(ScoreManager.Score, ScoreManager.Misses);
+                }
             }
         }
     }

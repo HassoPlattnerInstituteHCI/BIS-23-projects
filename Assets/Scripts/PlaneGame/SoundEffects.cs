@@ -19,6 +19,8 @@ public class SoundEffects : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         speechOut = new SpeechOut();
+
+        introduction();
     }
 
     void Update()
@@ -70,20 +72,10 @@ public class SoundEffects : MonoBehaviour
         await speechOut.Speak("Score:" + score.ToString() + ". Misses: " + pointsLost.ToString());
     }
 
-    //TODO Freeplay sonification
-    // public async void AnnounceFreePlay()
-    // {
-
-    // }
-
-    public async void AnnounceLevel(int levelNumber)
+    public async void introduction()
     {
-        //TODO: say level and goal of level for all existing levels
-        // switch(levelNumber)
-        // {
-        //     case 1:
-
-        // }
+        // add plane starting sounds  audioSource.PlayOneShot();
+        SayText("Welcome to Fabulous Flight. A ring is approaching you. Try to to reach it by twisting your steering wheel. In this tutorial, you have 3 lives.");
     }
 
     public void MissedRing()
