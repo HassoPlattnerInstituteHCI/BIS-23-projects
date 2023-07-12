@@ -721,7 +721,7 @@ MonoBehaviour:
   random: 1
   spawnPosition: {x: 0, y: 0, z: -10}
   curved: 1
-  introTime: 0
+  introTime: 8
   fruitsToWin: 1
   slicedFruitsCount: 0
   success: {fileID: 8300000, guid: 6e4c38475873f4e3d8f5ffcbc109c44d, type: 3}
