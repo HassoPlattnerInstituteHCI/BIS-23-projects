@@ -26,6 +26,7 @@ public class MiniGolfV2 : MonoBehaviour
     [Range(0, 5)] public float forceMultiplier = 1f;
     [Range(1, 50)] public float shootPowerMultiplier = 25f;
     [Range(0, 1)] public float loseSpeedMultiplier = 0.99f; // Golfball loses speed after it has been played, can also be effected by hearbeatWaitTime
+    [Range(10, 100)] public float switchToSpeed = 50f; // Speed for the switchTo function
     public String nextScene;
     public int lvlNum;
     
@@ -56,9 +57,9 @@ public class MiniGolfV2 : MonoBehaviour
     private Vector3 _letGoPosition = Vector3.zero; // The position of where the GolfBall is let got
     private Vector3 _lastVelocity; // used to bounce off walls
 
-    public static GameModes currentGameMode = GameModes.ExploreMode;
+    public static GameModes currentGameMode = GameModes.WaitMode;
 
-    private GameObject _startPosition;
+    private GameObject _startPosition; // start position of the lower handle
 
     // Start is called before the first frame update
     private void Start()
@@ -75,21 +76,22 @@ public class MiniGolfV2 : MonoBehaviour
 
         // Move Handles
         _startPosition = GameObject.Find("StartPosition");
-        _lowerHandle.SwitchTo(_startPosition); // lower handle to start position
-        _upperHandle.SwitchTo(gameObject); // upper handle to golf ball
+        _lowerHandle.SwitchTo(_startPosition, switchToSpeed); // lower handle to start position
+        _upperHandle.SwitchTo(gameObject, switchToSpeed); // upper handle to golf ball
 
         // Sounds
         _sounds = GetComponent<SoundsMinigolf>();
+        // _sounds.SePlayLoad(); // test Sounds
 
-        setLvls();
+        setLvls(); // load lvl settings
     }
 
     private void setLvls()
     {
         _startPosition = GameObject.Find("StartPosition");
         currentGameMode = GameModes.WaitMode;
-        _upperHandle.SwitchTo(gameObject);
-        _lowerHandle.SwitchTo(_startPosition);
+        _upperHandle.SwitchTo(gameObject, switchToSpeed);
+        _lowerHandle.SwitchTo(_startPosition, switchToSpeed);
         _letGo = false;
         _golfBallWaitTimer = waitTime;
         if (lvlNum == 1)
@@ -107,24 +109,24 @@ public class MiniGolfV2 : MonoBehaviour
         }
         else
         {
-            setNormalLvl();
+            setNormalLvl(); // all levels with no special attributes
         }
     }
 
     private async void setLvl1()
     {
-        _upperHandle.SwitchTo(gameObject);
-        _lowerHandle.SwitchTo(_startPosition);
-        await _sounds.SpeLvl1();
-        _upperHandle.SwitchTo(gameObject);
-        _lowerHandle.SwitchTo(_startPosition);
+        // _upperHandle.SwitchTo(gameObject);
+        // _lowerHandle.SwitchTo(_startPosition);
+        _sounds.SpeLvl1();
+        _upperHandle.SwitchTo(gameObject, switchToSpeed);
+        _lowerHandle.SwitchTo(_startPosition, switchToSpeed);
         currentGameMode = GameModes.ShootMode;
     }
     
     private async void setLvl2()
     {
-        _upperHandle.SwitchTo(gameObject);
-        _lowerHandle.SwitchTo(_startPosition);
+        _upperHandle.SwitchTo(gameObject, switchToSpeed);
+        _lowerHandle.SwitchTo(_startPosition, switchToSpeed);
         await _sounds.SpeLvl2();
         _lowerHandle.Free();
         currentGameMode = GameModes.ExploreMode;
@@ -132,8 +134,8 @@ public class MiniGolfV2 : MonoBehaviour
     
     private async void setLvl3()
     {
-        _upperHandle.SwitchTo(gameObject);
-        _lowerHandle.SwitchTo(_startPosition);
+        _upperHandle.SwitchTo(gameObject, switchToSpeed);
+        _lowerHandle.SwitchTo(_startPosition, switchToSpeed);
         await _sounds.SpeLvl3();
         _lowerHandle.Free();
         currentGameMode = GameModes.ExploreMode;
@@ -141,8 +143,8 @@ public class MiniGolfV2 : MonoBehaviour
     
     private async void setNormalLvl()
     {
-        _upperHandle.SwitchTo(gameObject);
-        _lowerHandle.SwitchTo(_startPosition);
+        _upperHandle.SwitchTo(gameObject, switchToSpeed);
+        _lowerHandle.SwitchTo(_startPosition, switchToSpeed);
         _lowerHandle.Free();
         currentGameMode = GameModes.ExploreMode;
     }
@@ -257,10 +259,10 @@ public class MiniGolfV2 : MonoBehaviour
         {
             if (_letGo && currentGameMode == GameModes.ShootMode)
             {
-                _lowerHandle.SwitchTo(gameObject);
+                _lowerHandle.SwitchTo(gameObject, switchToSpeed);
             }
             
-            _upperHandle.SwitchTo(gameObject); // send the upper Handle to the ball
+            _upperHandle.SwitchTo(gameObject, switchToSpeed); // send the upper Handle to the ball
             if (currentGameMode == GameModes.WatchMode)
             {
                 _rigidbody.velocity *= loseSpeedMultiplier; // reduce velocity to slow down the ball
@@ -291,7 +293,7 @@ public class MiniGolfV2 : MonoBehaviour
                     moveForce.y = 0;
                     _rigidbody.velocity = moveForce; // Move GolfBall in Unity
                     currentGameMode = GameModes.WatchMode; // Now the player has to watch the Ball move
-                    _upperHandle.SwitchTo(gameObject); // UpperHandle should now watch the ball
+                    _upperHandle.SwitchTo(gameObject, switchToSpeed); // UpperHandle should now watch the ball
                     _lowerHandle.FreeRotation();
                     _lowerHandle.Free();
                     _letGo = false; // Not let go anymore for the next ShootMode
@@ -327,7 +329,7 @@ public class MiniGolfV2 : MonoBehaviour
                     {
                         Debug.LogWarning("Let go of the Handle");
                         _letGo = true;
-                        _lowerHandle.SwitchTo(gameObject);
+                        _lowerHandle.SwitchTo(gameObject, switchToSpeed);
                         _sounds.SeStop();
                         _sounds.SpeWatchMode();
                     }
