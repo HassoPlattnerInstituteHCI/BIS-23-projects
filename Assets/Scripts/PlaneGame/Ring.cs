@@ -7,9 +7,6 @@ namespace PlaneGame
 {
     public class Ring : MonoBehaviour
     {
-        private PantoHandle itHandle;
-
-
         private SpeechIn speechIn;
         private SpeechOut speechOut;
         private SoundEffects soundEffects;
@@ -20,15 +17,12 @@ namespace PlaneGame
             speechOut = new SpeechOut();
             soundEffects = GameObject.FindObjectOfType<GameManager>().GetComponent<SoundEffects>();
 
-            itHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
             Debug.LogError("RING CREATED");
-            await itHandle.SwitchTo(gameObject);
-            await Task.Delay(5000);
+            //_itHandle.SwitchTo(gameObject);
         }
 
-        private void Update() //TODO: Fixed update
+        private async void Update()
         {
-            //if (!ready) return;
             transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.025F);
 
             if (transform.position.z <= -16.5)

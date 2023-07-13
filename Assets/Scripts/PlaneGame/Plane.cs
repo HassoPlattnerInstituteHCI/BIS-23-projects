@@ -26,8 +26,8 @@ namespace PlaneGame
         {
             _meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
             _plane = FindObjectOfType<Plane>();
-            _moveHandle  = _meHandle.SwitchTo(_plane.gameObject);
-            await _moveHandle;
+            await _meHandle.MoveToPosition(_plane.gameObject.transform.position);
+            _meHandle.Freeze();
             Debug.LogWarning("Moved.");
             _meHandle.FreeRotation();
             Debug.LogWarning("Freed rotation.");
@@ -35,7 +35,7 @@ namespace PlaneGame
             delay.Wait();*/ // might be necessary later
 
             speechOut = new SpeechOut();
-            soundEffects = GameObject.FindObjectOfType<GameManager>().GetComponent<SoundEffects>();
+            soundEffects = FindObjectOfType<GameManager>().GetComponent<SoundEffects>();
         }
 
         // Update is called once per frame

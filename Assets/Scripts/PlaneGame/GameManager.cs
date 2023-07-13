@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using DualPantoFramework;
+
+using UnityEngine;
 using Random = System.Random;
 using SpeechIO;
 
@@ -11,16 +13,17 @@ namespace PlaneGame
         //public GameObject planePrefab;
         public GameObject ringPrefab;
         public SoundEffects soundEffects;
+        public static PantoHandle ItHandle;
 
         private int _rings;
         
-        private void Start()
+        private async void Start()
         {
             _rings = GameObject.FindGameObjectsWithTag("ring").Length;
             soundEffects = GetComponent<SoundEffects>();
         }
 
-        private void Update()
+        private async void Update()
         {
             Random rnd = new Random();
 
@@ -28,10 +31,14 @@ namespace PlaneGame
 
             if (_rings == 0 && (!ScoreManager.IsFreePlay && ((ScoreManager.LevelHasLives && !(ScoreManager.Lives <= 0)) || (!ScoreManager.LevelHasLives && ScoreManager.AimScoreStatic != ScoreManager.Score)) || ScoreManager.IsFreePlay))
             {
-                Instantiate(ringPrefab,
+                GameObject newRing = Instantiate(ringPrefab,
                     new Vector3(rnd.Next(-5, 8), ringPrefab.transform.position.y, ringPrefab.transform.position.z),
                     ringPrefab.transform.rotation);
+                
+                ItHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
+                await ItHandle.SwitchTo(newRing);
                 _rings++;
+                
             }
             
         }
