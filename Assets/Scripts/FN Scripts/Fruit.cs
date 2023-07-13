@@ -29,14 +29,17 @@ public class Fruit : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (transform.position.z < -11.5)
+        transform.GetChild(0).transform.position = transform.position + (GetComponent<Rigidbody>().velocity / 2);
+
+        Debug.Log("prediction position: " + transform.GetChild(0).transform.position); 
+	    if (transform.position.z < -11.5)
         {
             destroyed = true;
             Destroy(gameObject);
             FindObjectOfType<SpawnManager>().Fail();
         }
 
-        
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -66,12 +69,21 @@ public class Fruit : MonoBehaviour
     async void moveToFruit()
     {
         //GameObject schon destroyed?
-        Vector3 addUP = new Vector3(0,0,0);
-        Vector3 prediction = gameObject.transform.position + addUP;
+        //Vector3 addUP = new Vector3(0,0,0);
+        //Vector3 prediction = gameObject.transform.position + addUP;
         //delay umgehen?
-        if (!destroyed)
-            await handle.SwitchTo(gameObject, 100);
-        //await handle.MoveToPosition(prediction, 10f, true);
+        if (destroyed)
+            return;
+
+        
+        
+	    await handle.SwitchTo(gameObject.transform.GetChild(0).gameObject, 100);
+
+        //Falls tatsächlich während der Kurve das Objekt erreicht wird, soll wieder zum go geswitched werden
+        //moveToFruit(); - Wohl doch nicht notwendig
+	    
+	
+	    //await handle.MoveToPosition(prediction, 10f, true);
     }
 
 }
