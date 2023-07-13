@@ -4,6 +4,7 @@ using UnityEngine;
 using SpeechIO;
 using DualPantoFramework;
 using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
 
 public class Intro3 : MonoBehaviour
 {
@@ -14,15 +15,19 @@ public class Intro3 : MonoBehaviour
     public GameObject panto;
     private Vector3 hector;
     private GameObject enemies;
+    public GameObject Spawn;
+    private UpperHandle meHandle;
 
     // Start is called before the first frame update
     void Start()
     {
+      meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>(); 
+       meHandle.SwitchTo(Spawn);
+       Wait(1000);
+       meHandle.Free();
        sp = new SpeechOut(); 
        sp.Speak("Evade and shoot the zombies");
-       //lh = panto.GetComponent<LowerHandle>();
        lh = GameObject.Find("Panto").GetComponent<LowerHandle>();
-       //enemy = GameObject.Find("Enemy");
        lh.SwitchTo(enemy, switch_speed);
     }
 
@@ -32,5 +37,10 @@ public class Intro3 : MonoBehaviour
        if(!GameObject.Find("Enemy")){
         SceneManager.LoadScene("ShooterLvl4");
        }
+    }
+    
+async void Wait(int time){
+        await Task.Delay(time);
+       
     }
 }
