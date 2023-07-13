@@ -29,6 +29,8 @@ public class SpawnManager : MonoBehaviour
     Task read;
     bool spawnFruitBool = false;
     float spawnDistTreshhold = 0.5f;
+
+    bool deletedGodObjects = false;
     void Start()
     {
         handle = (PantoHandle)GameObject.Find("Panto").GetComponent<LowerHandle>();
@@ -74,7 +76,13 @@ public class SpawnManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-       
+       if (GameObject.Find("MeHandleGodObject") && GameObject.Find("ItHandleGodObject") && !deletedGodObjects)
+        {
+            GameObject.Find("MeHandleGodObject").GetComponent<SphereCollider>().enabled = false;
+            GameObject.Find("ItHandleGodObject").GetComponent<SphereCollider>().enabled = false;
+
+            deletedGodObjects = true;
+        }
     }
 
     async public void CalculateNewSpawnPosition ()

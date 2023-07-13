@@ -31,6 +31,8 @@ public class Fruit : MonoBehaviour
     {
         transform.GetChild(0).transform.position = transform.position + (GetComponent<Rigidbody>().velocity / 2);
 
+        //moveToFruit();
+
         Debug.Log("prediction position: " + transform.GetChild(0).transform.position); 
 	    if (transform.position.z < -11.5)
         {
