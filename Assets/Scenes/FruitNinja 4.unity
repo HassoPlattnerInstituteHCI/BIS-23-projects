@@ -726,6 +726,62 @@ MonoBehaviour:
   slicedFruitsCount: 0
   success: {fileID: 8300000, guid: 6e4c38475873f4e3d8f5ffcbc109c44d, type: 3}
   fail: {fileID: 8300000, guid: cdfa2dd40d1dc4f3ea0eba3077f81870, type: 3}
+--- !u!1 &1613957977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1613957979}
+  - component: {fileID: 1613957978}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1613957978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613957977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad552c28340224b95bca03c5bedc79fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audiQuellePrefab: {fileID: 546691995326550574, guid: 69c3dbb68283f4818b37ceff7d4b697c, type: 3}
+  Intro1: {fileID: 8300000, guid: d35558938210d4fc1812f157879d9617, type: 3}
+  Track1: {fileID: 8300000, guid: 65d7c33b05b344fc9a37198871151a1a, type: 3}
+  Throw1: {fileID: 8300000, guid: a1d5138df0fdd4361947189e85453b2c, type: 3}
+  Slash1: {fileID: 8300000, guid: 017f1fe953cfb411e9330ddcbc9a7f7d, type: 3}
+  Cut1: {fileID: 8300000, guid: 28f85cd8c890b43a6889588edfa218ae, type: 3}
+  Cut2: {fileID: 8300000, guid: 3407e7010e2c340758c0c68271668e21, type: 3}
+  Success: {fileID: 8300000, guid: 6e4c38475873f4e3d8f5ffcbc109c44d, type: 3}
+  missedFruit: {fileID: 8300000, guid: cdfa2dd40d1dc4f3ea0eba3077f81870, type: 3}
+  BombShot: {fileID: 8300000, guid: ca727333c8f574e25a940824d78d0f71, type: 3}
+  BombSizzeling: {fileID: 8300000, guid: f9d3a26ec7b3b4633985a586c7c72818, type: 3}
+  BombExplode: {fileID: 0}
+--- !u!4 &1613957979
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613957977}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.91151047, y: -2.187461, z: -9.291262}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1694337905
 PrefabInstance:
   m_ObjectHideFlags: 0

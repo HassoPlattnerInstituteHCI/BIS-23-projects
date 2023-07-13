@@ -46,6 +46,7 @@ public class AudioManager : MonoBehaviour
         {
             case "Intro1":
                 tonScript.clip = Intro1;
+                tonScript.volume = 0.5f;
                 //WaitForSeconds(Intro1.length);
                 break;
             case "Track1":
@@ -83,7 +84,7 @@ public class AudioManager : MonoBehaviour
 
             tonScript.Play();
             DontDestroyOnLoad(ton);
-            if (type != "Track1"||type!="BombSizzeling")
+            if (type != "Track1"&&type!="BombSizzeling")
         {
             //WaitForSeconds(tonScript.clip.length);
             Destroy(ton, tonScript.clip.length);

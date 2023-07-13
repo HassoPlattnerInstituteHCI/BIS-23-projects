@@ -29,10 +29,11 @@ public class SpawnManager : MonoBehaviour
     Task read;
     bool spawnFruitBool = false;
     float spawnDistTreshhold = 0.5f;
-
+    GameObject audioManager;
     bool deletedGodObjects = false;
     void Start()
     {
+        audioManager = GameObject.Find("AudioManager");
         handle = (PantoHandle)GameObject.Find("Panto").GetComponent<LowerHandle>();
         Invoke("startGame", introTime);
         
@@ -49,19 +50,24 @@ public class SpawnManager : MonoBehaviour
 
     public void Fail()
     {
-        AudioSource.PlayClipAtPoint(fail, transform.position);
+        //AudioSource.PlayClipAtPoint(fail, transform.position);
+        audioManager.GetComponent<AudioManager>().playSound("missedFruit");
+
+        //audioManager.GetComponent<AudioManager>().playSound("Success");
         read = speechOut.Speak("Oh you missed the fruit, lets try that again");
         Invoke("startGame", 3);
     }
 
     public void Win()
     {
-        AudioSource.PlayClipAtPoint(success, transform.position);
-        read = speechOut.Speak("You did it! Hooray");
+        audioManager.GetComponent<AudioManager>().playSound("Success");
+
+        //AudioSource.PlayClipAtPoint(success, transform.position);
+        //read = speechOut.Speak("You did it! Hooray");
 
         int newSceneindex = int.Parse(SceneManager.GetActiveScene().name[SceneManager.GetActiveScene().name.Length - 1].ToString());
-        if (newSceneindex < SceneManager.sceneCountInBuildSettings)
-            SceneManager.LoadScene(newSceneindex);
+        if (newSceneindex < SceneManager.sceneCountInBuildSettings - 1)
+            SceneManager.LoadScene(newSceneindex + 1);
 
         
     }

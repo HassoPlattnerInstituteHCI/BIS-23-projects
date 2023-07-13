@@ -14,12 +14,13 @@ public class Fruit : MonoBehaviour
     private int hitPerFruitCount = 0;
     private bool destroyed = false;
 
-
+    GameObject audioManager;
     // Start is called before the first frame update
     void Start()
     {
-        AudioSource.PlayClipAtPoint(spawnSound, transform.position);
-
+        //AudioSource.PlayClipAtPoint(spawnSound, transform.position);
+        audioManager = GameObject.Find("AudioManager");
+        audioManager.GetComponent<AudioManager>().playSound("Throw1");
         handle = (PantoHandle)GameObject.Find("Panto").GetComponent<LowerHandle>();
 
         moveToFruit();
@@ -52,6 +53,8 @@ public class Fruit : MonoBehaviour
             Debug.LogWarning("Hit by Katana");
             AudioSource.PlayClipAtPoint(destructionSound, transform.position);
 
+
+            audioManager.GetComponent<AudioManager>().playSound("Slash1");
 
             if (FindObjectOfType<SpawnManager>().slicedFruitsCount >= FindObjectOfType<SpawnManager>().fruitsToWin)
                 FindObjectOfType<SpawnManager>().Win();
