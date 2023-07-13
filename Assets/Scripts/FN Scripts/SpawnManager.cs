@@ -18,8 +18,6 @@ public class SpawnManager : MonoBehaviour
 
     public float introTime;
     private bool inIntro = true;
-    static int level = 0;
-
     
     public int fruitsToWin = 1;
     public int slicedFruitsCount = 0;
@@ -58,14 +56,12 @@ public class SpawnManager : MonoBehaviour
     {
         AudioSource.PlayClipAtPoint(success, transform.position);
         read = speechOut.Speak("You did it! Hooray");
-        level++;
-        print("level: " + level);
-        if (level <= 3)
-        {
-            int newSceneindex = int.Parse(SceneManager.GetActiveScene().name[SceneManager.GetActiveScene().name.Length - 1].ToString());
+
+        int newSceneindex = int.Parse(SceneManager.GetActiveScene().name[SceneManager.GetActiveScene().name.Length - 1].ToString());
+        if (newSceneindex < SceneManager.sceneCountInBuildSettings)
             SceneManager.LoadScene(newSceneindex);
 
-        }
+        
     }
 
     public void startGame()
@@ -111,7 +107,7 @@ public class SpawnManager : MonoBehaviour
                     interpolation = 1 - interpolation;
                 }
 
-                // interpolates between 0° and 40°, depending on the spawnposition in the arena
+                // interpolates between 0ï¿½ and 40ï¿½, depending on the spawnposition in the arena
                 curveFactor = -Mathf.Lerp(minAngle, maxAngle, interpolation);
             }
             else
@@ -149,7 +145,7 @@ public class SpawnManager : MonoBehaviour
                 break;
         }
 
-        //Wenn Force straight nach oben geht, weniger applyen, da sonst außerhalb des Pantobereichs fliegt
+        //Wenn Force straight nach oben geht, weniger applyen, da sonst auï¿½erhalb des Pantobereichs fliegt
         float forceDamp = Mathf.Lerp(0.6f, 1.0f, (maxAngle - minAngle) / (Mathf.Abs(curveFactor) - minAngle));
         force *= forceDamp;
         
