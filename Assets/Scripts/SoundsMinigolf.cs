@@ -41,7 +41,7 @@ public class SoundsMinigolf : MonoBehaviour
     
     public void SpeExploreMode()
     {
-        speechOut.Speak("Next Try - Explore Mode");
+        speechOut.Speak("Next Try - Explore Mode"); // Modus evtl auskommentieren, wenn sowieso verständlich
     }
     
     public void SpeShootMode()
@@ -51,21 +51,21 @@ public class SoundsMinigolf : MonoBehaviour
     
     public void SpeWatchMode()
     {
-        speechOut.Speak("Watch Mode");
+        speechOut.Speak("Release now to shoot. Explore mode");
     }
 
     public async Task SpeLvl1()
     {
-        await speechOut.Speak("To shoot the golf ball draw the lower handle like a bow and wait. Release after the sound ends.");
+        await speechOut.Speak("Draw the lower handle like a bow to shoot the ball. Wait for the sound to end.");
     }
     
     public async Task SpeLvl2()
-    {
-        await speechOut.Speak("The upper handle points at the ball. Find it, wait and shoot it again.");
+    { 
+        await speechOut.Speak("The upper handle follows the ball. Find it and hold still to enter shoot mode.");
     }
     
     public async Task SpeLvl3()
     {
-        await speechOut.Speak("Here we go again, but now you must feel the hole and walls with the lower handle.");
+        await speechOut.Speak("With the lower handle try to explore your sourroundings.");
     }
 }
