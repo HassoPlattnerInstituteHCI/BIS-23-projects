@@ -295,15 +295,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223306166}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c9969de60374fa4eb7d0864f8d7c804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 273302736}
-  switch_speed: 100
-  panto: {fileID: 1810814922}
-  Spawn: {fileID: 868069066}
 --- !u!114 &223306171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1085,7 +1082,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 826605487606422808, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
       propertyPath: overwriteDefaultPort
-      value: COM3
+      value: COM4
       objectReference: {fileID: 0}
     - target: {fileID: 826605487606422809, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
       propertyPath: m_Name
@@ -1142,11 +1139,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 7742484942278137610, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
---- !u!1 &1810814922 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 826605487606422809, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
-  m_PrefabInstance: {fileID: 1668555807}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2135642983
 GameObject:
   m_ObjectHideFlags: 0
