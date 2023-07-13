@@ -388,6 +388,7 @@ MonoBehaviour:
   player: {fileID: 1335039099}
   panto: {fileID: 1668555808}
   Spawn: {fileID: 648648402}
+  switch_speed: 30
   enemy: {fileID: 87359337}
 --- !u!114 &223306170
 MonoBehaviour:
@@ -445,7 +446,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 542645913}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5

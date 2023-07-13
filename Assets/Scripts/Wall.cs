@@ -21,12 +21,11 @@ public class Wall : MonoBehaviour
     PantoCollider pc4; 
     // Start is called before the first frame update
     void Start(){
-        
+
     }
 
     public void manualStart()
     {
-        Wait(10000);
        pc1 = WallLeft.GetComponent<PantoCollider>();
        TurnOn(pc1);
        pc2 = WallRight.GetComponent<PantoCollider>();
@@ -48,8 +47,5 @@ public class Wall : MonoBehaviour
         pc.Enable();
     }
 
-   async void Wait(int time){
-        await Task.Delay(time);
-       
-    }
+   
 }

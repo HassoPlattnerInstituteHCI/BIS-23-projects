@@ -17,6 +17,7 @@ public class Intro3 : MonoBehaviour
     private GameObject enemies;
     public GameObject Spawn;
     private UpperHandle meHandle;
+     Wall wall;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,8 @@ public class Intro3 : MonoBehaviour
        meHandle.SwitchTo(Spawn);
        Wait(1000);
        meHandle.Free();
+       wall = gameObject.GetComponent<Wall>();
+       wall.manualStart();
        sp = new SpeechOut(); 
        sp.Speak("Evade and shoot the zombies");
        lh = GameObject.Find("Panto").GetComponent<LowerHandle>();

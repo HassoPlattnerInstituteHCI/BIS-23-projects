@@ -15,10 +15,11 @@ public class Intro1 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>(); 
-       meHandle.SwitchTo(Spawn);
-       wall = GameObject.Find("GameBox").GetComponent<Wall>();
-       Wait(1000);
+       meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>(); 
+       meHandle.SwitchTo(Spawn, 30);
+       Wait(5000);
+
+       wall = gameObject.GetComponent<Wall>();
        wall.manualStart();
     }
 
@@ -29,6 +30,7 @@ public class Intro1 : MonoBehaviour
     }
     async void Wait(int time){
         await Task.Delay(time);
-        meHandle.Free();
+               meHandle.Free();
+       
     }
 }

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6262975158141133823}
   - component: {fileID: 6262975158141133808}
   - component: {fileID: 1268059147541628205}
+  - component: {fileID: 6483078388385273186}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -146,3 +147,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy_health: 20
   bullet_damage: 10
+--- !u!135 &6483078388385273186
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6262975158141133822}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}

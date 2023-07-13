@@ -16,25 +16,30 @@ public class Intro2 : MonoBehaviour
      private UpperHandle meHandle;
      public float  switch_speed = 30;
      public GameObject enemy;
+      Wall wall;
+      private bool x = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>(); 
-        meHandle.SwitchTo(Spawn);
-        Wait(1000);
-        meHandle.Free();
-        sp = new SpeechOut();
-        sp.Speak("Hit the Zombie");
-        player.tag = "armed";
-        lh = GameObject.Find("Panto").GetComponent<LowerHandle>();
-        lh.SwitchTo(enemy, switch_speed);
+       
+        
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(!x){
+ wall = gameObject.GetComponent<Wall>();
+        wall.manualStart();
+        lh = GameObject.Find("Panto").GetComponent<LowerHandle>();
+        lh.SwitchTo(enemy, switch_speed);        
+        sp = new SpeechOut();
+        sp.Speak("Hit the Zombie");
+        player.tag = "armed";
+        x = true;
+        }
        if(!GameObject.Find("Enemy")){
         SceneManager.LoadScene("ShooterLvl3");
        }
