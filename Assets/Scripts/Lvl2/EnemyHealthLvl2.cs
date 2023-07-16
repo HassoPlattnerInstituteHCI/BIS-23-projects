@@ -24,7 +24,6 @@ public class EnemyHealthLvl2 : MonoBehaviour
     void FixedUpdate() {
         if(enemy_health <= 0) {
             Destroy(this.gameObject);
-            SceneManager.LoadScene("ShooterLvl3");
         }
     }
 
