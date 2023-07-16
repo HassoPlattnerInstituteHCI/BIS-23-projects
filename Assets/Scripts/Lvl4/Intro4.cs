@@ -9,7 +9,7 @@ public class Intro4 : MonoBehaviour
 {   
     private SpeechOut sp;
     public GameObject enemy;
-    public float  switch_speed = 30;
+    private float  switch_speed = 100;
     private LowerHandle lh;
     private UpperHandle meHandle;
     public GameObject Spawn;

@@ -10,7 +10,7 @@ public class Intro3 : MonoBehaviour
 {
     private SpeechOut sp;
     public GameObject enemy;
-    public float  switch_speed = 20;
+    private float  switch_speed = 100;
     private PantoHandle lh;
     public GameObject panto;
     private Vector3 hector;
@@ -22,16 +22,14 @@ public class Intro3 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>(); 
-       meHandle.SwitchTo(Spawn);
-       Wait(1000);
-       meHandle.Free();
+
+       lh = GameObject.Find("Panto").GetComponent<LowerHandle>();
+       lh.SwitchTo(enemy, switch_speed);
        wall = gameObject.GetComponent<Wall>();
        wall.manualStart();
        sp = new SpeechOut(); 
        sp.Speak("Evade and shoot the zombies");
-       lh = GameObject.Find("Panto").GetComponent<LowerHandle>();
-       lh.SwitchTo(enemy, switch_speed);
+       
     }
 
     // Update is called once per frame
