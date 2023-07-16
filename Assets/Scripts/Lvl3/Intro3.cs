@@ -18,11 +18,20 @@ public class Intro3 : MonoBehaviour
     public GameObject Spawn;
     private UpperHandle meHandle;
      Wall wall;
+  
+   // public GameObject Spawn;
+   // private UpperHandle meHandle;
 
     // Start is called before the first frame update
     void Start()
     {
 
+    //   meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>(); 
+    //    meHandle.SwitchTo(Spawn);
+    //    Wait(1000);
+    //    meHandle.Free();
+       sp = new SpeechOut(); 
+       sp.Speak("Evade and shoot the zombies");
        lh = GameObject.Find("Panto").GetComponent<LowerHandle>();
        lh.SwitchTo(enemy, switch_speed);
        wall = gameObject.GetComponent<Wall>();
@@ -35,9 +44,9 @@ public class Intro3 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if(!GameObject.Find("Enemy")){
-        SceneManager.LoadScene("ShooterLvl4");
-       }
+    //    if(!GameObject.Find("Enemy")){
+    //     SceneManager.LoadScene("ShooterLvl4");
+    //    }
     }
     
 async void Wait(int time){

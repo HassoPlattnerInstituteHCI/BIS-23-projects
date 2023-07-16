@@ -19,10 +19,10 @@ public class Intro4 : MonoBehaviour
     void Start()
     {
 
-       meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>(); 
-       meHandle.SwitchTo(Spawn);
-       Wait(1000);
-        meHandle.Free();
+    //    meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>(); 
+    //    meHandle.SwitchTo(Spawn);
+    //    Wait(1000);
+
        lh = GameObject.Find("Panto").GetComponent<LowerHandle>();
        lh.SwitchTo(enemy, switch_speed);
     }
@@ -40,6 +40,7 @@ public class Intro4 : MonoBehaviour
 
     async void Wait(int time){
         await Task.Delay(time);
+                meHandle.Free();
        
     }
 }
