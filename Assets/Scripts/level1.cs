@@ -16,17 +16,16 @@ public class DrawLine : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lineRenderer = GameObject.Find("Line").GetComponent<LineRenderer>();
-        collider = GameObject.Find("Line").GetComponent<PantoLineCollider>();
-        obstacle = GameObject.Find("Line");
+        obstacle = GameObject.Find("Line"); // get line object
+        lineRenderer = obstacle.GetComponent<LineRenderer>(); // get LineRenderer of line
+        collider = obstacle.GetComponent<PantoLineCollider>(); // get PantoCollider of line 
+        
         // collider2 = GameObject.Find("Support").GetComponent<PantoLineCollider>();
         // Register callback in Speech
         // SpeechManager speech = GameObject.Find("SpeechManager").GetComponent<SpeechManager>();
         // speech.RegisterOnStart(StartDrawing);
         // speech.RegisterOnStop(StopDrawing);
     }
-
-
 
     // Update is called once per frame
     void Update()
@@ -84,21 +83,20 @@ public class DrawLine : MonoBehaviour
         GameObject newObs = Instantiate(obstacle);
         oldCollider.Remove();
         LineRenderer renderer = newObs.GetComponent<LineRenderer>();
-	 renderer.SetPosition(1, this.transform.position);
+	    renderer.SetPosition(1, this.transform.position);
         Destroy(oldCollider);
 
-       
+
         //lineRenderer = obstacle.GetComponent<LineRenderer>();
         PantoLineCollider collider = newObs.GetComponent<PantoLineCollider>();
         collider.end.x = this.transform.position.x;
         collider.end.y = this.transform.position.z;
 
-
         // first enable the new collider before removing the old one to make sure the user is not accidentally getting into the obstacle
         collider.CreateObstacle();
         collider.Enable();
-	 Destroy(obstacle);
-	 obstacle = newObs;
+	    Destroy(obstacle);
+	    obstacle = newObs;
         //    Destroy(oldCollider);
         await Task.Delay(2000);
     }
