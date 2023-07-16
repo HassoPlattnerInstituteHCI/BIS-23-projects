@@ -21,8 +21,8 @@ public class Intro2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      //  wall = gameObject.GetComponent<Wall>();
-      //   wall.manualStart();
+        var wall = gameObject.GetComponent<Wall>();
+        wall.manualStart();
         lh = GameObject.Find("Panto").GetComponent<LowerHandle>();
         lh.SwitchTo(enemy, switch_speed);        
         sp = new SpeechOut();
