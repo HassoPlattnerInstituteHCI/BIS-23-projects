@@ -36,7 +36,7 @@ public class Intro2 : MonoBehaviour
     void Update()
     {
        if(!GameObject.Find("Enemy")){
-        SceneManager.LoadScene("ShooterLvl4");
+        SceneManager.LoadScene("ShooterLvl3");
        }
     }
 
