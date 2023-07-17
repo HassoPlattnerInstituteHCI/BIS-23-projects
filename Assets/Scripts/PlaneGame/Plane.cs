@@ -10,7 +10,7 @@ namespace PlaneGame
 {
     public class Plane : MonoBehaviour
     {
-        private static PantoHandle _meHandle;
+        public static PantoHandle MeHandle;
         private GameObject _ring;
         private float _rotation;
         private static Plane _plane;
@@ -24,12 +24,12 @@ namespace PlaneGame
         // Start is called before the first frame update
         async void Start()
         {
-            _meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
+            MeHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
             _plane = FindObjectOfType<Plane>();
-            await _meHandle.MoveToPosition(_plane.gameObject.transform.position);
-            _meHandle.Freeze();
+            await MeHandle.MoveToPosition(_plane.gameObject.transform.position);
+            MeHandle.Freeze();
             Debug.LogWarning("Moved.");
-            _meHandle.FreeRotation();
+            MeHandle.FreeRotation();
             Debug.LogWarning("Freed rotation.");
             /*var delay = Task.Run(async () => { await Task.Delay(800); });
             delay.Wait();*/ // might be necessary later
@@ -41,7 +41,7 @@ namespace PlaneGame
         // Update is called once per frame
         void Update()
         {
-            if (_meHandle.inTransition)
+            if (MeHandle.inTransition)
             {
                 Debug.LogWarning("Handle not ready, standing by...");
                 var delay = Task.Run(async () => { await Task.Delay(10); });
@@ -52,7 +52,7 @@ namespace PlaneGame
                 try
                 {
                     _ring = GameObject.FindGameObjectsWithTag("ring")[0];
-                    _rotation = _meHandle.GetRotation();
+                    _rotation = MeHandle.GetRotation();
 
                     _ring.transform.position = new Vector3(_ring.transform.position.x + MapAngleToForce(_rotation), 0,
                         _ring.transform.position.z);

@@ -29,7 +29,7 @@ namespace PlaneGame
 
             _rings = GameObject.FindGameObjectsWithTag("ring").Length;
 
-            if (_rings == 0 && (!ScoreManager.IsFreePlay && ((ScoreManager.LevelHasLives && !(ScoreManager.Lives <= 0)) || (!ScoreManager.LevelHasLives && ScoreManager.AimScoreStatic != ScoreManager.Score)) || ScoreManager.IsFreePlay))
+            if (_rings == 0 && !Plane.MeHandle.inTransition && (!ScoreManager.IsFreePlay && ((ScoreManager.LevelHasLives && !(ScoreManager.Lives <= 0)) || (!ScoreManager.LevelHasLives && ScoreManager.AimScoreStatic != ScoreManager.Score)) || ScoreManager.IsFreePlay))
             {
                 GameObject newRing = Instantiate(ringPrefab,
                     new Vector3(rnd.Next(-5, 8), ringPrefab.transform.position.y, ringPrefab.transform.position.z),
