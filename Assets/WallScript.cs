@@ -197,8 +197,8 @@ public class WallScript : MonoBehaviour
         oldhori2Collider.Remove();
 
         //move to
-        await meHandlePanto.MoveToPosition(me);
-        await itHandlePanto.MoveToPosition(it);
+        await meHandlePanto.MoveToPosition(me,20);
+        await itHandlePanto.MoveToPosition(it,20);
 
         vertCollider1.CreateObstacle();
         vertCollider2.CreateObstacle();
@@ -231,7 +231,7 @@ public class WallScript : MonoBehaviour
         oldhori1Collider.Remove();
         oldhori2Collider.Remove();
 
-        //move to
+        await itHandlePanto.MoveToPosition(it,20);
 
         horiCollider1.CreateObstacle();
         horiCollider2.CreateObstacle();
