@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     async void Start()
     {
         upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
-        await upperHandle.MoveToPosition(gameObject.transform.position, speed, true);
+        await upperHandle.MoveToPosition(transform.transform.position, 10f, true);
         //speech = new SpeechIn(onSpeechRecognized);
         // speech.StartListening(new string[] { "help", "resume" }); 
         speechOut = new SpeechOut();

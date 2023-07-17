@@ -8,12 +8,14 @@ using UnityEngine.SceneManagement;
 public class LabyrinthManager : MonoBehaviour
 {
     public GameObject player;
+    public GameObject spawn;
     public bool gameStarted = false;
     public bool playIntro = false;
     private SpeechOut speechOut;
     // private SpeechIn speech;
     private int numItems;
     private int itemCounter = 0;
+    private UpperHandle upperHandle;
 
     private AudioSource audioSource;
     public AudioClip[] audioClips;
@@ -35,6 +37,10 @@ public class LabyrinthManager : MonoBehaviour
             Level room = GameObject.Find("Panto").GetComponent<Level>();
             await room.PlayIntroduction();
         }
+        
+        // upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
+        // await upperHandle.MoveToPosition(spawn.transform.position, 10f, true);
+
         gameStarted = true;
         getNextItem();
     }
@@ -54,6 +60,7 @@ public class LabyrinthManager : MonoBehaviour
             GameObject item = gos[Random.Range(0, gos.Length)];
             StartCoroutine(playNextItemSoundCoroutine(item));
             await GameObject.Find("Panto").GetComponent<LowerHandle>().SwitchTo(item);
+            GameObject.Find("Panto").GetComponent<LowerHandle>().Freeze();
             item.GetComponent<Item>().currentItem = true;
         }
     }
