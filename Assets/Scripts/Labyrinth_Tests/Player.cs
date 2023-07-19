@@ -12,13 +12,58 @@ public class Player : MonoBehaviour
     private SpeechOut speechOut;
     private UpperHandle upperHandle;
 
+
     async void Start()
     {
+        //DisableWalls();
         upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
-        await upperHandle.MoveToPosition(transform.transform.position, 10f, true);
+        /*await MoveToInitPos()*/;
+        await upperHandle.MoveToPosition(transform.position, 5f, true);
+
+
         //speech = new SpeechIn(onSpeechRecognized);
         // speech.StartListening(new string[] { "help", "resume" }); 
         speechOut = new SpeechOut();
+        EnableWalls();
+    }
+
+    // Does not work reliably -_- Perhaps set a closer labyrinth entry?
+    async Task MoveToInitPos()
+    {
+        await upperHandle.MoveToPosition(transform.position, 5f, true);
+        Vector3 handlePos = upperHandle.GetPosition();
+        float dist = Vector3.Distance(handlePos, transform.position);
+
+        int maxIter = 10;
+        while (dist > 1 && maxIter-- > 0) {
+            await upperHandle.MoveToPosition(transform.position, 5f, true);
+            handlePos = upperHandle.GetPosition();
+            dist = Vector3.Distance(new Vector3(handlePos.x, 0, handlePos.z), new Vector3(transform.position.x, 0, transform.position.z));
+
+        }
+
+    }
+
+    //void DisableWalls()
+    //{
+    //    PantoCollider[] pantoColliders = GameObject.FindObjectsOfType<PantoCollider>();
+    //    foreach (PantoCollider collider in pantoColliders)
+    //    {
+    //        collider.Disable();
+    //    }
+    //}
+
+    /**
+     * Call this initially to render walls
+     * */
+    void EnableWalls()
+    {
+        PantoCollider[] pantoColliders = GameObject.FindObjectsOfType<PantoCollider>();
+        foreach (PantoCollider collider in pantoColliders)
+        {
+            collider.CreateObstacle();
+            collider.Enable();
+        }
     }
 
     // public async Task ActivatePlayer()
@@ -27,8 +72,10 @@ public class Player : MonoBehaviour
     // }
 
     private void FixedUpdate() {
-        transform.position = (upperHandle.HandlePosition(transform.position));
-        // transform.eulerAngles = new Vector3(0, upperHandle.GetRotation(), 0);
+        Vector3 moveTo = (upperHandle.HandlePosition(transform.position));
+        Debug.Log(moveTo);
+        transform.position = moveTo;
+        //transform.eulerAngles = new Vector3(0, upperHandle.GetRotation(), 0);
     }
 
     private async void OnCollisionEnter(Collision other) {
