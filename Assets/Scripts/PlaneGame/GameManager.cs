@@ -23,16 +23,20 @@ namespace PlaneGame
             soundEffects = GetComponent<SoundEffects>();
         }
 
-        private async void Update()
+        private Vector3 generateSpawnPosition()
         {
             Random rnd = new Random();
+            return new Vector3((float)rnd.NextDouble() * 8f - 5f, 0f, -5f);
+        }
 
+        private async void Update()
+        {
             _rings = GameObject.FindGameObjectsWithTag("ring").Length;
 
             if (_rings == 0 && !Plane.MeHandle.inTransition && (!ScoreManager.IsFreePlay && ((ScoreManager.LevelHasLives && !(ScoreManager.Lives <= 0)) || (!ScoreManager.LevelHasLives && ScoreManager.AimScoreStatic != ScoreManager.Score)) || ScoreManager.IsFreePlay))
             {
                 GameObject newRing = Instantiate(ringPrefab,
-                    new Vector3(rnd.Next(-5, 8), ringPrefab.transform.position.y, ringPrefab.transform.position.z),
+                    generateSpawnPosition(),
                     ringPrefab.transform.rotation);
                 
                 ItHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();

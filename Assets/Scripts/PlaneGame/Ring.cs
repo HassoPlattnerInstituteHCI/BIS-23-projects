@@ -7,6 +7,9 @@ namespace PlaneGame
 {
     public class Ring : MonoBehaviour
     {
+        public float despawnZ = -14f;
+        public float minX = -10;
+        public float maxX = 10;
         private SpeechIn speechIn;
         private SpeechOut speechOut;
         private SoundEffects soundEffects;
@@ -21,11 +24,16 @@ namespace PlaneGame
             //_itHandle.SwitchTo(gameObject);
         }
 
+        private bool isInBounds()
+        {
+            return transform.position.z >= despawnZ && minX <= transform.position.x && transform.position.x <= maxX;
+        }
+
         private async void Update()
         {
             transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.025F);
 
-            if (transform.position.z <= -16.5)
+            if (!isInBounds())
             {
                 Destroy(gameObject);
                 ScoreManager.Misses++;

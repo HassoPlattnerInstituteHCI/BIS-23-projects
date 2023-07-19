@@ -26,7 +26,7 @@ namespace PlaneGame
         {
             MeHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
             _plane = FindObjectOfType<Plane>();
-            await MeHandle.MoveToPosition(_plane.gameObject.transform.position);
+            await MeHandle.MoveToPosition(_plane.gameObject.transform.position, newSpeed: 5.0f, shouldFreeHandle: false);
             MeHandle.Freeze();
             Debug.LogWarning("Moved.");
             MeHandle.FreeRotation();
@@ -39,7 +39,7 @@ namespace PlaneGame
         }
 
         // Update is called once per frame
-        void Update()
+        void FixedUpdate()
         {
             if (MeHandle.inTransition)
             {
@@ -96,6 +96,7 @@ namespace PlaneGame
                 neg = angle is >= 180 and < 270;
                 force = 1;
             }
+            force = (force > 2f) ? 2f : force;
 
             return neg ? 0.035F * force : 0.035F * -force;
         }
