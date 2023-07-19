@@ -30,7 +30,7 @@ public class Fruit : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.GetChild(0).transform.position = transform.position + (GetComponent<Rigidbody>().velocity / 2);
+        transform.GetChild(0).transform.position = transform.position + (GetComponent<Rigidbody>().velocity / 3);
 
         //moveToFruit();
 
@@ -82,7 +82,7 @@ public class Fruit : MonoBehaviour
 
         
         
-	    await handle.SwitchTo(gameObject.transform.GetChild(0).gameObject, 50);
+	    await handle.SwitchTo(gameObject.transform.GetChild(0).gameObject, 30);
 
         //Falls tatsächlich während der Kurve das Objekt erreicht wird, soll wieder zum go geswitched werden
         //moveToFruit(); - Wohl doch nicht notwendig

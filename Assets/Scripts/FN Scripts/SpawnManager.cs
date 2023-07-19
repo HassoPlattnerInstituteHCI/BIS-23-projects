@@ -48,14 +48,14 @@ public class SpawnManager : MonoBehaviour
 
     }
 
-    public void Fail()
+    public async void Fail()
     {
         //AudioSource.PlayClipAtPoint(fail, transform.position);
         audioManager.GetComponent<AudioManager>().playSound("missedFruit");
 
         //audioManager.GetComponent<AudioManager>().playSound("Success");
-        read = speechOut.Speak("Oh you missed the fruit, lets try that again");
-        Invoke("startGame", 3);
+        await speechOut.Speak("Oh you missed the fruit, lets try that again");
+        startGame();
     }
 
     public void Win()
@@ -95,7 +95,7 @@ public class SpawnManager : MonoBehaviour
     {
         if (random) { spawnPosition = new Vector3(Random.Range(4.5f, -4.5f), spawnPosition.y, spawnPosition.z); };
         spawnFruitBool = true;
-        await handle.MoveToPosition(spawnPosition, 100);
+        await handle.MoveToPosition(spawnPosition, 10);
         SpawnFruit("Erdbeere");
 
     }
@@ -169,8 +169,8 @@ public class SpawnManager : MonoBehaviour
 
     public async void levelTransit(int newSceneindex)
     {
-        await GameObject.Find("Panto").GetComponent<UpperHandle>().MoveToPosition(Vector3.zero, 1);
-        await GameObject.Find("Panto").GetComponent<LowerHandle>().MoveToPosition(Vector3.zero, 1);
+        //await GameObject.Find("Panto").GetComponent<UpperHandle>().MoveToPosition(Vector3.zero, 1);
+        //await GameObject.Find("Panto").GetComponent<LowerHandle>().MoveToPosition(Vector3.zero, 1);
         SceneManager.LoadScene(newSceneindex);
 
     }
