@@ -82,7 +82,7 @@ public class Fruit : MonoBehaviour
 
         
         
-	    await handle.SwitchTo(gameObject.transform.GetChild(0).gameObject, 100);
+	    await handle.SwitchTo(gameObject.transform.GetChild(0).gameObject, 50);
 
         //Falls tatsächlich während der Kurve das Objekt erreicht wird, soll wieder zum go geswitched werden
         //moveToFruit(); - Wohl doch nicht notwendig

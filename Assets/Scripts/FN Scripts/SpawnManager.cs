@@ -67,7 +67,7 @@ public class SpawnManager : MonoBehaviour
 
         int newSceneindex = int.Parse(SceneManager.GetActiveScene().name[SceneManager.GetActiveScene().name.Length - 1].ToString());
         if (newSceneindex < SceneManager.sceneCountInBuildSettings - 1)
-            SceneManager.LoadScene(newSceneindex + 1);
+            levelTransit(newSceneindex + 1);
 
         
     }
@@ -166,4 +166,13 @@ public class SpawnManager : MonoBehaviour
         fruit.GetComponent<Rigidbody>().AddForce(curveDir.normalized * force, ForceMode.Impulse);
         spawnCounter++;
     }
+
+    public async void levelTransit(int newSceneindex)
+    {
+        await GameObject.Find("Panto").GetComponent<UpperHandle>().MoveToPosition(Vector3.zero, 1);
+        await GameObject.Find("Panto").GetComponent<LowerHandle>().MoveToPosition(Vector3.zero, 1);
+        SceneManager.LoadScene(newSceneindex);
+
+    }
 }
+
