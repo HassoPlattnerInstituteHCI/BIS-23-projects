@@ -11,6 +11,8 @@ TagManager:
   - ItHandleObject
   - VertWall
   - HoriWall
+  - IndicatorBody
+  - ItFollower
   layers:
   - Default
   - TransparentFX

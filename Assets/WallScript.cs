@@ -190,7 +190,10 @@ public class WallScript : MonoBehaviour
         vertCollider2 = vertWalls[1].GetComponent<PantoCollider>();
         horiCollider1 = horiWalls[0].GetComponent<PantoCollider>();
         horiCollider2 = horiWalls[1].GetComponent<PantoCollider>();
-
+        horiWalls[0].GetComponent<BoxCollider>().enabled = false;
+        horiWalls[1].GetComponent<BoxCollider>().enabled = false;
+        vertWalls[0].GetComponent<BoxCollider>().enabled = false;
+        vertWalls[1].GetComponent<BoxCollider>().enabled = false;
         oldvert1Collider.Remove();
         oldvert2Collider.Remove();
         oldhori1Collider.Remove();
@@ -208,7 +211,10 @@ public class WallScript : MonoBehaviour
         vertCollider2.Enable();
         horiCollider1.Enable();
         horiCollider2.Enable();
-
+        horiWalls[0].GetComponent<BoxCollider>().enabled = true;
+        horiWalls[1].GetComponent<BoxCollider>().enabled = true;
+        vertWalls[0].GetComponent<BoxCollider>().enabled = true;
+        vertWalls[1].GetComponent<BoxCollider>().enabled = true;
         //await Task.Delay(2000);
     }
     private async Task MoveHoriWallsAndItHandle(Vector3 hori1, Vector3 hori2, Vector3 it)
@@ -227,6 +233,8 @@ public class WallScript : MonoBehaviour
         horiWalls[1].transform.position = hori2;
         horiCollider1 = horiWalls[0].GetComponent<PantoCollider>();
         horiCollider2 = horiWalls[1].GetComponent<PantoCollider>();
+        horiWalls[0].GetComponent<BoxCollider>().enabled = false;
+        horiWalls[1].GetComponent<BoxCollider>().enabled = false;
 
         oldhori1Collider.Remove();
         oldhori2Collider.Remove();
@@ -238,6 +246,8 @@ public class WallScript : MonoBehaviour
 
         horiCollider1.Enable();
         horiCollider2.Enable();
+        horiWalls[0].GetComponent<BoxCollider>().enabled = true;
+        horiWalls[1].GetComponent<BoxCollider>().enabled = true;
 
         //await Task.Delay(2000);
     }

@@ -3,40 +3,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class initiatePosition : MonoBehaviour
+public class InitiatePositionDemoLvl : MonoBehaviour
 {
     // Start is called before the first frame update
     private GameObject[] obstacles;
-    private WallScript WallManager;
+    PantoHandle upperHandle;
+    PantoHandle lowerHandle;
+    IndicatorControl indicatorControl;
+
     async void Start()
     {
-        PantoHandle upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
-        PantoHandle lowerHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
+        indicatorControl = GameObject.FindGameObjectWithTag("IndicatorBody").GetComponent<IndicatorControl>();
+        upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
+        lowerHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
         obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
         for (int i = 0; i < obstacles.Length; i++)
         {
             GameObject obstacle = obstacles[i];
-            obstacle.GetComponent<PantoBoxCollider>().Disable();
+
             obstacle.GetComponent<BoxCollider>().enabled = false;
         }
-        
-        await upperHandle.MoveToPosition(new Vector3(0f, 0f, -4f));
-        await lowerHandle.MoveToPosition(new Vector3(0f, 0f, -4f));
+        await lowerHandle.MoveToPosition(new Vector3(0f, 0f, -5f));
+        await upperHandle.MoveToPosition(new Vector3(0f, 0f, -5f));
         for (int i = 0; i < obstacles.Length; i++)
         {
             GameObject obstacle = obstacles[i];
-            obstacle.GetComponent<PantoBoxCollider>().Enable();
+            obstacle.GetComponent<PantoCollider>().CreateObstacle();
+            obstacle.GetComponent<PantoCollider>().Enable();
             obstacle.GetComponent<BoxCollider>().enabled = true;
         }
-        WallManager = GameObject.Find("WallManager").GetComponent<WallScript>();
-        WallManager.Enable();
+        indicatorControl.enableControl();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
 
-    
+    }
 }
