@@ -64,14 +64,14 @@ public class SpawnManager : MonoBehaviour
 
     }
 
-    public void Fail()
+    public async void Fail()
     {
         //AudioSource.PlayClipAtPoint(fail, transform.position);
         audioManager.GetComponent<AudioManager>().playSound("missedFruit");
 
         //audioManager.GetComponent<AudioManager>().playSound("Success");
-        read = speechOut.Speak("Oh you missed the fruit, lets try that again");
-        Invoke("startGame", 3);
+        await speechOut.Speak("Oh you missed the fruit, lets try that again");
+        startGame();
     }
 
     public void Win()
