@@ -14,7 +14,7 @@ public class SpawnManager : MonoBehaviour
     public bool curved;
     SpeechOut speechOut = new SpeechOut();
     private Vector3 curveDir = new Vector3(0, 0, 1);
-    PantoHandle handle;
+    PantoHandle itHandle;
 
     public float introTime;
     private bool inIntro = true;
@@ -31,16 +31,32 @@ public class SpawnManager : MonoBehaviour
     float spawnDistTreshhold = 0.5f;
     GameObject audioManager;
     bool deletedGodObjects = false;
-    void Start()
+
+
+    private void Awake()
     {
-        audioManager = GameObject.Find("AudioManager");
-        handle = (PantoHandle)GameObject.Find("Panto").GetComponent<LowerHandle>();
-        Invoke("startGame", introTime);
-        
-
-
+        EnableWalls();
     }
 
+    async void Start()
+    {
+        IntroductionManager manager = GameObject.FindObjectOfType<IntroductionManager>();
+        audioManager = GameObject.Find("AudioManager");
+        itHandle = (PantoHandle)GameObject.Find("Panto").GetComponent<LowerHandle>();
+        await manager.PlayIntro();
+        startGame();
+        //Invoke("startGame", introTime);
+    }
+
+    private void EnableWalls()
+    {
+        PantoCollider[] pantoColliders = GameObject.FindObjectsOfType<PantoCollider>();
+        foreach (PantoCollider collider in pantoColliders)
+        {
+            collider.CreateObstacle();
+            collider.Enable();
+        }
+    }
 
     private void Update()
     {
@@ -82,20 +98,20 @@ public class SpawnManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-       if (GameObject.Find("MeHandleGodObject") && GameObject.Find("ItHandleGodObject") && !deletedGodObjects)
-        {
-            GameObject.Find("MeHandleGodObject").GetComponent<SphereCollider>().enabled = false;
-            GameObject.Find("ItHandleGodObject").GetComponent<SphereCollider>().enabled = false;
+       //if (GameObject.Find("MeHandleGodObject") && GameObject.Find("ItHandleGodObject") && !deletedGodObjects)
+       // {
+       //     GameObject.Find("MeHandleGodObject").GetComponent<SphereCollider>().enabled = false;
+       //     GameObject.Find("ItHandleGodObject").GetComponent<SphereCollider>().enabled = false;
 
-            deletedGodObjects = true;
-        }
+       //     deletedGodObjects = true;
+       // }
     }
 
     async public void CalculateNewSpawnPosition ()
     {
         if (random) { spawnPosition = new Vector3(Random.Range(4.5f, -4.5f), spawnPosition.y, spawnPosition.z); };
         spawnFruitBool = true;
-        await handle.MoveToPosition(spawnPosition, 100);
+        await itHandle.MoveToPosition(spawnPosition, 100);
         SpawnFruit("Erdbeere");
 
     }
