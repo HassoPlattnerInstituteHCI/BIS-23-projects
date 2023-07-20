@@ -35,6 +35,12 @@ public class Wall : MonoBehaviour
        pc4 = WallBottom.GetComponent<PantoCollider>();
        TurnOn(pc4);
     }
+    public void TurnOff(){
+        pc1.Disable();
+        pc2.Disable();
+        pc3.Disable();
+        pc4.Disable();
+    }
 
     // Update is called once per frame
     void Update()

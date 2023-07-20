@@ -12,11 +12,12 @@ public class Intro2 : MonoBehaviour
     public GameObject player;
     public GameObject panto;
     public GameObject Spawn;
-    private PantoHandle lh;
+    private LowerHandle lh;
     private UpperHandle meHandle;
     private float  switch_speed = 100;
     public GameObject enemy;
     private bool x = false;
+     Wall wall;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +29,7 @@ public class Intro2 : MonoBehaviour
         sp = new SpeechOut();
         sp.Speak("Hit the Zombie");
         player.tag = "armed";
-        
+ 
         
     }
 

@@ -6,7 +6,10 @@ using UnityEngine.SceneManagement;
 
 
 public class GunTrigger : MonoBehaviour
+
 {
+    public GameObject GameBox;
+     Wall wall;
 
     private SpeechOut speechOut;
     // Start is called before the first frame update
@@ -15,6 +18,7 @@ public class GunTrigger : MonoBehaviour
         speechOut = new SpeechOut();
         speechOut.Speak("Pick up the gun");
         speechOut.Speak("The closer you are the louder the sound");
+        wall = GameBox.GetComponent<Wall>();
     }
 
     // Update is called once per frame
@@ -33,6 +37,7 @@ public class GunTrigger : MonoBehaviour
             this.gameObject.tag = "armed";
             Destroy(col.gameObject);
             speechOut.Speak("You're armed");
+            wall.TurnOff();
             SceneManager.LoadScene("ShooterLvl2", LoadSceneMode.Single);
         
         }

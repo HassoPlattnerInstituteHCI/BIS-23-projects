@@ -203,11 +203,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 87359337}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2e6795cb04674e4c995afa1f7c4bee0, type: 3}
+  m_Script: {fileID: 11500000, guid: 22a461e0270daf544b7729fb3a72aaca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy_health: 50
-  bullet_damage: 10
+  enemy_health: 5
+  bullet_damage: 1
 --- !u!1 &170709312
 GameObject:
   m_ObjectHideFlags: 0
@@ -1245,7 +1245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 826605487606422808, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
       propertyPath: overwriteDefaultPort
-      value: COM4
+      value: COM3
       objectReference: {fileID: 0}
     - target: {fileID: 826605487606422809, guid: f08d327e9fb42f94d97ba9d1d226d418, type: 3}
       propertyPath: m_Name

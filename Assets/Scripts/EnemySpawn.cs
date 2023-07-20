@@ -23,6 +23,7 @@ public class EnemySpawn : MonoBehaviour
     private float canSpawn;
     private Vector3[] pos;
     private Vector3 apos;
+    public int Wave = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -42,21 +43,26 @@ public class EnemySpawn : MonoBehaviour
     }
 
     void FixedUpdate() {
-
-        if(Time.time > canSpawn) {
-            canSpawn = Time.time + delay;
-            Spawn();
+        if(Wave == 6) 
+            //exit();
+        if(!GameObject.Find("Enemy(Clone)")) {
+            Spawn(Wave * 2);
         }
+        // if(Time.time > canSpawn) {
+        //     canSpawn = Time.time + delay;
+        //     Spawn();
+        // }
     }
 
-    void Spawn() {
+    void Spawn(int num) {
 
-        for(int i = 0; i > 4; i++ ) {
-            if((player.transform.position - pos[i]).magnitude > apos.magnitude )
-                apos = player.transform.position - pos[i];
+        for(int j = 0; j > num; j++) {
+            for(int i = 0; i > 4; i++ ) {
+                if((pos[i] - player.transform.position).magnitude < apos.magnitude )
+                    apos = player.transform.position - pos[i];
+            }
+            Instantiate(enemy, apos, Quaternion.identity);
         }
-    
-        Instantiate(enemy, apos, Quaternion.identity);
-
+        Wave += 1;
     }
 }

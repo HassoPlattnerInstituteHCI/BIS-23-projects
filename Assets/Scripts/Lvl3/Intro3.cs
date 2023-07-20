@@ -17,11 +17,13 @@ public class Intro3 : MonoBehaviour
     private GameObject enemies;
     public GameObject Spawn;
     private UpperHandle meHandle;
+    public GameObject player;
     Wall wall;
 
     // Start is called before the first frame update
     void Start()
     {
+        player.gameObject.tag = "armed";
         meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>(); 
         meHandle.SwitchTo(Spawn);
         Wait(1000);
