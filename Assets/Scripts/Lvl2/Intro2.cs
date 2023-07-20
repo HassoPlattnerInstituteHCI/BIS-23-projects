@@ -17,13 +17,14 @@ public class Intro2 : MonoBehaviour
     private float  switch_speed = 100;
     public GameObject enemy;
     private bool x = false;
-     Wall wall;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        var wall = gameObject.GetComponent<Wall>();
-        wall.manualStart();
+        meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>(); 
+        meHandle.SwitchTo(Spawn, 100);
+        Wait(2000);
         lh = GameObject.Find("Panto").GetComponent<LowerHandle>();
         lh.SwitchTo(enemy, switch_speed);        
         sp = new SpeechOut();
@@ -43,6 +44,6 @@ public class Intro2 : MonoBehaviour
 
 async void Wait(int time){
         await Task.Delay(time);
-        
+        meHandle.Free();
     }
 }

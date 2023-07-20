@@ -16,11 +16,8 @@ public class Intro1 : MonoBehaviour
     void Start()
     {
        meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>(); 
-       meHandle.SwitchTo(Spawn, 30);
-       Wait(5000);
-
-       wall = gameObject.GetComponent<Wall>();
-       wall.manualStart();
+       meHandle.SwitchTo(Spawn, 31);
+       Wait(2000);
     }
 
     // Update is called once per frame
@@ -29,8 +26,9 @@ public class Intro1 : MonoBehaviour
         
     }
     async void Wait(int time){
+
         await Task.Delay(time);
-               meHandle.Free();
+        meHandle.Free();
        
     }
 }
