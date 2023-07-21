@@ -147,7 +147,7 @@ public class SpawnManager : MonoBehaviour
                     interpolation = 1 - interpolation;
                 }
 
-                // interpolates between 0� and 40�, depending on the spawnposition in the arena
+                // interpolates between 0 and 40, depending on the spawnposition in the arena
                 curveFactor = -Mathf.Lerp(minAngle, maxAngle, interpolation);
             }
             else
@@ -162,10 +162,6 @@ public class SpawnManager : MonoBehaviour
             }
             print("CURVEFACTOR: " + curveFactor);
 
-
-
-
-
             curveDir = Quaternion.AngleAxis(curveFactor, new Vector3(0, 1, 0)) * new Vector3(0, 0, 1);
 
         }
@@ -178,7 +174,7 @@ public class SpawnManager : MonoBehaviour
         fruit = Instantiate(fruitPrefab, spawnPosition, fruitPrefab.transform.rotation);
         fruit.GetComponent<Fruit>().type = type;
 
-        //Wenn Force straight nach oben geht, weniger applyen, da sonst au�erhalb des Pantobereichs fliegt
+        //Wenn Force straight nach oben geht, weniger applyen, da sonst außerhalb des Pantobereichs fliegt
         float forceDamp = Mathf.Lerp(0.6f, 1.0f, (maxAngle - minAngle) / (Mathf.Abs(curveFactor) - minAngle));
         force *= forceDamp;
         
