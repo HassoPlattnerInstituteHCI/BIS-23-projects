@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DualPantoFramework;
+using UnityEngine.SceneManagement;
 
 public class Fruit : MonoBehaviour
 {
@@ -11,19 +12,45 @@ public class Fruit : MonoBehaviour
 
     PantoHandle handle;
     GameObject spawnManager;
-    private int hitPerFruitCount = 0;
+    private int slicePerFruit = 0;
+    private int slices = 0;
     private bool destroyed = false;
-
+    public FruitType type;
+    private string slashSound = "";
+    private string throwSound = "";
     GameObject audioManager;
+
+    private bool canBeHit = true;
     // Start is called before the first frame update
     void Start()
     {
         //AudioSource.PlayClipAtPoint(spawnSound, transform.position);
         audioManager = GameObject.Find("AudioManager");
-        audioManager.GetComponent<AudioManager>().playSound("Throw1");
-        handle = (PantoHandle)GameObject.Find("Panto").GetComponent<LowerHandle>();
 
+        setStats();
+        audioManager.GetComponent<AudioManager>().playSound(throwSound);
+
+        handle = (PantoHandle)GameObject.Find("Panto").GetComponent<LowerHandle>();
         moveToFruit();
+    }
+
+    void setStats () {
+        switch (type) {
+            case FruitType.Erdbeere:
+                slicePerFruit = 1;
+                slashSound = "Slash1";
+                throwSound = "Throw1";
+                break;
+            case FruitType.Kokosnuss:
+                slicePerFruit = 3;
+                slashSound = "Slash1";
+                throwSound = "Throw1";
+                break;
+            case FruitType.Bombe:
+                slashSound = "Slash1";
+                throwSound = "Throw1";
+                break;
+        }
     }
 
 
@@ -34,13 +61,12 @@ public class Fruit : MonoBehaviour
 
         //moveToFruit();
 
-        Debug.Log("prediction position: " + transform.GetChild(0).transform.position); 
-	    if (transform.position.z < -11.5)
+	    /*if (transform.position.z < -11.5)
         {
             destroyed = true;
             Destroy(gameObject);
-            FindObjectOfType<SpawnManager>().Fail();
-        }
+            FindObjectOfType<SpawnManager>().Fail(type);
+        }*/
 
 
     }
@@ -49,28 +75,66 @@ public class Fruit : MonoBehaviour
     {
         if (other.gameObject.name=="Katana")
         {
-            FindObjectOfType<SpawnManager>().slicedFruitsCount++;
+            //Vom Katane gehittet
+            if (!canBeHit)
+                return;
+
+            canBeHit = false;
+            slices++;
+            audioManager.GetComponent<AudioManager>().playSound(slashSound);
             Debug.LogWarning("Hit by Katana");
-            AudioSource.PlayClipAtPoint(destructionSound, transform.position);
+
+            //Bombe -> fail
+            if (this.type == FruitType.Bombe)
+            {
+                Debug.Log("Bombe getroffen");
+                destroyed = true;
+                FindObjectOfType<SpawnManager>().Fail(type);
+                Destroy(gameObject);
+                return;
+            }
+
+            //Wenn so oft gehittet, dass Fruit zerstört wird
+            if (slices >= slicePerFruit) {
+                FindObjectOfType<SpawnManager>().slicedFruitsCount++;
+
+                if (FindObjectOfType<SpawnManager>().slicedFruitsCount >= FindObjectOfType<SpawnManager>().fruitsToWin)
+                    FindObjectOfType<SpawnManager>().Win();
+                else
+                    FindObjectOfType<SpawnManager>().CalculateNewSpawnPosition();
+
+                destroyed = true;
+                Destroy(gameObject);
+            }
 
 
-            audioManager.GetComponent<AudioManager>().playSound("Slash1");
-
-            if (FindObjectOfType<SpawnManager>().slicedFruitsCount >= FindObjectOfType<SpawnManager>().fruitsToWin)
-                FindObjectOfType<SpawnManager>().Win();
-            else
-                FindObjectOfType<SpawnManager>().CalculateNewSpawnPosition();
-
-            destroyed = true;
-            Destroy(gameObject);
         }
         else if (other.gameObject.tag == "Wall")
         {
+            //Wenn Szene 6, und Bombe vorgestellt wird, dann wird gewonnen, wenn Bombe NICHT gehittet wird
+            Debug.Log("wall hit");
+            if (SceneManager.GetActiveScene().name == "FruitNinja 6") {
+                Debug.Log("Szene 6 Bombenwin");
+                FindObjectOfType<SpawnManager>().Win();
+                destroyed = true;
+                Destroy(gameObject);
+                return;
+            }
+
             destroyed = true;
-            FindObjectOfType<SpawnManager>().Fail();
+            FindObjectOfType<SpawnManager>().Fail(type);
             Destroy(gameObject);
         }
     }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.name == "Katana")
+        {
+            canBeHit = true;
+        }
+    }
+
     async void moveToFruit()
     {
         //GameObject schon destroyed?
@@ -91,4 +155,12 @@ public class Fruit : MonoBehaviour
 	    //await handle.MoveToPosition(prediction, 10f, true);
     }
 
+}
+
+public enum FruitType
+{
+    Erdbeere,
+    Kokosnuss,
+    //Bombe immer am Ende, falls man die nicht spawnen will, und trotzdem random Früchte haben will. -> randomFruit die maxExlusive -1 rechnen
+    Bombe
 }

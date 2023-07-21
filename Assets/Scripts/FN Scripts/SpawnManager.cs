@@ -31,7 +31,7 @@ public class SpawnManager : MonoBehaviour
     float spawnDistTreshhold = 0.5f;
     GameObject audioManager;
     bool deletedGodObjects = false;
-
+    public List<FruitType> typesOfFruitsToSpawn = new List<FruitType>();
 
     private void Awake()
     {
@@ -64,13 +64,17 @@ public class SpawnManager : MonoBehaviour
 
     }
 
-    public async void Fail()
+    public async void Fail(FruitType type)
     {
         //AudioSource.PlayClipAtPoint(fail, transform.position);
         audioManager.GetComponent<AudioManager>().playSound("missedFruit");
 
         //audioManager.GetComponent<AudioManager>().playSound("Success");
-        await speechOut.Speak("Oh you missed the fruit, lets try that again");
+        if (type == FruitType.Bombe)
+            await speechOut.Speak("You just hit a bombe. Try NOT to do that");
+        else
+            await speechOut.Speak("Oh you missed the fruit, lets try that again");
+
         startGame();
     }
 
@@ -90,6 +94,7 @@ public class SpawnManager : MonoBehaviour
 
     public void startGame()
     {
+        Debug.Log("Gamestart");
         spawnCounter = 0;
         slicedFruitsCount = 0;
         CalculateNewSpawnPosition();
@@ -112,11 +117,16 @@ public class SpawnManager : MonoBehaviour
         if (random) { spawnPosition = new Vector3(Random.Range(4.5f, -4.5f), spawnPosition.y, spawnPosition.z); };
         spawnFruitBool = true;
         await itHandle.MoveToPosition(spawnPosition, 100);
-        SpawnFruit("Erdbeere");
+
+        int randomFruit = 0;
+        if (typesOfFruitsToSpawn.Count > 1)
+            randomFruit = Random.Range(0, typesOfFruitsToSpawn.Count);
+
+        SpawnFruit(typesOfFruitsToSpawn[randomFruit]);
 
     }
 
-    public void SpawnFruit (string type)
+    public void SpawnFruit (FruitType type)
     {
         //Frucht mit Kurve und Force muss iwie immer in Panto Reichweite bleiben
         float arenaLength = 9f;
@@ -165,15 +175,8 @@ public class SpawnManager : MonoBehaviour
         }
 
         GameObject fruit = null;
-        switch (type)
-        {
-            case "Erdbeere":
-                fruit = Instantiate(fruitPrefab, spawnPosition, fruitPrefab.transform.rotation);
-                break;
-            case "Kokosnuss":
-                fruit = Instantiate(fruitPrefab, spawnPosition, fruitPrefab.transform.rotation);
-                break;
-        }
+        fruit = Instantiate(fruitPrefab, spawnPosition, fruitPrefab.transform.rotation);
+        fruit.GetComponent<Fruit>().type = type;
 
         //Wenn Force straight nach oben geht, weniger applyen, da sonst au�erhalb des Pantobereichs fliegt
         float forceDamp = Mathf.Lerp(0.6f, 1.0f, (maxAngle - minAngle) / (Mathf.Abs(curveFactor) - minAngle));
@@ -191,4 +194,6 @@ public class SpawnManager : MonoBehaviour
 
     }
 }
+
+
 
