@@ -42,6 +42,7 @@ public class Movement : MonoBehaviour
     
     //Hole Helper:
     float shoot_rotation;
+    public float strength = 0.1f;
 
     public bool lvl1 = false;
     bool shot = false;
@@ -78,7 +79,13 @@ public class Movement : MonoBehaviour
             lvl1 = false;
             GameManager.GetComponent<GameMaster>().LevelComplete();
         }
-      
+        if(isDragging){
+            Vector2 handle_xz = transform_Vector(meHandle.HandlePosition(transform.position));
+            Vector2 ball_xz = transform_Vector(transform.position);
+            float distance = Vector2.Distance(handle_xz,ball_xz);
+            Vector2 direction = (ball_xz - handle_xz);
+            //meHandle.ApplyForce(direction.normalized, distance*strength);
+        }
     }
 
     private bool IsReady()
@@ -159,13 +166,13 @@ public class Movement : MonoBehaviour
         
         Vector2 ball_xz = transform_Vector(transform.position);
         Vector2 direction = (ball_xz - handle_xz);
-        float distance = Vector2.Distance(handle_xz,ball_xz);
+        
 
         Vector2 endline_vector = ball_xz + Vector2.ClampMagnitude((direction * power) / 2, maxPower / 2);
         Vector3 endline_position = new Vector3(endline_vector.x, transform.position.y + 0.9f, endline_vector.y);
 
         //upperHandle.Free();
-        //upperHandle.ApplyForce(direction.normalized, distance*0.05f);
+        //meHandle.ApplyForce(direction.normalized, distance*0.1f);
 
         // Update the LineRenderer positions to visualize the shooting direction
         lr.SetPosition(0, transform.position);
@@ -175,7 +182,7 @@ public class Movement : MonoBehaviour
 
     async void DragRelease(Vector2 handle_xz)
     {   
-        //meHandle.StopApplyingForce();
+        
         
         Vector2 ball_xz = transform_Vector(transform.position);
         float distance = Vector2.Distance(ball_xz, handle_xz);

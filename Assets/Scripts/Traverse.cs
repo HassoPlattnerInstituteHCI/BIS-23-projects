@@ -12,6 +12,9 @@ public class Traverse : MonoBehaviour
     [SerializeField] private GameObject Hole;
     [SerializeField] private GameObject Ball;
     [SerializeField] private GameObject SpawnGuy;
+    [SerializeField] private GameObject Walls3;
+    [SerializeField] private GameObject Walls4;
+    [SerializeField] private GameObject Walls5;
 
 
     private UpperHandle meHandle;
@@ -30,6 +33,8 @@ public class Traverse : MonoBehaviour
     bool done = false;
     bool ready = false;
 
+    int level_rn; 
+
     void Start(){
       meHandle = GameObject.Find("Panto").GetComponent<UpperHandle>(); 
       itHandle = GameObject.Find("Panto").GetComponent<LowerHandle>(); 
@@ -43,7 +48,7 @@ public class Traverse : MonoBehaviour
 
     void FixedUpdate(){
         if(IsTurned(shot_rotation)&&!done&&ready){
-            TraverseFinish();
+            TraverseFinish(level_rn);
         }
 
     }
@@ -59,6 +64,7 @@ public class Traverse : MonoBehaviour
     
     public async void TraverseSetup(int level){
         done = false;
+        level_rn = level;
         //AudioFx.PlayIntro(level);
         //Ball.SetActive(false);
         
@@ -72,6 +78,31 @@ public class Traverse : MonoBehaviour
         pc2.Enable();
         pc3.Enable();
         pc4.Enable();
+        switch(level){
+        case 3: 
+            foreach(Transform child in Walls3.transform){
+                PantoCollider pc = child.gameObject.GetComponent<PantoCollider>();
+                pc.CreateObstacle();
+                pc.Enable();
+            }
+            break;
+        case 4: 
+            foreach(Transform child in Walls4.transform){
+                PantoCollider pc = child.gameObject.GetComponent<PantoCollider>();
+                pc.CreateObstacle();
+                pc.Enable();
+            }
+            break;
+        case 5: 
+            foreach(Transform child in Walls5.transform){
+                PantoCollider pc = child.gameObject.GetComponent<PantoCollider>();
+                pc.CreateObstacle();
+                pc.Enable();
+            }
+            break;
+        default: 
+            break;
+        }
         await Task.Delay(2000);
         meHandle.Free();
         shot_rotation = meHandle.GetRotation();
@@ -79,13 +110,36 @@ public class Traverse : MonoBehaviour
         ready = true;
     }
 
-    async void TraverseFinish(){
+    async void TraverseFinish(int level){
         done = true;
         ready = false;
         pc1.Remove();
         pc2.Remove();
         pc3.Remove();
         pc4.Remove();
+        switch(level){
+        case 3: 
+            foreach(Transform child in Walls3.transform){
+                PantoCollider pc = child.gameObject.GetComponent<PantoCollider>();
+                pc.Remove();
+            }
+            break;
+        case 4: 
+            foreach(Transform child in Walls4.transform){
+                PantoCollider pc = child.gameObject.GetComponent<PantoCollider>();
+                pc.Remove();
+                //meHandle.SwitchTo(SpawnGuy,30f);
+            }
+            break;
+        case 5: 
+            foreach(Transform child in Walls5.transform){
+                PantoCollider pc = child.gameObject.GetComponent<PantoCollider>();
+                pc.Remove();
+            }
+            break;
+        default: 
+            break;
+        }
         await Task.Delay(1000);
         gameMaster.TraverseComplete();
     }

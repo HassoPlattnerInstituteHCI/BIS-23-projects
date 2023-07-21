@@ -10,7 +10,9 @@ public class GameMaster : MonoBehaviour
     [SerializeField] private GameObject Hole;
     [SerializeField] private GameObject Walls;
     [SerializeField] private GameObject SpawnGuy;
-    [SerializeField] private GameObject Obstacle1;
+    [SerializeField] private GameObject Wall3;
+    [SerializeField] private GameObject Wall4;
+    [SerializeField] private GameObject Wall5;
 
     private PantoHandle itHandle;
     private PantoHandle meHandle;
@@ -56,10 +58,12 @@ public class GameMaster : MonoBehaviour
     async void Level2(){
         Hole.SetActive(true);
         itHandle.SwitchTo(Hole,30f);
+        
         await Task.Delay(2000);
+        meHandle.SwitchTo(SpawnGuy,30f);
         Ball.SetActive(true);
         movement.ready = true;
-        meHandle.Free();
+        //meHandle.Free();
         
     }
 
@@ -76,8 +80,8 @@ public class GameMaster : MonoBehaviour
         meHandle.SwitchTo(SpawnGuy,30f);
         itHandle.SwitchTo(Hole,30f);
         await Task.Delay(2000);
-        Ball.SetActive(true);
         movement.ready = true;
+        Ball.SetActive(true);
         
     }
 
@@ -85,8 +89,9 @@ public class GameMaster : MonoBehaviour
         meHandle.SwitchTo(SpawnGuy,30f);
         itHandle.SwitchTo(Hole,30f);
         await Task.Delay(2000);
-        Ball.SetActive(true);
         movement.ready = true;
+        Ball.SetActive(true);
+        
         
     }
 
@@ -115,18 +120,24 @@ public class GameMaster : MonoBehaviour
             break;
 
             case 3:
+            Wall3.SetActive(true);
             traverser.TraverseSetup(3);
             break;
 
             case 4:
+            Wall3.SetActive(false);
+            Wall4.SetActive(true);
             traverser.TraverseSetup(4);
             break;
 
             case 5:
+            Wall4.SetActive(false);
+            Wall5.SetActive(true);
             traverser.TraverseSetup(5);
             break;
 
             default:
+            Wall5.SetActive(false);
             End();
             break;
         }
