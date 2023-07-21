@@ -43,9 +43,9 @@ public class SpawnManager : MonoBehaviour
         IntroductionManager manager = GameObject.FindObjectOfType<IntroductionManager>();
         audioManager = GameObject.Find("AudioManager");
         itHandle = (PantoHandle)GameObject.Find("Panto").GetComponent<LowerHandle>();
-        await manager.PlayIntro();
-        startGame();
-        //Invoke("startGame", introTime);
+        //await manager.PlayIntro();
+        //startGame();
+        Invoke("startGame", introTime);
     }
 
     private void EnableWalls()
@@ -185,8 +185,8 @@ public class SpawnManager : MonoBehaviour
 
     public async void levelTransit(int newSceneindex)
     {
-        await GameObject.Find("Panto").GetComponent<UpperHandle>().MoveToPosition(Vector3.zero, 1);
-        await GameObject.Find("Panto").GetComponent<LowerHandle>().MoveToPosition(Vector3.zero, 1);
+        //await GameObject.Find("Panto").GetComponent<UpperHandle>().MoveToPosition(Vector3.zero, 1);
+        //await GameObject.Find("Panto").GetComponent<LowerHandle>().MoveToPosition(Vector3.zero, 1);
         SceneManager.LoadScene(newSceneindex);
 
     }
