@@ -67,7 +67,8 @@ public class SpawnManager : MonoBehaviour
     public async void Fail(FruitType type)
     {
         //AudioSource.PlayClipAtPoint(fail, transform.position);
-        audioManager.GetComponent<AudioManager>().playSound("missedFruit");
+        if (type != FruitType.Bombe)
+            audioManager.GetComponent<AudioManager>().playSound("missedFruit");
 
         //audioManager.GetComponent<AudioManager>().playSound("Success");
         if (type == FruitType.Bombe)

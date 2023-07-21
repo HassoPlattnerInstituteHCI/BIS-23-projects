@@ -51,7 +51,7 @@ public class Fruit : MonoBehaviour
                 throwSound = "Throw1";
                 break;
             case FruitType.Bombe:
-                slashSound = "Slash1";
+                slashSound = "BombExplode";
                 throwSound = "BombShotAndSizzle";
                 break;
         }
