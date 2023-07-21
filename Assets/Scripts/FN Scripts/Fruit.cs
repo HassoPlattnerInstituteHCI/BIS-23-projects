@@ -113,9 +113,20 @@ public class Fruit : MonoBehaviour
         {
             //Wenn Szene 6, und Bombe vorgestellt wird, dann wird gewonnen, wenn Bombe NICHT gehittet wird
             Debug.Log("wall hit");
-            if (SceneManager.GetActiveScene().name == "FruitNinja 6") {
+            if (SceneManager.GetActiveScene().name == "FruitNinja 6" && type == FruitType.Bombe) {
                 Debug.Log("Szene 6 Bombenwin");
                 FindObjectOfType<SpawnManager>().Win();
+                destroyed = true;
+                Destroy(gameObject);
+                return;
+            }
+
+            //Bomben sollen durchgelassen werden
+            if (type == FruitType.Bombe)
+            {
+                //Müsste eigentlich nicht, aber jetzt hier, damit kalkuliert werden kann, wie viele Objekte pro Szene gespawned werden sollen
+                FindObjectOfType<SpawnManager>().slicedFruitsCount++;
+                FindObjectOfType<SpawnManager>().CalculateNewSpawnPosition();
                 destroyed = true;
                 Destroy(gameObject);
                 return;

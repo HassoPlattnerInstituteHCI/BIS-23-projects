@@ -729,7 +729,7 @@ MonoBehaviour:
   slicedFruitsCount: 0
   success: {fileID: 8300000, guid: 6e4c38475873f4e3d8f5ffcbc109c44d, type: 3}
   fail: {fileID: 8300000, guid: cdfa2dd40d1dc4f3ea0eba3077f81870, type: 3}
-  typesOfFruitsToSpawn: 00000000
+  typesOfFruitsToSpawn: 0000000002000000
 --- !u!1 &1613957977
 GameObject:
   m_ObjectHideFlags: 0
