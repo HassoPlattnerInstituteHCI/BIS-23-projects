@@ -40,12 +40,12 @@ public class SpawnManager : MonoBehaviour
 
     async void Start()
     {
-        IntroductionManager manager = GameObject.FindObjectOfType<IntroductionManager>();
+        FNIntroductionManager manager = GameObject.FindObjectOfType<FNIntroductionManager>();
         audioManager = GameObject.Find("AudioManager");
         itHandle = (PantoHandle)GameObject.Find("Panto").GetComponent<LowerHandle>();
-        //await manager.PlayIntro();
-        //startGame();
-        Invoke("startGame", introTime);
+        await manager.PlayIntro();
+        startGame();
+        //Invoke("startGame", introTime);
     }
 
     private void EnableWalls()
@@ -120,7 +120,24 @@ public class SpawnManager : MonoBehaviour
 
         int randomFruit = 0;
         if (typesOfFruitsToSpawn.Count > 1)
-            randomFruit = Random.Range(0, typesOfFruitsToSpawn.Count);
+        {
+            
+            if (typesOfFruitsToSpawn.Contains(FruitType.Bombe))
+            {
+                //Bomben haben 1/5 Chance zu spawnen
+                bool spawnBomb = Random.Range(1,6) == 1 ? true : false;
+                if (spawnBomb)
+                    randomFruit = typesOfFruitsToSpawn.Count - 1;
+                else
+                    randomFruit = Random.Range(0, typesOfFruitsToSpawn.Count-1);
+
+            }
+            else
+            {
+                randomFruit = Random.Range(0, typesOfFruitsToSpawn.Count);
+
+            }
+        }
 
         SpawnFruit(typesOfFruitsToSpawn[randomFruit]);
 

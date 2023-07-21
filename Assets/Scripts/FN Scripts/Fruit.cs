@@ -28,7 +28,11 @@ public class Fruit : MonoBehaviour
         audioManager = GameObject.Find("AudioManager");
 
         setStats();
-        audioManager.GetComponent<AudioManager>().playSound(throwSound);
+
+        if (type != FruitType.Bombe)
+            audioManager.GetComponent<AudioManager>().playSound(throwSound);
+        else //Bombensizzle verschwindet so von alleine, wenn Bombe weg ist
+            GetComponent<AudioSource>().PlayOneShot(audioManager.GetComponent<AudioManager>().BombShotAndSizzle, 0.6f) ;
 
         handle = (PantoHandle)GameObject.Find("Panto").GetComponent<LowerHandle>();
         moveToFruit();
@@ -48,7 +52,7 @@ public class Fruit : MonoBehaviour
                 break;
             case FruitType.Bombe:
                 slashSound = "Slash1";
-                throwSound = "Throw1";
+                throwSound = "BombShotAndSizzle";
                 break;
         }
     }

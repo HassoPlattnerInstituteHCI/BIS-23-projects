@@ -16,9 +16,10 @@ public class AudioManager : MonoBehaviour
     public AudioClip missedFruit;
     public AudioClip BombShot;
     public AudioClip BombSizzeling;
+    public AudioClip BombShotAndSizzle;
     public AudioClip BombExplode; //Todo das Ding einfügen
 
-
+    private List<GameObject> soundObjects = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +42,7 @@ public class AudioManager : MonoBehaviour
     {
         GameObject ton = null;
         ton = Instantiate(audiQuellePrefab);
+
         AudioSource tonScript = ton.GetComponent<AudioSource>();
         switch (type)
         {
@@ -80,6 +82,9 @@ public class AudioManager : MonoBehaviour
             case "BombExplode":
                 tonScript.clip = BombExplode;
                 break;
+            case "BombShotAndSizzle":
+                tonScript.clip = BombShotAndSizzle;
+                break;
         }
 
             tonScript.Play();
@@ -91,6 +96,7 @@ public class AudioManager : MonoBehaviour
         }
         return;
         }
+
 
     void playMusic()
         {

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645232, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -163,6 +163,7 @@ MonoBehaviour:
   missedFruit: {fileID: 8300000, guid: cdfa2dd40d1dc4f3ea0eba3077f81870, type: 3}
   BombShot: {fileID: 8300000, guid: ca727333c8f574e25a940824d78d0f71, type: 3}
   BombSizzeling: {fileID: 8300000, guid: f9d3a26ec7b3b4633985a586c7c72818, type: 3}
+  BombShotAndSizzle: {fileID: 8300000, guid: e03eb7a7fdcb84f4e91bb72c3f7eea7a, type: 3}
   BombExplode: {fileID: 0}
 --- !u!4 &1059799972
 Transform:
