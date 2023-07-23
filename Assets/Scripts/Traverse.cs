@@ -70,35 +70,56 @@ public class Traverse : MonoBehaviour
         
         //await meHandle.MoveToPosition(spawn,50f);
         
-        pc1.CreateObstacle();
-        pc2.CreateObstacle();
-        pc3.CreateObstacle();
-        pc4.CreateObstacle();
-        pc1.Enable();
-        pc2.Enable();
-        pc3.Enable();
-        pc4.Enable();
+        // pc1.CreateObstacle();
+        // pc2.CreateObstacle();
+        // pc3.CreateObstacle();
+        // pc4.CreateObstacle();
+        // pc1.Enable();
+        // pc2.Enable();
+        // pc3.Enable();
+        // pc4.Enable();
         switch(level){
         case 3: 
-            foreach(Transform child in Walls3.transform){
-                PantoCollider pc = child.gameObject.GetComponent<PantoCollider>();
-                pc.CreateObstacle();
-                pc.Enable();
-            }
+            pc1.CreateObstacle();
+            pc2.CreateObstacle();
+            pc3.CreateObstacle();
+            pc4.CreateObstacle();
+            pc1.Enable();
+            pc2.Enable();
+            pc3.Enable();
+            pc4.Enable();
             break;
         case 4: 
             foreach(Transform child in Walls4.transform){
+                if(child == Walls4.transform.GetChild(0))continue;
                 PantoCollider pc = child.gameObject.GetComponent<PantoCollider>();
                 pc.CreateObstacle();
                 pc.Enable();
             }
+            pc1.CreateObstacle();
+            pc2.CreateObstacle();
+            pc3.CreateObstacle();
+            pc4.CreateObstacle();
+            pc1.Enable();
+            pc2.Enable();
+            pc3.Enable();
+            pc4.Enable();
             break;
         case 5: 
             foreach(Transform child in Walls5.transform){
+                if(child == Walls5.transform.GetChild(0))continue;
                 PantoCollider pc = child.gameObject.GetComponent<PantoCollider>();
                 pc.CreateObstacle();
                 pc.Enable();
             }
+            pc1.CreateObstacle();
+            pc2.CreateObstacle();
+            pc3.CreateObstacle();
+            pc4.CreateObstacle();
+            pc1.Enable();
+            pc2.Enable();
+            pc3.Enable();
+            pc4.Enable();
             break;
         default: 
             break;
@@ -119,13 +140,14 @@ public class Traverse : MonoBehaviour
         pc4.Remove();
         switch(level){
         case 3: 
-            foreach(Transform child in Walls3.transform){
-                PantoCollider pc = child.gameObject.GetComponent<PantoCollider>();
-                pc.Remove();
-            }
+            // foreach(Transform child in Walls3.transform){
+            //     PantoCollider pc = child.gameObject.GetComponent<PantoCollider>();
+            //     pc.Remove();
+            // }
             break;
         case 4: 
             foreach(Transform child in Walls4.transform){
+                if(child == Walls4.transform.GetChild(0))continue;
                 PantoCollider pc = child.gameObject.GetComponent<PantoCollider>();
                 pc.Remove();
                 //meHandle.SwitchTo(SpawnGuy,30f);
@@ -133,6 +155,7 @@ public class Traverse : MonoBehaviour
             break;
         case 5: 
             foreach(Transform child in Walls5.transform){
+                if(child == Walls5.transform.GetChild(0))continue;
                 PantoCollider pc = child.gameObject.GetComponent<PantoCollider>();
                 pc.Remove();
             }

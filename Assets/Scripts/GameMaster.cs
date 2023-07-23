@@ -20,7 +20,7 @@ public class GameMaster : MonoBehaviour
     private AudioFX soundFX;
     private Traverse traverser;
     private Movement movement;
-    private int level = 0;
+    public int level = 0;
     private Vector3 spawn = new Vector3(3.0f,0.0f,-10.0f);
     private Vector3 hole = new Vector3(-3.5f,0.35f,-10.0f);
     bool traversing = false;
@@ -58,7 +58,7 @@ public class GameMaster : MonoBehaviour
 
     async void Level2(){
         Hole.SetActive(true);
-        itHandle.SwitchTo(Hole,30f);
+        itHandle.SwitchTo(Hole,100f);
         
        
         meHandle.SwitchTo(SpawnGuy,30f);
@@ -80,7 +80,7 @@ public class GameMaster : MonoBehaviour
 
     async void Level4(){
         meHandle.SwitchTo(SpawnGuy,30f);
-        itHandle.SwitchTo(Hole,30f);
+        itHandle.SwitchTo(Hole,100f);
         await Task.Delay(2000);
         movement.ready = true;
         Ball.SetActive(true);
@@ -89,7 +89,7 @@ public class GameMaster : MonoBehaviour
 
     async void Level5(){
         meHandle.SwitchTo(SpawnGuy,30f);
-        itHandle.SwitchTo(Hole,30f);
+        itHandle.SwitchTo(Hole,100f);
         await Task.Delay(2000);
         movement.ready = true;
         Ball.SetActive(true);
@@ -102,7 +102,7 @@ public class GameMaster : MonoBehaviour
         
         meHandle.Free();
         itHandle.Free();
-        await Task.Delay(3000);
+        await Task.Delay(1000);
         soundFX.finish();
 
 
@@ -150,7 +150,8 @@ public class GameMaster : MonoBehaviour
     }
 
     public void TraverseComplete(){
-        switch (level){
+            movement.level = level;
+            switch (level){
             case 2:
             Level2();
             break;  
@@ -160,10 +161,12 @@ public class GameMaster : MonoBehaviour
             break;
 
             case 4:
+            soundFX.Ready_to_shoot();
             Level4();
             break;
 
             case 5:
+            soundFX.Ready_to_shoot();
             Level5();
             break;
 

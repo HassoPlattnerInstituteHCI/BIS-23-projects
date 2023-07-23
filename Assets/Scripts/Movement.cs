@@ -15,6 +15,8 @@ public class Movement : MonoBehaviour
     [SerializeField] private GameObject Walls;
     [SerializeField] private GameObject GameManager;
     [SerializeField] private GameObject hole;
+    [SerializeField] private GameObject Walls4;
+    [SerializeField] private GameObject Walls5;
 
     [Header("Attributes")]
     [SerializeField] private float maxPower = 10f;
@@ -25,7 +27,6 @@ public class Movement : MonoBehaviour
 
     [Header("Sounds")]
     [SerializeField] private AudioSource rail;
-    [SerializeField] private AudioSource wall;
     [SerializeField] private AudioSource bell;
 
 
@@ -51,6 +52,7 @@ public class Movement : MonoBehaviour
     bool shot = false;
     public bool ready = false;  
     public bool soundready = false;
+    public int level = 0;
     // Start is called before the first frame update
     void Start()
     {   
@@ -118,12 +120,40 @@ public class Movement : MonoBehaviour
             Wall_r.GetComponent<BoxCollider>().enabled = true;
             Wall_u.GetComponent<BoxCollider>().enabled = true;
             Wall_d.GetComponent<BoxCollider>().enabled = true;
+            if(level == 4){
+                foreach(Transform child in Walls4.transform){
+                if(child == Walls4.transform.GetChild(0))continue;
+                BoxCollider bc = child.gameObject.GetComponent<BoxCollider>();
+                bc.enabled = true;
+                }
+            }
+            else if(level == 5){
+                foreach(Transform child in Walls5.transform){
+                if(child == Walls5.transform.GetChild(0))continue;
+                BoxCollider bc = child.gameObject.GetComponent<BoxCollider>();
+                bc.enabled = true;
+                }
+            }
         }
         else{
             Wall_l.GetComponent<BoxCollider>().enabled = false;
             Wall_r.GetComponent<BoxCollider>().enabled = false;
             Wall_u.GetComponent<BoxCollider>().enabled = false;
             Wall_d.GetComponent<BoxCollider>().enabled = false;
+            if(level == 4){
+                foreach(Transform child in Walls4.transform){
+                if(child == Walls4.transform.GetChild(0))continue;
+                BoxCollider bc = child.gameObject.GetComponent<BoxCollider>();
+                bc.enabled = false;
+                }
+            }
+            else if(level == 5){
+                foreach(Transform child in Walls5.transform){
+                if(child == Walls5.transform.GetChild(0))continue;
+                BoxCollider bc = child.gameObject.GetComponent<BoxCollider>();
+                bc.enabled = false;
+                }
+            }
         }
         return;
     }
@@ -157,7 +187,9 @@ public class Movement : MonoBehaviour
             
             DragRelease(handle_xz);
             }
-        
+        else{
+            meHandle.SwitchTo(gameObject,100.0f);
+        }
         
     }
 
@@ -242,7 +274,7 @@ public class Movement : MonoBehaviour
         if(other.tag == "Hole") {
         CheckWinState(other);}
 
-        if(other.tag == "Audio_Wall" && rb.velocity.magnitude > still_Speed) {
+        if(other.tag == "Audio_Wall" && !IsReady()) {
         rail.Play();}
     }
 

@@ -54,7 +54,7 @@ public class AudioFX : MonoBehaviour
 
     public void Level3(){
       Voice = new SpeechOut();
-      Voice.Speak("Level 3. Traverse the course to find objects in your way, turn the handle when you are done!", 1.0F, SpeechBase.LANGUAGE.ENGLISH);
+      Voice.Speak("Level 3. Use the Me Handle to get a feel for the size of the course. Turn the Handle when you are done!", 1.0F, SpeechBase.LANGUAGE.ENGLISH);
     }
 
      public void Level4(){
@@ -64,7 +64,12 @@ public class AudioFX : MonoBehaviour
     }
     public void Level5(){
       Voice = new SpeechOut();
-      Voice.Speak("Level 5. Use your skills to play the Level!!", 1.0F, SpeechBase.LANGUAGE.ENGLISH);    
+      Voice.Speak("Level 5. Use your skills to play the Level! Start by Traversing.", 1.0F, SpeechBase.LANGUAGE.ENGLISH);    
+    }
+
+    public void Ready_to_shoot(){
+      Voice = new SpeechOut();
+      Voice.Speak("Ready to shoot!", 1.0F, SpeechBase.LANGUAGE.ENGLISH);    
     }
 
     public void traverse(){
