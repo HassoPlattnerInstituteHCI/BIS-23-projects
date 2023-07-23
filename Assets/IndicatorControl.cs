@@ -58,21 +58,28 @@ public class IndicatorControl : MonoBehaviour
             float newZ = meHandleObject.transform.position.z - 2.5f;
             if (hasToInitiateMePosition)
             {
-                itHandle.Freeze();
-                await meHandle.MoveToPosition(soundIndicator.transform.position + new Vector3(0, 0, 2.5f));
                 hasToInitiateMePosition = false;
-                meHandle.Free();
-                isSwitched = false;
-            }
-            if (meHandleObject.transform.position.z < -8.5f && meHandleObject.transform.position.z > -15.5f && Math.Abs(oldZ-newZ)>0.5)
-            {
+                
+                itHandle.Freeze();
                 PantoCollider oldCollider = soundIndicator.GetComponent<PantoCollider>();
+                if(oldCollider != null)
+                {
+                    oldCollider.Remove();
+                    Destroy(oldCollider);
+                }
+                
+                
+                await meHandle.MoveToPosition(soundIndicator.transform.position + new Vector3(0, 0, 2.5f));
+                isSwitched = false;
+                meHandle.Free();
+                
+            }
+            if (meHandleObject.transform.position.z < -8.5f && meHandleObject.transform.position.z > -15.5f )
+            {
+                
                 soundIndicator.transform.position = new Vector3(soundIndicator.transform.position.x, soundIndicator.transform.position.y, newZ);
-                oldCollider.Remove();
-                soundIndicator.AddComponent<PantoBoxCollider>();
-                PantoCollider soundIndicatorCollider = soundIndicator.GetComponent<PantoCollider>();
-                soundIndicatorCollider.CreateObstacle();
-                soundIndicatorCollider.Enable();
+                
+                
                 
                 
             }
@@ -81,6 +88,13 @@ public class IndicatorControl : MonoBehaviour
         }
         else
         {
+            if (isManipulating)
+            {
+                soundIndicator.AddComponent<PantoBoxCollider>();
+                PantoCollider soundIndicatorCollider = soundIndicator.GetComponent<PantoCollider>();
+                soundIndicatorCollider.CreateObstacle();
+                soundIndicatorCollider.Enable();
+            }
             isManipulating = false;
         }
         
