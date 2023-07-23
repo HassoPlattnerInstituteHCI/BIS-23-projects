@@ -32,7 +32,7 @@ public class IndicatorControl : MonoBehaviour
     // Update is called once per frame
     async void Update()
     {
-        /*
+        
         if (isInside && Input.GetKey("space") && controlEnabled)
         {
             //Debug.Log("Is inside");
@@ -58,15 +58,20 @@ public class IndicatorControl : MonoBehaviour
                 await meHandle.MoveToPosition(soundIndicator.transform.position + new Vector3(0, 0, 2.5f));
                 hasToInitiateMePosition = false;
                 meHandle.Free();
+                isSwitched = false;
             }
-            soundIndicator.transform.position = new Vector3(soundIndicator.transform.position.x, soundIndicator.transform.position.y, meHandleObject.transform.position.z - 2.5f);
-            isSwitched = false;
+            if (meHandleObject.transform.position.z < -8.5f && meHandleObject.transform.position.z > -15.5f)
+            {
+                soundIndicator.transform.position = new Vector3(soundIndicator.transform.position.x, soundIndicator.transform.position.y, meHandleObject.transform.position.z - 2.5f);
+            }
+            
+            
         }
         else
         {
             isManipulating = false;
         }
-        */
+        
         
     }
     void OnTriggerEnter(Collider other)
