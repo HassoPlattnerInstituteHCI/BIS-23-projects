@@ -8,6 +8,7 @@ public class AudioManager : MonoBehaviour
     public GameObject audiQuellePrefab;
     public AudioClip Intro1;
     public AudioClip Track1;
+    public AudioClip Track2;
     public AudioClip Throw1;
     public AudioClip Slash1;
     public AudioClip Cut1;
@@ -18,6 +19,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip BombSizzeling;
     public AudioClip BombShotAndSizzle;
     public AudioClip BombExplode; //Todo das Ding einfügen
+    public AudioClip CoconutCut;
 
     private List<GameObject> soundObjects = new List<GameObject>();
     // Start is called before the first frame update
@@ -53,6 +55,11 @@ public class AudioManager : MonoBehaviour
                 break;
             case "Track1":
                 tonScript.clip = Track1;
+                ton.tag = "Track1";
+                tonScript.loop = true;
+                break;
+            case "Track2":
+                tonScript.clip = Track2;
                 tonScript.loop = true;
                 break;
             case "Throw1":
@@ -85,11 +92,15 @@ public class AudioManager : MonoBehaviour
             case "BombShotAndSizzle":
                 tonScript.clip = BombShotAndSizzle;
                 break;
+            case "CoconutCut":
+                tonScript.clip = CoconutCut;
+                tonScript.volume=0.7f;
+                break;
         }
 
             tonScript.Play();
             DontDestroyOnLoad(ton);
-            if (type != "Track1"&&type!="BombSizzeling")
+            if (type != "Track1"&&type!="BombSizzeling"&&type!="Track2")
         {
             //WaitForSeconds(tonScript.clip.length);
             Destroy(ton, tonScript.clip.length);
@@ -105,6 +116,7 @@ public class AudioManager : MonoBehaviour
             AudioSource tonScript = ton.GetComponent<AudioSource>();
             tonScript.clip = Intro1;
             tonScript.Play();
+            ton.tag = "sound";
             DontDestroyOnLoad(ton);
         }
 }

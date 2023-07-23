@@ -21,6 +21,7 @@ public class SpawnManager : MonoBehaviour
     
     public int fruitsToWin = 1;
     public int slicedFruitsCount = 0;
+    int highscore = 0;
 
     public AudioClip success;
     public AudioClip fail;
@@ -32,6 +33,7 @@ public class SpawnManager : MonoBehaviour
     GameObject audioManager;
     bool deletedGodObjects = false;
     public List<FruitType> typesOfFruitsToSpawn = new List<FruitType>();
+    public bool isEndlessMode;
 
     private void Awake()
     {
@@ -43,7 +45,21 @@ public class SpawnManager : MonoBehaviour
         FNIntroductionManager manager = GameObject.FindObjectOfType<FNIntroductionManager>();
         audioManager = GameObject.Find("AudioManager");
         itHandle = (PantoHandle)GameObject.Find("Panto").GetComponent<LowerHandle>();
+        GameObject soundObject = null;
+        soundObject = GameObject.FindWithTag("Track1");
+        if (isEndlessMode&& soundObject!=null)
+        {
+            Destroy(soundObject);
+
+        }
         await manager.PlayIntro();
+        if (isEndlessMode)
+        {
+            
+            audioManager.GetComponent<AudioManager>().playSound("Track2");
+
+        }
+
         startGame();
         //Invoke("startGame", introTime);
     }
@@ -75,6 +91,12 @@ public class SpawnManager : MonoBehaviour
             await speechOut.Speak("You just hit a bombe. Try NOT to do that");
         else
             await speechOut.Speak("Oh you missed the fruit, lets try that again");
+        if (isEndlessMode)
+        {
+            if(slicedFruitsCount > highscore)  highscore = slicedFruitsCount;
+            await speechOut.Speak("Fruits cut " + slicedFruitsCount + ". Your current highscore is " + highscore);
+
+        }
 
         startGame();
     }

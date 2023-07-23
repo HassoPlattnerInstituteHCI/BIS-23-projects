@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427135, b: 0.56452316, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -879,6 +879,7 @@ MonoBehaviour:
   BombSizzeling: {fileID: 8300000, guid: f9d3a26ec7b3b4633985a586c7c72818, type: 3}
   BombShotAndSizzle: {fileID: 8300000, guid: e03eb7a7fdcb84f4e91bb72c3f7eea7a, type: 3}
   BombExplode: {fileID: 8300000, guid: 0bddd841fea58e447b8b555eb1a29142, type: 3}
+  CoconutCut: {fileID: 8300000, guid: 391e8b6d85d8b485dad922914a5ec68e, type: 3}
 --- !u!4 &1613957979
 Transform:
   m_ObjectHideFlags: 0

@@ -47,7 +47,7 @@ public class Fruit : MonoBehaviour
                 break;
             case FruitType.Kokosnuss:
                 slicePerFruit = 3;
-                slashSound = "Slash1";
+                slashSound = "CoconutCut";
                 throwSound = "Throw1";
                 break;
             case FruitType.Bombe:
@@ -85,6 +85,7 @@ public class Fruit : MonoBehaviour
 
             canBeHit = false;
             slices++;
+            if (type == FruitType.Kokosnuss && slices == slicePerFruit) slashSound = "Slash1";
             audioManager.GetComponent<AudioManager>().playSound(slashSound);
             Debug.LogWarning("Hit by Katana");
 
