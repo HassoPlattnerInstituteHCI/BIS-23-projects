@@ -10,17 +10,38 @@ public class frezze : MonoBehaviour
     [SerializeField]
     Vector3 gravity = new Vector3(0, -9.81f, 0);
     Vector3 lastVel;
-    private SpeechIn speech;
+    private SpeechIn speechIn;
+    private SpeechOut speechOut = new SpeechOut();
     // Start is called before the first frame update
     void Start()
     {
         Physics.gravity = gravity;
         rb = GetComponent<Rigidbody>();
-        speech = new SpeechIn(onSpeechRecognized);
-        speech.StartListening(new string[] { "halt", "stop", "pause", "wait" });
-        Invoke("letsGo", 3);
+        speechIn = new SpeechIn(OnRecognized);
+        speechIn.StartListening();
+        //Invoke("letsGo", 3);
+        //Dialog();
+        foreach (var device in Microphone.devices)
+        {
+            Debug.Log("Name: " + device);
+        }
     }
 
+
+    async void Dialog()
+    {
+        await speechOut.Speak("Hello!");
+        await speechIn.Listen(new string[] { "Hello", "Hi", "Hey" });
+        await speechOut.Speak("How are you doing?");
+        await speechIn.Listen(new string[] { "I'm fine", "Nah", "I'm Sick" });
+        //...
+    }
+
+    void OnRecognized(string message)
+    {
+        Debug.Log("[" + this.GetType() + "]: " + message);
+        return;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -33,7 +54,7 @@ public class frezze : MonoBehaviour
         return;
     }
 
-   void onSpeechRecognized(string command)
+    void onRecognized(string command)
     {
         Debug.Log(command);
         if (!frozen)
@@ -52,6 +73,9 @@ public class frezze : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        speech.StopListening();
+        //speech.StopListening();
+        speechIn.StopListening();
     }
 }
+
+

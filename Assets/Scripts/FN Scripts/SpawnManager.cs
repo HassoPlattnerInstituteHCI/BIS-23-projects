@@ -224,8 +224,8 @@ public class SpawnManager : MonoBehaviour
 
     public async void levelTransit(int newSceneindex)
     {
-        //await GameObject.Find("Panto").GetComponent<UpperHandle>().MoveToPosition(Vector3.zero, 1);
-        //await GameObject.Find("Panto").GetComponent<LowerHandle>().MoveToPosition(Vector3.zero, 1);
+        await GameObject.Find("Panto").GetComponent<UpperHandle>().MoveToPosition(Vector3.zero, 1);
+        await GameObject.Find("Panto").GetComponent<LowerHandle>().MoveToPosition(Vector3.zero, 1);
         SceneManager.LoadScene(newSceneindex);
 
     }

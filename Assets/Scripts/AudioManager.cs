@@ -60,6 +60,7 @@ public class AudioManager : MonoBehaviour
                 break;
             case "Track2":
                 tonScript.clip = Track2;
+                tonScript.volume = 0.5f;
                 tonScript.loop = true;
                 break;
             case "Throw1":
