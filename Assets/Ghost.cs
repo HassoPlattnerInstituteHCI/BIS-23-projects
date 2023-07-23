@@ -8,7 +8,7 @@ public class Ghost : MonoBehaviour
 
     public int startIndex;
 
-    private int goingToIndex;
+    public int goingToIndex;
 
     private List<int> path;
 

@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     private GameObject closestGhost;
     private int switchTimer;
     [SerializeField]
-    private int switchTimerMax = 500;
+    private int switchTimerMax = 50;
     private float minDist;
 
     // For Coin-me-handle tracking
@@ -37,11 +37,13 @@ public class GameManager : MonoBehaviour
 
     private bool isInit = false;
 
-    PantoCollider[] pantoColliders;
+    public Navigator navigator;
 
 
 
-    private float yeetSpeed = 10f;
+    private float yeetSpeed = 100f;
+
+
 
 
     // Start is called before the first frame update
@@ -55,7 +57,7 @@ public class GameManager : MonoBehaviour
 
         lowerHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
         _ = lowerHandle.MoveToPosition(spawnPoint.transform.position);
-        lowerHandle.Freeze();
+        //lowerHandle.Freeze();
 
         // disable god object collider
         GameObject mhgo = GameObject.Find("MeHandleGodObject");
@@ -64,11 +66,9 @@ public class GameManager : MonoBehaviour
         //ihgo.GetComponent<Collider>().enabled = false; //Julian thingz.?
 
         ghosts = GameObject.FindGameObjectsWithTag("Ghost");
-
         closestGhost = GameObject.Find("Ghost");
 
         coins = GameObject.FindGameObjectsWithTag("Coin");
-
         closestCoin = GameObject.Find("Coin");
 
         switchTimer = switchTimerMax;
@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour
         pacMan.GetComponent<Rigidbody>().isKinematic = false;
 
         isInit = true;
+        testSwitch();
     }
 
     // Update is called once per frame
@@ -92,8 +93,8 @@ public class GameManager : MonoBehaviour
             switchTimer = 0;
 
             //switch it-handle to closest ghost
-            SwitchToClosestGhost();
-
+            //SwitchToClosestGhost();
+            testSwitch();
             //RefreshClosestCoin();
 
             //check if wincons have been met
@@ -109,18 +110,28 @@ public class GameManager : MonoBehaviour
         //joinked from @lapesi
 
         Vector2 vector2 = new Vector2(pacMan.transform.position.x - closestCoin.transform.position.x, closestCoin.transform.position.z - pacMan.transform.position.z);
-        float yRotation = Vector2.SignedAngle(Vector2.up, vector2);
+        float yRotation = Vector2.SignedAngle(Vector2.up, -vector2);
         //set upper handle y rotation to look towards the hole
         upperHandle.Rotate(yRotation);
+        GameObject test= GameObject.Find("ItHandleGodObject");
+        //Vector2 vector22 = new Vector2(navigator.nodesPos[closestGhost.GetComponent<Ghost>().goingToIndex].x - lowerHandle.transform.position.x, lowerHandle.transform.position.z - navigator.nodesPos[closestGhost.GetComponent<Ghost>().goingToIndex].z);
+        //Vector2 vector22 = new Vector2(test.transform.position.x - closestCoin.transform.position.x, closestCoin.transform.position.z - test.transform.position.z);
+        Vector2 vector22 = new Vector2(test.transform.position.x - navigator.nodesPos[closestGhost.GetComponent<Ghost>().goingToIndex].x, navigator.nodesPos[closestGhost.GetComponent<Ghost>().goingToIndex].z - test.transform.position.z);
+        float yRotation2 = Vector2.SignedAngle(Vector2.up, vector22);
+        lowerHandle.Rotate(yRotation2);
 
         //Debug.Log(upperHandle.gameObject.transform.position.x);
 
         //Debug.Log(closestCoin.name);
     }
 
-
+    async void testSwitch()
+    {
+        await lowerHandle.SwitchTo(GameObject.Find("Ghost"), yeetSpeed);
+    }
     async void SwitchToClosestGhost()
     {
+        Debug.Log("Switching to closest ghost");
         minDist = float.MaxValue;
 
         foreach (GameObject ghost in ghosts)
@@ -132,9 +143,7 @@ public class GameManager : MonoBehaviour
             }
 
         }
-
         await lowerHandle.SwitchTo(closestGhost,yeetSpeed);
-
     }
 
     public void RefreshClosestCoin()
@@ -154,15 +163,9 @@ public class GameManager : MonoBehaviour
         }
 
     }
-
     void LoadNextScene()
     {
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     }
-
-
-    
-
-
 
 }
