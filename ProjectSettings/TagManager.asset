@@ -5,8 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - Object
-  - Item
-  - Labyrinth
   layers:
   - Default
   - TransparentFX

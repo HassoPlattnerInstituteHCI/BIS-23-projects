@@ -16,46 +16,33 @@ public class LabyrinthManager : MonoBehaviour
     private int numItems;
     private int itemCounter = 0;
     private UpperHandle upperHandle;
-    private UpperHandle lowerHandle;
 
     private AudioSource audioSource;
     public AudioClip[] audioClips;
 
-    private async void Start() {
-        PantoHandle lowerHandle = GameObject.Find("Panto").GetComponent<LowerHandle>();
-        numItems = 1;
-        GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
-        GameObject item = items[0];
-
-        //await lowerHandle.MoveToPosition(item.transform.position, shouldFreeHandle: false);
-        await lowerHandle.SwitchTo(item, 1f);
-        //await StartGame();
-        //await StartGame();
-        //    if (!gameObject.GetComponent<LabyrinthSpawner>().enabled){
-        //        numItems = 1;
-        //        StartGame();
-        //    }else{
-        //        numItems = gameObject.GetComponent<LabyrinthSpawner>().numitems;
-        //    }
+    private void Start() {
+        if(!gameObject.GetComponent<LabyrinthSpawner>().enabled){
+            numItems = 1;
+            StartGame();
+        }else{
+            numItems = gameObject.GetComponent<LabyrinthSpawner>().numitems;
+        }
     }
 
-    public async Task StartGame() {
+    public async void StartGame() {
         speechOut = new SpeechOut();
         audioSource = GetComponent<AudioSource>();
-        //if (playIntro)
-        //{
-        //    Level room = GameObject.Find("Panto").GetComponent<Level>();
-        //    await room.PlayIntroduction();
-        //}
-
-        //await lowerHandle.SwitchTo(item);
-
-        //getNextItem();
+        if (playIntro) 
+        {
+            Level room = GameObject.Find("Panto").GetComponent<Level>();
+            await room.PlayIntroduction();
+        }
         
         // upperHandle = GameObject.Find("Panto").GetComponent<UpperHandle>();
         // await upperHandle.MoveToPosition(spawn.transform.position, 10f, true);
 
         gameStarted = true;
+        getNextItem();
     }
 
     void OnApplicationQuit()
@@ -69,13 +56,11 @@ public class LabyrinthManager : MonoBehaviour
             SceneManager.LoadScene("LabyrinthCore");
         }else{
             itemCounter++;
-            GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
-            GameObject item = items[0];
-
-            //await lowerHandle.MoveToPosition(item.transform.position, shouldFreeHandle: false);
-            await lowerHandle.SwitchTo(item);
-
-            lowerHandle.Freeze();
+            GameObject[] gos = GameObject.FindGameObjectsWithTag("Item");
+            GameObject item = gos[Random.Range(0, gos.Length)];
+            StartCoroutine(playNextItemSoundCoroutine(item));
+            await GameObject.Find("Panto").GetComponent<LowerHandle>().SwitchTo(item);
+            GameObject.Find("Panto").GetComponent<LowerHandle>().Freeze();
             item.GetComponent<Item>().currentItem = true;
         }
     }
