@@ -68,6 +68,13 @@ public class EnemySpawn : MonoBehaviour
     public int Wave = 1;
 
     // Start is called before the first frame update
+    public bool enemyDead(){
+        if(GetClosestGameObject("Enemy",player.transform.position)==null){
+            return true;
+        } else {
+            return false;
+        }
+    }
     void Start()
     {
         apos = new Vector3(-3, 0, -6);

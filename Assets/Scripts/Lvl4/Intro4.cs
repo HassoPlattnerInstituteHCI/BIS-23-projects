@@ -9,11 +9,8 @@ using System.Threading.Tasks;
 public class Intro4 : MonoBehaviour
 {
     private SpeechOut sp;
-    public GameObject enemy;
     private float  switch_speed = 100;
     private PantoHandle lh;
-    public GameObject panto;
-    private Vector3 hector;
     public GameObject Spawn;
     private UpperHandle meHandle;
     public GameObject player;
@@ -28,25 +25,29 @@ public class Intro4 : MonoBehaviour
         meHandle.Free();
         sp = new SpeechOut(); 
         sp.Speak("Evade and shoot the zombies");
-        lh = GameObject.Find("Panto").GetComponent<LowerHandle>();
-        
-        sp = new SpeechOut(); 
-        sp.Speak("Evade and shoot the zombies");
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(this.GetComponent<EnemySpawn>().enemyDead())
+        {
+            Loader();
+            
+         
+        }
     }
+    public void Loader(){
+        Wait(3000);
+            if(this.GetComponent<EnemySpawn>().enemyDead()){
+                SceneManager.LoadScene("ShooterLvl5");
+            }
+        }
     
 async void Wait(int time){
         await Task.Delay(time);
        
     }
 
-    void swth() {
-        lh.SwitchTo(enemy, switch_speed);
-    }
 }

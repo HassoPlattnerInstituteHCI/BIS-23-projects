@@ -28,7 +28,7 @@ public class Intro2 : MonoBehaviour
         lh = GameObject.Find("Panto").GetComponent<LowerHandle>();
         lh.SwitchTo(enemy, switch_speed);        
         sp = new SpeechOut();
-        sp.Speak("Hit the Zombie");
+        sp.Speak("Hit the Zombie. It can't move yet!");
         player.tag = "armed";
  
         
