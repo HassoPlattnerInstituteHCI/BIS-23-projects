@@ -49,6 +49,7 @@ public class GameMaster : MonoBehaviour
         meHandle.Free();
         meHandle.SwitchTo(SpawnGuy,30f);
         movement.lvl1 = true;
+        await Task.Delay(2000);
         Ball.SetActive(true);
         movement.ready = true;
         meHandle.Free();
@@ -59,8 +60,9 @@ public class GameMaster : MonoBehaviour
         Hole.SetActive(true);
         itHandle.SwitchTo(Hole,30f);
         
-        await Task.Delay(2000);
+       
         meHandle.SwitchTo(SpawnGuy,30f);
+        await Task.Delay(2000);
         Ball.SetActive(true);
         movement.ready = true;
         //meHandle.Free();
@@ -95,12 +97,15 @@ public class GameMaster : MonoBehaviour
         
     }
 
-    void End(){
+   async void End(){
         Ball.SetActive(false);
-        Hole.SetActive(false);
+        
         meHandle.Free();
         itHandle.Free();
-        //SoundFx.End();
+        await Task.Delay(3000);
+        soundFX.finish();
+
+
         }
 
     public void LevelComplete(){

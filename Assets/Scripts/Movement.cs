@@ -26,6 +26,9 @@ public class Movement : MonoBehaviour
     [Header("Sounds")]
     [SerializeField] private AudioSource rail;
     [SerializeField] private AudioSource wall;
+    [SerializeField] private AudioSource bell;
+
+
 
     //helper variables:
     private bool isDragging;
@@ -47,6 +50,7 @@ public class Movement : MonoBehaviour
     public bool lvl1 = false;
     bool shot = false;
     public bool ready = false;  
+    public bool soundready = false;
     // Start is called before the first frame update
     void Start()
     {   
@@ -61,6 +65,7 @@ public class Movement : MonoBehaviour
         Wall_r = Walls.transform.GetChild(0).gameObject;
         Wall_u = Walls.transform.GetChild(2).gameObject;
         Wall_d = Walls.transform.GetChild(1).gameObject;
+        
 
     }
 
@@ -86,6 +91,8 @@ public class Movement : MonoBehaviour
             Vector2 direction = (ball_xz - handle_xz);
             //meHandle.ApplyForce(direction.normalized, distance*strength);
         }
+
+        
     }
 
     private bool IsReady()
@@ -139,9 +146,11 @@ public class Movement : MonoBehaviour
         float distance = Vector2.Distance(ball_xz, handle_xz);
 
         if (distance <= 0.2f && !isDragging && ready)
-            DragStart();
+            {DragStart();
+            }
         else if (!IsTurned(shoot_rotation) &&  isDragging)
             DragChange(handle_xz);
+
         else if (isDragging){
             rail.Play(); 
             
@@ -177,12 +186,16 @@ public class Movement : MonoBehaviour
         // Update the LineRenderer positions to visualize the shooting direction
         lr.SetPosition(0, transform.position);
         lr.SetPosition(1, endline_position);
+        if(!soundready){
+            bell.Play();
+            soundready = true;
+        }
 
     }
 
     async void DragRelease(Vector2 handle_xz)
     {   
-        
+        soundready = false;
         
         Vector2 ball_xz = transform_Vector(transform.position);
         float distance = Vector2.Distance(ball_xz, handle_xz);
@@ -230,7 +243,8 @@ public class Movement : MonoBehaviour
         CheckWinState(other);}
 
         if(other.tag == "Audio_Wall" && rb.velocity.magnitude > still_Speed) {
-        wall.Play();}
+        rail.Play();}
     }
 
+   
 }
